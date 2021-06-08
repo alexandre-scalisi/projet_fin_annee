@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
 
 class AnimeController extends Controller
 {
@@ -12,9 +14,14 @@ class AnimeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    use WithPagination;
+
     public function index()
     {
-        //
+        $animes = Anime::paginate(12);
+        
+        return view('anime.index', compact('animes'));
     }
 
     /**
