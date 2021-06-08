@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\EpisodeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::resource('animes', AnimeController::class);
+Route::resource('animes.episodes', EpisodeController::class);

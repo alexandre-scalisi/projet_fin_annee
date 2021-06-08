@@ -53,7 +53,7 @@ class AnimeController extends Controller
      */
     public function show(Anime $anime)
     {
-        //
+        return view('anime.show', compact('anime'));
     }
 
     /**

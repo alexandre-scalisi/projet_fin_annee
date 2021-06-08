@@ -13,7 +13,4 @@ class Episode extends Model
         return $this->belongsTo(Anime::class);
     }
 
-    public function video_links() {
-        return $this->hasMany(VideoLink::class);
-    }
 }
