@@ -49,7 +49,7 @@ class EpisodeController extends Controller
     {
         $ep = $anime->episodes;
         // TODO GERER LES EPISODES PAS BONS
-        return view('episodes.show', ['ep' => $ep]);
+        return view('episodes.show', compact('episodes', 'ep'));
     }
 
     /**

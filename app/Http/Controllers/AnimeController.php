@@ -52,8 +52,12 @@ class AnimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Anime $anime)
-    {
-        return view('anime.show', compact('anime'));
+    {   
+        // TODO refactoriser le code
+        $episodes = $anime->episodes()->paginate(25);
+        $strArr = explode(' ', $anime->synopsis);
+        $truncated_synopsis = array_reduce($strArr, function($a, $b) { return strlen($a) < 500 ? $a . ' ' . $b : $a;} ) . ' ...';
+        return view('anime.show', compact('anime', 'truncated_synopsis', 'episodes'));
     }
 
     /**
