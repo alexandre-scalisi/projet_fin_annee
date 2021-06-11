@@ -20,4 +20,9 @@ class Anime extends Model
     public function genres() {
         return $this->belongsToMany(Genre::class);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

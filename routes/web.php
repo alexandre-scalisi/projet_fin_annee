@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
+use App\Http\Livewire\Comment;
 use Illuminate\Support\Facades\Route;
 
 /*

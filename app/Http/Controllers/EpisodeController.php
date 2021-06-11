@@ -47,9 +47,9 @@ class EpisodeController extends Controller
      */
     public function show(Anime $anime, Episode $episode)
     {
-        $ep = $anime->episodes;
+       
         // TODO GERER LES EPISODES PAS BONS
-        return view('episodes.show', compact('episodes', 'ep'));
+        return view('episodes.show', compact('episode'));
     }
 
     /**

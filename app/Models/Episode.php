@@ -13,4 +13,8 @@ class Episode extends Model
         return $this->belongsTo(Anime::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

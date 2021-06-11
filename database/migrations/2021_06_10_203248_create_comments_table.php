@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnRoleIdToUsers extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddColumnRoleIdToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->default(1)->constrained();
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->text('body');
+            $table->string('commentable_type');
+            $table->integer('commentable_id');
+
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ class AddColumnRoleIdToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('comments');
     }
 }
