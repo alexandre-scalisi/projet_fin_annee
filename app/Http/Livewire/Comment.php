@@ -13,8 +13,6 @@ class Comment extends Component
     public $commentable_id;
     public $body;
     public $episode_id;
-    public $key;
-    public $listeners = ['refresh'];
 
     protected $rules = [
         'body' => 'required|max:100',
@@ -22,7 +20,6 @@ class Comment extends Component
         'commentable_type' => 'required'
     ];
     
-    public function refresh() {}
 
     public function mount() {
         
@@ -39,7 +36,7 @@ class Comment extends Component
     public function render()
     {
         
-        $this->comments = ModelsComment::latest()->get();
+        $this->comments = ModelsComment::all();
         
         return view('livewire.comment');
     }

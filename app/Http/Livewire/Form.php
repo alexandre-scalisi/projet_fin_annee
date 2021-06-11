@@ -11,8 +11,6 @@ class Form extends Component
 {
     public $comments;
     public $episode_id;
-    public $count = 0;
-    public $key;
     public $listeners = ['refresh'];
     
     public function refresh() {
