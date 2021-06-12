@@ -18,7 +18,7 @@ class FormContainer extends Component
     public $replies;
     public $type;
     public $type_id;
-    public $listeners = ['refresh'];
+    public $listeners = ['refresh', 'load_more_comments'];
 
     public function mount() {
         $this->initial_comment_quantity = 10;
@@ -27,8 +27,9 @@ class FormContainer extends Component
         // dd($this->comment_quantity);
     }
     
+
     public function refresh() {
-        
+        // $replies
     }
 
     public function load_more_replies($id) {
@@ -42,9 +43,6 @@ class FormContainer extends Component
         $this->comment_quantity += $this->initial_comment_quantity;
     }
     
-    public function reset_comment_quantity() {
-        $this->comment_quantity = $this->initial_comment_quantity;
-    }
     public function render()
     {
         if($this->type === 'Episode') {

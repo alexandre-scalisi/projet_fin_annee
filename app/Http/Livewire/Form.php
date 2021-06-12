@@ -13,11 +13,6 @@ class Form extends Component
     public $commentable_id;
     public $body;
     public $user_id;
-    public $listeners = ['refresh'];
-    
-    public function refresh() {
-  
-    }
 
     protected $rules = [
         'body' => 'required|max:250',
@@ -36,6 +31,7 @@ class Form extends Component
         $this->user_id = auth()->user()->id;
         $validated_data = $this->validate();
         ModelsComment::create($validated_data);
+        $this->reset('body');
         $this->emitUp('refresh');
     }
     
