@@ -12,7 +12,8 @@ class Comment extends Model
     protected $fillable = [
         'body',
         'commentable_type',
-        'commentable_id'
+        'commentable_id',
+        'user_id'
     ];
 
     public function mount() {
@@ -27,5 +28,9 @@ class Comment extends Model
 
     public function comments() {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function author() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

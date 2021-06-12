@@ -13,11 +13,13 @@ class Comment extends Component
     public $commentable_id;
     public $body;
     public $episode_id;
+    public $user_id;
 
     protected $rules = [
-        'body' => 'required|max:100',
+        'body' => 'required|max:250',
         'commentable_id' => 'required',
-        'commentable_type' => 'required'
+        'commentable_type' => 'required',
+        'user_id' => 'required'
     ];
     
 
@@ -27,6 +29,7 @@ class Comment extends Component
     
     public function submit()
     {
+        $this->user_id = auth()->user()->id;
         $validated_data = $this->validate();
         ModelsComment::create($validated_data);
         $this->emitUp('refresh');

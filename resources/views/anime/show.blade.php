@@ -70,5 +70,6 @@
         </div>
     </div>
     <!-- TODO gerer la pagination -->
+    @livewire('form', ['episode_id' => $episode->id])
 
 </x-app-layout>
