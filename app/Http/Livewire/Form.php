@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class Form extends Component
 {
+    public $max_comments;
     public $initial_comment_quantity;
     public $initial_replies_quantity;
     public $comment_quantity;
@@ -33,16 +34,23 @@ class Form extends Component
     public function load_more_replies($id) {
         $this->replies[$id] += $this->initial_replies_quantity;
     }
-
-    public function load_more() {
+    public function reset_replies_quantity($id) {
+        $this->replies[$id] = $this->initial_replies_quantity;
+    }
+    
+    public function load_more_comments() {
         $this->comment_quantity += $this->initial_comment_quantity;
     }
-
+    
+    public function reset_comment_quantity() {
+        $this->comment_quantity = $this->initial_comment_quantity;
+    }
     public function render()
     {
         if($this->type === 'Episode') {
             $episodes = Episode::find($this->type_id);
-            if($episodes != null) 
+            if($episodes != null)
+                $this->max_comments = count($episodes->comments); 
                 $this->comments = $episodes->comments()->take($this->comment_quantity)->latest()->get(); 
 
         }
