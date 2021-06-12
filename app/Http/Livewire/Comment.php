@@ -12,8 +12,12 @@ class Comment extends Component
     public $commentable_type;
     public $commentable_id;
     public $body;
-    public $episode_id;
     public $user_id;
+    public $listeners = ['refresh'];
+    
+    public function refresh() {
+  
+    }
 
     protected $rules = [
         'body' => 'required|max:250',

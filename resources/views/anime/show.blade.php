@@ -70,6 +70,6 @@
         </div>
     </div>
     <!-- TODO gerer la pagination -->
-    @livewire('form', ['episode_id' => $episode->id])
+    @livewire('form', ['id' => $anime->id, 'type' => 'Anime'])
 
 </x-app-layout>

@@ -4,5 +4,6 @@
     <textarea placeholder="Entrez votre commentaire" name="body" wire:model="body"></textarea>
     <button type="submit">envoyer</button>
         
+    {{-- @error('body') {{ message }} @enderror --}}
 </form>
 </div>
