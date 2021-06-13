@@ -13,7 +13,8 @@ class Comment extends Model
         'body',
         'commentable_type',
         'commentable_id',
-        'user_id'
+        'user_id',
+        'parent_id'
     ];
 
     public function mount() {
@@ -32,5 +33,9 @@ class Comment extends Model
 
     public function author() {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function parent() {
+        return $this->belongsTo(Comment::class, 'parent_id');
     }
 }

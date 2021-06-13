@@ -66,4 +66,9 @@ class User extends Authenticatable
     public function comments() {
         return $this->hasMany(Comment::class);
     }
+
+    public function is_logged_in_user() {
+        return $this->id === auth()->user()->id;
+    }
+    
 }
