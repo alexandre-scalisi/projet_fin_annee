@@ -12,7 +12,7 @@ class FormContainer extends Component
 {
     public $max_comments;
     public $initial_comment_quantity;
-    public $initial_replies_quantity;
+    public $init_replies_amount;
     public $comment_quantity;
     public $comments;
     public $replies;
@@ -22,21 +22,24 @@ class FormContainer extends Component
 
     public function mount() {
         $this->initial_comment_quantity = 10;
-        $this->initial_replies_quantity = 3;
+        $this->init_replies_amount = 3;
         $this->comment_quantity = $this->initial_comment_quantity;
         // dd($this->comment_quantity);
     }
     
 
-    public function refresh() {
-        // $replies
+    public function refresh($commentable_type, $commentable_id) {
+        if($commentable_type !== "App\Models\Comment") return;
+        $this->replies[$commentable_id]['current_amount']
+        = $this->replies[$commentable_id]['count'] + 1;
+        // dd($this->replies[$commentable_id]['current_amount']);
     }
 
     public function load_more_replies($id) {
-        $this->replies[$id] += $this->initial_replies_quantity;
+        $this->replies[$id]['current_amount'] += $this->init_replies_amount;
     }
     public function reset_replies_quantity($id) {
-        $this->replies[$id] = $this->initial_replies_quantity;
+        $this->replies[$id]['current_amount'] = $this->init_replies_amount;
     }
     
     public function load_more_comments() {
@@ -57,12 +60,11 @@ class FormContainer extends Component
         }
 
         foreach($this->comments as $comment) {
-            $comment_id = $comment->id;
-            $this->replies[$comment_id] = $this->replies[$comment_id] ?? $this->initial_replies_quantity;
+            $this->replies[$comment->id] = [
+                'count' => count($comment->comments),
+                'current_amount' => $this->replies[$comment->id]['current_amount'] ?? $this->init_replies_amount
+            ];
         }
-        // $this->replies = $this->comments->mapWithKeys(function($comms) {
-        //     return [$comms['id']=>3];
-        // });
 
         return view('livewire.form-container');
     }
