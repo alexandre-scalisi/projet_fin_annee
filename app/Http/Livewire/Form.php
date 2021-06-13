@@ -37,7 +37,11 @@ class Form extends Component
         $validated_data = $this->validate();
         ModelsComment::create($validated_data);
         $this->reset('body');
-        $this->emitUp('refresh', $this->commentable_type, $this->commentable_id);
+        if($this->commentable_type === "App\Models\Comment") {
+            $this->emit('reply_added', $this->commentable_id);
+        } else {
+            $this->emit('scrollTop');
+        }
     }
     
     

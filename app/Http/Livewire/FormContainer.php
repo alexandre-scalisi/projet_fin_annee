@@ -18,28 +18,32 @@ class FormContainer extends Component
     public $replies;
     public $type;
     public $type_id;
-    public $listeners = ['refresh', 'load_more_comments'];
+    public $listeners = ['scrollTop', 'reply_added', 'load_more_comments', 'load_more_replies', 'scrollToComment', 'reset_replies_quantity'];
 
     public function mount() {
         $this->initial_comment_quantity = 10;
         $this->init_replies_amount = 3;
         $this->comment_quantity = $this->initial_comment_quantity;
-        // dd($this->comment_quantity);
     }
     
+    public function scrollToComment($id) {}
 
-    public function refresh($commentable_type, $commentable_id) {
-        if($commentable_type !== "App\Models\Comment") return;
+    public function scrollTop() {}
+    
+    public function reply_added($commentable_id) {
         $this->replies[$commentable_id]['current_amount']
         = $this->replies[$commentable_id]['count'] + 1;
-        // dd($this->replies[$commentable_id]['current_amount']);
+        // if($this->replies[$commentable_id]['current_amount'] >= $this->replies[$commentable_id]['count']) return;
+        $this->emit('scrollToComment', $commentable_id);
     }
-
+    
     public function load_more_replies($id) {
         $this->replies[$id]['current_amount'] += $this->init_replies_amount;
+        $this->emit('scrollToComment', $id);
     }
     public function reset_replies_quantity($id) {
         $this->replies[$id]['current_amount'] = $this->init_replies_amount;
+        $this->emit('scrollToComment', $id);
     }
     
     public function load_more_comments() {

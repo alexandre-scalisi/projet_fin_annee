@@ -8,15 +8,22 @@ class Comment extends Component
 {
     public $item;
     public $bgColor;
+    public $reply;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($item, $bgColor)
+    public function __construct($item, $bgColor, $reply = false)
     {
+        
+        $this->reply = $reply;
         $this->item = $item;
         $this->bgColor = $bgColor;
+    }
+
+    public function is_different() {
+        return $this->item->author->id !== auth()->user()->id;
     }
 
     /**
