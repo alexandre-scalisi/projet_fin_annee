@@ -35,22 +35,5 @@ window.app = function () {
     }
   };
 };
-
-Livewire.on('scrollToComment', function (id) {
-  setTimeout(function () {
-    var el = document.getElementById(id).getElementsByClassName('comment')[document.getElementById(id).getElementsByClassName('comment').length - 1];
-    form.scrollTo({
-      top: el.offsetTop - 400,
-      behavior: 'smooth'
-    });
-  }, 50);
-  console.log('test');
-});
-Livewire.on('scrollTop', function () {
-  form.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
 /******/ })()
 ;

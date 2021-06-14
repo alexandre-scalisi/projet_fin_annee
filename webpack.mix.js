@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/form.js', 'public/js')
+    .js('resources/js/form-livewire.js', 'public/js')
     .sass('resources/scss/app.scss', 'public/sass')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),

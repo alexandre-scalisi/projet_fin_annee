@@ -15,7 +15,7 @@ class EpisodeController extends Controller
      */
     public function index()
     {
-        //
+        // pas besoin je pense
     }
 
     /**
@@ -49,7 +49,8 @@ class EpisodeController extends Controller
     {
        
         // TODO GERER LES EPISODES PAS BONS
-        return view('episodes.show', compact('episode'));
+        $links = $episode->links();
+        return view('episodes.show', compact('episode', 'links'));
     }
 
     /**
@@ -85,4 +86,5 @@ class EpisodeController extends Controller
     {
         //
     }
+
 }

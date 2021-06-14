@@ -20,9 +20,8 @@ class AnimeController extends Controller
     public function index()
     {
         $animes = Anime::paginate(12);
-        Carbon\Carbon::setlocale(config('app.locale'));
         
-        return view('anime.index', [compact('animes', 'last_episode_id')]);
+        return view('anime.index', compact('animes'));
     }
 
     /**
