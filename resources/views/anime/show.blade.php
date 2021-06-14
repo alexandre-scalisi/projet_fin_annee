@@ -1,9 +1,9 @@
 <x-app-layout>
     @php
-    Carbon\Carbon::setlocale(config('app.locale'));
     $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
 
     @endphp
+
     <div class="flex text-gray-100 bg-gray-800 rounded-md overflow-hidden">
         <div class="w-full max-w-lg xl:max-w-xl h-80 bg-cover bg-center"
             style="background-image: url({{ $anime->image }})">
@@ -51,6 +51,7 @@
         <btn class="bg-blue-600 text-gray-100 px-3 py-1 text-sm cursor-pointer" @click="truncated = !truncated"
             x-text="truncated ? 'Afficher plus' : 'Afficher moins'"></btn>
         @endif
+
     </div>
     <div class="bg-white p-8 mt-3 rounded-md">
         <h2 class="text-3xl mb-4">
@@ -58,18 +59,17 @@
         </h2>
         <div class="flex flex-col flex-wrap items-start">
             <ul>
-            @foreach ($episodes as $episode)
+                @foreach ($episodes as $episode)
                 <li>
                     <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $episode->id] ) }}"
-                        class="text-lg text-blue-600 inline-block mb-2"
-                        >{{ $episode->title }}</a>
+                        class="text-lg text-blue-600 inline-block mb-2">{{ $episode->title }}</a>
                 </li>
-            @endforeach
+                @endforeach
             </ul>
             {{ $episodes->links() }}
         </div>
     </div>
     <!-- TODO gerer la pagination -->
-    @livewire('form-container', ['id' => $anime->id, 'type' => 'Anime'])
+    @livewire('form-container', ['type_id' => $anime->id, 'type' => 'Anime'])
 
 </x-app-layout>

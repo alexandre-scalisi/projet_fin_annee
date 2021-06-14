@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    public $comments;
+    // public $comments;
     public $commentable_type;
     public $commentable_id;
     public $body;

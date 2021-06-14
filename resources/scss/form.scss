@@ -1,0 +1,35 @@
+.form-container {
+    @apply flex flex-col w-full max-w-4xl overflow-y-scroll bg-gray-800 relative overflow-x-hidden;
+    height: 40rem;
+
+    &__bg {
+        @apply h-10 fixed;
+        max-width: inherit;
+
+        &_top {
+            background: linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+        }
+
+        &_bottom {
+            background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+            transform: translateY(37.5rem);
+        }
+    }
+
+}
+
+.comment {
+    @apply px-5 py-4 border rounded-lg my-4 w-80 mx-2 break-words;
+
+    &__author {
+        @apply flex justify-between;
+    }
+
+    &__date {
+        @apply text-sm;
+    }
+
+    &__reply {
+        @apply bg-yellow-100 rounded-lg px-3 py-2;
+    }
+}

@@ -60,7 +60,10 @@ class FormContainer extends Component
 
         }
         elseif ($this->type === 'Anime') {
-            $this->comments = Anime::find($this->type_id)->comments()->take($this->comment_quantity)->paginate(1)->get();
+            $episodes = Anime::find($this->type_id);
+            if($episodes != null)
+                $this->max_comments = count($episodes->comments); 
+                $this->comments = $episodes->comments()->take($this->comment_quantity)->latest()->get(); 
         }
 
         foreach($this->comments as $comment) {

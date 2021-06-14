@@ -1,0 +1,62 @@
+.form-container {
+  --tw-bg-opacity: 1;
+  background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
+  display: flex;
+  flex-direction: column;
+  max-width: 56rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  width: 100%;
+  height: 40rem;
+}
+
+.form-container__bg {
+  height: 2.5rem;
+  position: fixed;
+  max-width: inherit;
+}
+
+.form-container__bg_top {
+  background: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
+}
+
+.form-container__bg_bottom {
+  background: linear-gradient(to top, black, rgba(0, 0, 0, 0));
+  transform: translateY(37.5rem);
+}
+
+.comment {
+  border-radius: 0.5rem;
+  border-width: 1px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  overflow-wrap: break-word;
+  width: 20rem;
+}
+
+.comment__author {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment__date {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.comment__reply {
+  --tw-bg-opacity: 1;
+  background-color: rgba(254, 243, 199, var(--tw-bg-opacity));
+  border-radius: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
