@@ -12,18 +12,20 @@
 }
 
 .form-container__bg {
+  flex-shrink: 0;
   height: 2.5rem;
-  position: fixed;
+  position: sticky;
   max-width: inherit;
 }
 
 .form-container__bg_top {
+  top: 0px;
   background: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
 }
 
 .form-container__bg_bottom {
+  bottom: 0px;
   background: linear-gradient(to top, black, rgba(0, 0, 0, 0));
-  transform: translateY(37.5rem);
 }
 
 .comment {

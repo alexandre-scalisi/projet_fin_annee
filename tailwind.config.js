@@ -20,7 +20,9 @@ module.exports = {
         extend: {
             opacity: ['disabled'],
             brightness: ['hover'],
-            blur: ['hover']
+            blur: ['hover'],
+            backgroundColor: ['even'],
+            borderRadius: ['focus'],
         },
     },
 

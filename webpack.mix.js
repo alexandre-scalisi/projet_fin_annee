@@ -19,6 +19,8 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
     ])
+    .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/css')
+    .copy('node_modules/font-awesome/fonts/*', 'public/fonts')
     .options({
         postCss: [require('tailwindcss')]
     })
@@ -26,4 +28,4 @@ mix.js('resources/js/app.js', 'public/js')
 
 if (mix.inProduction()) {
     mix.version();
-}
+} 

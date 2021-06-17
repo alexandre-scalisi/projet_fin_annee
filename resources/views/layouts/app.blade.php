@@ -13,15 +13,17 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ mix('sass/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
 
         @livewireStyles
 
         <!-- Scripts -->
+        <script src="{{ mix('js/form.js') }}"></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
-
+        
         <div class="min-h-screen bg-gray-100">
             @livewire('navigation-menu')
 

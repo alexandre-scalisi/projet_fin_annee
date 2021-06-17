@@ -1,8 +1,8 @@
 require('./bootstrap');
 
-const Turbolinks = require("turbolinks")
-Turbolinks.start()
 
 require('alpinejs');
+const Turbolinks = require("turbolinks")
+Turbolinks.start()
 
 

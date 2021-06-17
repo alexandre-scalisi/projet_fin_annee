@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
+use App\Http\Controllers\SearchController;
 use App\Http\Livewire\Comment;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::resource('animes', AnimeController::class);
 Route::resource('animes.episodes', EpisodeController::class);
+
+Route::resource('search', SearchController::class)->only(['index', 'show']);

@@ -1,5 +1,5 @@
 <x-app-layout>
-    @php
+@php
     Carbon\Carbon::setlocale(config('app.locale'));
     $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
 
