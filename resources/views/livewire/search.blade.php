@@ -1,5 +1,5 @@
 <div class="relative" x-data="{focus: false, show:true}">
-    <form method="GET" action="route()" class="bg-gray-400 rounded-full flex items-center relative px-2"
+    <form method="GET" action="{{route('search.index')}}" class="bg-gray-400 rounded-full flex items-center relative px-2"
         :class="{'rounded-b-none rounded-t-2xl' : '{{ $search}}' != '' && show === true }">
         @csrf
         <button class="fa fa-search" aria-hidden="true" type="submit"></button>

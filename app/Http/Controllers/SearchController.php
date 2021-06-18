@@ -11,11 +11,21 @@ class SearchController extends Controller
 {
     public function index(Request $request) {
         
-        // $animes = Anime::orderBy('title')->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';});
-        $animes = Anime::orderBy('title')->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
+        $letter = $request->query('l', 'tous');
+        $array = [];
+        if($letter === "tous") {
+            $array = $this->all($request);
+        }
+    
+        return view('search.index', compact('array'));
+    }
 
-        
-        
+    public function show() {
+
+    }
+
+    private function all(Request $request) {
+        $animes = Anime::orderBy('title')->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
         $mapped = [];
         foreach($animes as $l => $anime) {
             $mapped[]=$l;
@@ -29,7 +39,7 @@ class SearchController extends Controller
         
         
         $total = count($animes);
-        $per_page= 10;
+        $per_page= 30;
         $current_page = $request->input("page") ?? 1;
         $starting_point = ($current_page * $per_page) - $per_page;
         $array = array_slice($animes, $starting_point, $per_page, true);
@@ -37,11 +47,7 @@ class SearchController extends Controller
             'path' => $request->url(),
             'query' => $request->query(),
         ]);
-        return view('search.index', compact('animes', 'array'));
-    }
-
-    public function show() {
-
+        return $array;
     }
 
 

@@ -11,7 +11,7 @@ class Search extends Component
     public $results;
 
     public function test() {
-       $this->results = Anime::orderBy('title', 'asc')->where('title','LIKE','%'.$this->search.'%')->take(5)->get();
+       $this->results = Anime::orderBy('title', 'asc')->where('title','LIKE',$this->search.'%')->take(5)->get();
     }
 
     public function render()
