@@ -70,5 +70,9 @@ class User extends Authenticatable
     public function is_logged_in_user() {
         return $this->id === auth()->user()->id;
     }
+
+    public function votes() {
+        return $this->hasMany(Vote::class);
+    }
     
 }

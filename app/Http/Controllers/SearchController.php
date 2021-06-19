@@ -11,20 +11,29 @@ class SearchController extends Controller
 {
     public function index(Request $request) {
         
-        $letter = $request->query('l', 'tous');
         $array = [];
+        $letter = $request->query('l', 'tous');
+
         if($letter === "tous") {
-            $array = $this->all($request);
-        }
-    
+            $array = $this->searchAll($request);
         return view('search.index', compact('array'));
+        }
+        // else {
+        //     $array = $this->searchByLetter($letter);
+        // }
+        
+        
+        
+
+
+        return view('search.indexcopy', compact('array'));
     }
 
     public function show() {
 
     }
 
-    private function all(Request $request) {
+    private function searchAll(Request $request) {
         $animes = Anime::orderBy('title')->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
         $mapped = [];
         foreach($animes as $l => $anime) {
@@ -47,6 +56,16 @@ class SearchController extends Controller
             'path' => $request->url(),
             'query' => $request->query(),
         ]);
+        return $array;
+    }
+
+    private function searchByLetter($letter) {
+        $array = Anime::orderBy('title')->where('title', 'LIKE', "$letter%")->paginate(20);
+        return $array;
+    }
+
+    private function orderByDate() {
+        $array = Anime::orderBy('release_date', 'desc');
         return $array;
     }
 

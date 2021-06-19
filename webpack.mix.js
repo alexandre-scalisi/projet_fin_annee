@@ -19,8 +19,10 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
     ])
-    .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/css')
-    .copy('node_modules/font-awesome/fonts/*', 'public/fonts')
+    .copy(
+        'node_modules/@fortawesome/fontawesome-free/webfonts',
+        'public/webfonts'
+    )
     .options({
         postCss: [require('tailwindcss')]
     })

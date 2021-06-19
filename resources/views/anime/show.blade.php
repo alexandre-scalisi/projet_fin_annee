@@ -1,4 +1,5 @@
 <x-app-layout>
+<div class="max-w-4xl">
 @php
     Carbon\Carbon::setlocale(config('app.locale'));
     $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
@@ -40,6 +41,11 @@
                     class="anime__btn anime__btn_first">Premier EP</a>
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
                     class="anime__btn">Dernier EP</a>
+                <div class="flex">
+                    
+                   @livewire('stars', compact('anime'))
+                    
+                </div>
                 <a href="#" class="anime__comment-link">0 commentaires</a>
             </div>
             {{-- TODO Rajouter votes --}}
@@ -75,5 +81,5 @@
     </div>
     <!-- TODO gerer la pagination -->
     @livewire('form-container', ['type_id' => $anime->id, 'type' => 'Anime'])
-
+</div>
 </x-app-layout>

@@ -15,14 +15,8 @@
         @endforeach
         </form>
     </div>
-    @foreach($array as $a) 
-    
-        @if(!is_array($a))
-        <li>{{ $a }}</li>
-        @else
-        <p class="ml-2">{{ $a['title'] }} </p>
-        @endif
-
+   @foreach($array as $arr)
+        <p><a href="{{ route('animes.show', $arr->id) }}" class="text-blue-600 mb-3">{{ $arr->title }}</a></p>
     @endforeach
 
 

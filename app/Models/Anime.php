@@ -25,4 +25,10 @@ class Anime extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function votes() {
+        return $this->hasMany(Vote::class);
+    }
+
+   
 }
