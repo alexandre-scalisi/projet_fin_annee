@@ -10,13 +10,15 @@ use Illuminate\Support\Arr;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-        
-        $array = [];
-        $letter = $request->query('l', 'tous');
 
-        if($letter === "tous") {
-            $array = $this->searchAll($request);
-        return view('search.index', compact('array'));
+
+              
+        // $array = [];
+        // $letter = $request->query('l', 'tous');
+
+        // if($letter === "tous") {
+        //     $array = $this->searchAll($request);
+        // return view('search.index', compact('array'));
         }
         // else {
         //     $array = $this->searchByLetter($letter);
@@ -67,6 +69,10 @@ class SearchController extends Controller
     private function orderByDate() {
         $array = Anime::orderBy('release_date', 'desc');
         return $array;
+    }
+
+    private function query($q) {
+
     }
 
 

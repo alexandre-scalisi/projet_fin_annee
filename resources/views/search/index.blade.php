@@ -1,7 +1,10 @@
 <x-app-layout>
     <div class="w-full rounded-lg bg-gray-300 p-4 mb-4">
-
-        Recherche avancée
+        <form method="GET">
+        <input type="text" name="q" placeholder="Titre" class="block">
+        <button class="bg-blue-400 text-base mr-3">Rechercher</button>
+        </form>
+        
 
     </div>
     <div class="w-full rounded-lg bg-gray-400 p-4">

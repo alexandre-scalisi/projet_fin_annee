@@ -258,7 +258,19 @@
   -moz-column-gap: 2rem;
        column-gap: 2rem;
   row-gap: 3.5rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px){
+  .anime-card__container{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px){
+  .anime-card__container{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .anime-card__image {
