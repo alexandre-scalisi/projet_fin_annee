@@ -1,5 +1,5 @@
 .anime-header {
-    @apply flex text-gray-100 bg-gray-800 rounded-md overflow-hidden;
+    @apply flex flex-wrap text-gray-100 bg-gray-800 rounded-md overflow-hidden;
 
     &__content-container {
         @apply px-6 py-4 w-full;
@@ -9,7 +9,10 @@
 
 .anime {
     &__image {
-        @apply w-full max-w-lg xl:max-w-xl h-80 bg-cover bg-center;
+        @apply h-72 w-full bg-cover bg-center;
+        @media (max-width: 896px) {
+            height: 30vw;
+        }
      }
 
     &__title-container {

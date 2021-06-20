@@ -35,17 +35,15 @@
                     {{ implode(', ', $anime->genres->pluck('name')->toArray()) }}</li>
                 <li class="anime__info"><span class="anime__info_big">Episodes :</span>
                     {{ count($anime->episodes) }}</li>
+                @livewire('stars', compact('anime'))
             </ul>
+            
             <div class="mt-6 flex items-center">
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $anime->episodes->first()->id] ) }}"
                     class="anime__btn anime__btn_first">Premier EP</a>
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
-                    class="anime__btn">Dernier EP</a>
-                <div class="flex">
-                    
-                   @livewire('stars', compact('anime'))
-                    
-                </div>
+                    class="anime__btn">Dernier EP</a>                    
+                   
                 <a href="#" class="anime__comment-link">0 commentaires</a>
             </div>
             {{-- TODO Rajouter votes --}}

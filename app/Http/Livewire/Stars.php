@@ -10,12 +10,13 @@ class Stars extends Component
 {
     public $anime;
     public $avg;
-    public $star_value;
     public $full_stars;
     public $half_stars;
     public $empty_stars;
+    public $user_vote;
+    public $user_vote_copy;
     
-
+    
     public function getNumberOfStars() {
         $this->avg = round(Vote::where('anime_id', $this->anime->id)->avg('vote'), 2);
         $this->full_stars = (int) $this->avg;
@@ -32,13 +33,13 @@ class Stars extends Component
         ], [
             'vote' => $rating
         ]); 
-      
+        $this->user_vote = Vote::where(['anime_id' => $this->anime->id, 'user_id' => auth()->user()->id])->first()->vote;
+        
     }
 
     public function render()
     {
-        
-        $this->star_value = 1;
+        $this->user_vote = Vote::where(['anime_id' => $this->anime->id, 'user_id' => auth()->user()->id])->first()->vote;
         $this->getNumberOfStars();
         return view('livewire.stars');
     }
