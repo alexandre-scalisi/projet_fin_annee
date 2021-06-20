@@ -12,6 +12,7 @@ class SearchController extends Controller
     public function index(Request $request) {
 
 
+        $array = $this->query($request->q);
               
         // $array = [];
         // $letter = $request->query('l', 'tous');
@@ -19,7 +20,7 @@ class SearchController extends Controller
         // if($letter === "tous") {
         //     $array = $this->searchAll($request);
         // return view('search.index', compact('array'));
-        }
+        // }
         // else {
         //     $array = $this->searchByLetter($letter);
         // }
@@ -72,7 +73,8 @@ class SearchController extends Controller
     }
 
     private function query($q) {
-
+        $array = Anime::orderBy('title')->where('title', 'LIKE', "$q%")->paginate(20);
+        return $array;
     }
 
 
