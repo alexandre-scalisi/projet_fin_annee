@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="anime-card__container">
         @foreach ($animes as $anime)
         <div class="anime-card">
@@ -14,22 +13,9 @@
                         <div>{{ Carbon\Carbon::createFromTimestamp( $anime->release_date)->format('Y')}} -
                         </div>
                         <div>{{ count($anime->episodes) }} épisodes</div>
-                        <div class="ml-auto" style="font-size: 0">
-                            
-            
-                            
-                            @if(empty($anime->votes->first()))
-                            @for ($i = 0; $i< 5; $i++)
-                                <span class="far fa-star text-lg"></span>
-                                
-                            @endfor
-                            <p class="text-lg">
-                                0 vote
-                            </p>
-                        
-                            @else
-                            @php 
-                                $full_vote = $anime->votes->first()->vote;
+                        <div class="ml-auto" style="font-size: 0">                         
+                            @php            
+                                $full_vote = $anime->votes->avg('vote') ?? 0;
                                 $full_stars = (int) $full_vote;
                                 $half_stars = $full_vote - $full_stars > .5 ? 1 : 0;
                                 $empty_stars = 5 - $full_stars - $half_stars;   
@@ -44,7 +30,6 @@
                                 <span class="far fa-star text-xl"></span>
                             @endfor
                                 <p class="text-lg">{{ $anime->votes->count() }} votes</p>
-                            @endif
                             
                         </div>
                     </div>

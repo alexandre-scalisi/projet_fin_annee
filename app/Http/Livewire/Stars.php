@@ -44,5 +44,6 @@ class Stars extends Component
         $this->getNumberOfStars();
         return view('livewire.stars');
     }
+    
 
 }
