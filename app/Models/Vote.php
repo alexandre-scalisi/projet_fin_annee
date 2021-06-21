@@ -13,4 +13,6 @@ class Vote extends Model
         'anime_id',
         'vote'
     ];
+
+    
 }

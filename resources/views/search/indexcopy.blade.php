@@ -1,9 +1,29 @@
 <x-app-layout>
-
-    
-
+    {{-- {{ dd(request()->query) }} --}}
     <div class="w-full rounded-lg bg-gray-300 p-4 mb-4">
         <form method="GET">
+            <x-genre-modal/>
+            <div class="block">
+        <label for="minrating">min rating</label>
+        <select name="minrating" id="minrating">
+            @foreach(range(0, 5) as $num)
+            
+            <option value="{{ $num }}">{{ $num }}</option>
+            
+            @endforeach
+        </select>
+    </div>
+    <div class="block">
+        <label for="orderby">trier par</label>
+        <select>
+            <option value="title" id="orderby">titre &uparrow;</option>
+            <option value="vote">note &downarrow;</option>
+            <option value="release_date">date de sortie</option>
+            <option value="uploaded_on">rajouté le</option>
+        </select>
+        <input type="checkbox" name="d" id="direction">
+        <label for="direction">inverser direction</label>
+    </div>
         <input type="text" name="q" placeholder="Titre" class="block">
         <button class="bg-blue-400 text-base mr-3">Rechercher</button>
         </form>
@@ -25,8 +45,8 @@
         <p><a href="{{ route('animes.show', $arr->id) }}" class="text-blue-600 mb-3">{{ $arr->title }}</a></p>
     @endforeach
 
-
-    {{ $array->links() }}
+    
+    {{ $array->appends(request()->query())->links() }}
     </div>
-
+    
 </x-app-layout>

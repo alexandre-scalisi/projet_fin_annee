@@ -10,10 +10,11 @@ use Illuminate\Support\Arr;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-
-
-        $array = $this->query($request->q);
-              
+        // if(!empty($request->genre));
+        // $array = $this->searchByRating($request);
+        $array = Anime::withAvg('votes', 'vote')->orderBy('votes_avg_vote', 'desc')->paginate(20);
+        // $array = $this->query($request->q);
+        
         // $array = [];
         // $letter = $request->query('l', 'tous');
 
@@ -77,6 +78,20 @@ class SearchController extends Controller
         return $array;
     }
 
+    private function searchByGenre($request) {
+        $array = Anime::whereHas('genres', function($query) use ($request) {return $query->whereIn('id',$request->genre);})->paginate(20);
+        return $array;
+    }
+
+    private function searchByRating($request) {
+        if($request->minrating === '0')
+            return Anime::orderBy('title', 'desc')->paginate(20);
+        return Anime::whereHas('votes', function($query) use ($request) {return $query->where('vote', '>=', $request->minrating);})->paginate(20);
+    }
+
+    private function orderByVotesAvg() {
+        return Anime::withAvg('votes', 'vote')->orderBy('votes_avg_vote')->paginate(20);
+    }
 
 
 }

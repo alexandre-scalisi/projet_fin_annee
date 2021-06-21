@@ -18,6 +18,15 @@ class GenreModal extends Component
         $this->genres = Genre::all();
     }
 
+    public function checked ($id) {
+       
+        if(!request()->genre) return false;
+        if(!in_array($id, request()->genre)) return false;
+        
+        return true;
+
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -27,4 +36,5 @@ class GenreModal extends Component
     {
         return view('components.genre-modal');
     }
+
 }

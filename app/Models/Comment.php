@@ -17,9 +17,6 @@ class Comment extends Model
         'parent_id'
     ];
 
-    public function mount() {
-        
-    }
 
     public function commentable()
     {
