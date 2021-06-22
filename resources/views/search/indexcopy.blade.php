@@ -7,7 +7,11 @@
             <x-genre-modal />
             <div class="block">
                 <label for="minrating">min rating</label>
-                <select name="minrating" id="minrating">
+                <select name="minrating" id="minrating" x-data="" x-init="
+                minrating = '{{ request()->query()['minrating'] ?? ''}}';
+                found = [...$el.options].some((e) => e.value === minrating);
+                $el.value = found ? minrating : 0
+                ">
                     @foreach(range(0, 5) as $num)
 
                     <option value="{{ $num }}">{{ $num }}</option>
@@ -20,9 +24,7 @@
                 <select name="order_by" id="orderby" x-data="" 
                 x-init="
                 order_by = '{{ request()->query()['order_by'] ?? ''}}';
-                {{-- $el.value = $el.options.includes(order_by) ?: 'title'; --}}
                 found = [...$el.options].some((e) => e.value === order_by);
-                console.log(found)
                 $el.value = found ? order_by : 'title'
                 ">
                     {{-- TODO rendre plus propre --}}

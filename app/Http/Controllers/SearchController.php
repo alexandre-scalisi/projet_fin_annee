@@ -14,9 +14,10 @@ class SearchController extends Controller
 
     public function index(Request $request) {
         $this->request = $request;
-        $this->query();
         
-        
+        $this->query()
+             ->searchOrderBy()
+             ->searchByRating();
         
         $array = $this->array->paginate(20);
 
@@ -25,6 +26,13 @@ class SearchController extends Controller
 
     public function show() {
 
+    }
+
+    public function query() {
+        $q = $this->request->query()['q'] ?? '';
+        $this->array = Anime::where('title', 'LIKE', "%$q%");
+        
+        return $this;
     }
 
     private function searchAll(Request $request) {
@@ -60,25 +68,24 @@ class SearchController extends Controller
 
    
 
-    private function query() {
+    private function searchOrderBy() {
         $order_by = $this->request->order_by ?? '';
         $d = $this->request->d != null && $this->request->d === 'on' ? false : true; 
         $order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
-
         switch($order_by) {
             case 'vote': 
-                $this->array = Anime::withAvg('votes', 'vote')->orderBy('votes_avg_vote', $d ? 'desc' : 'asc');
+                $this->array = $this->array->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $d ? 'desc' : 'asc');
                 break;
             case 'release_date': 
-                $this->array = Anime::orderBy('release_date', $d ? 'desc' : 'asc' );
+                $this->array = $this->array->orderBy('release_date', $d ? 'desc' : 'asc' );
                 break;
             case 'upload_date': 
-                $this->array = $d ? Anime::latest() : Anime::oldest();
+                $this->array = $d ? $this->array->latest() : $this->array->oldest();
                 break;
             default:
-                $this->array = Anime::orderBy('title', $d ? 'asc' : 'desc');
+                $this->array = $this->array->orderBy('title', $d ? 'asc' : 'desc');
         }
-        return $this->array;
+        return $this;
     }
 
     private function searchByGenre($request) {
@@ -86,15 +93,13 @@ class SearchController extends Controller
         return $array;
     }
 
-    private function searchOrderBy() {
-        $order_by = $this->query ?? '';
-
-    }
-
-    private function searchByRating($request) {
-        if($request->minrating === '0')
-            return Anime::orderBy('title', 'desc')->paginate(20);
-        return Anime::whereHas('votes', function($query) use ($request) {return $query->where('vote', '>=', $request->minrating);})->paginate(20);
+    private function searchByRating() {
+        if(!isset($this->request['minrating']) || $this->request['minrating'] == 0)
+            return $this;
+        $request = $this->request['minrating'];
+        
+        $this->array = $this->array->withAvg('votes', 'vote')->having('votes_avg_vote', '>=', $request);
+        return $this;
     }
 
     private function orderByVotesAvg() {
@@ -111,6 +116,7 @@ class SearchController extends Controller
     }
 
     private function orderByUploadedAt() {
+        dd($this->array);
         return Anime::oldest()->paginate(20);
     }
 
