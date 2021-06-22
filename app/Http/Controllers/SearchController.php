@@ -17,11 +17,11 @@ class SearchController extends Controller
         $this->query()
              ->searchOrderBy()
              ->searchByRating()
-             ->searchByGenre();
+             ->searchByGenre()
+             ->searchByLetter();
         
-        $array = $this->array->paginate(20);
-
-        return view('search.indexcopy', compact('array'));
+        $array = $this->array;
+        return view('search.index', compact('array'));
     }
 
     public function show() {
@@ -35,35 +35,40 @@ class SearchController extends Controller
         return $this;
     }
 
-    private function searchAll(Request $request) {
-        $animes = Anime::orderBy('title')->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
+    private function searchAll() {
+        
+        $animes = $this->array->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
         $mapped = [];
         foreach($animes as $l => $anime) {
             $mapped[]=$l;
             $mapped[]=$anime;
         }    
         
-        // dd($mapped);
         $animes = Arr::flatten($mapped, 1);
         
         
-        
+        $request = $this->request;
         
         $total = count($animes);
         $per_page= 30;
         $current_page = $request->input("page") ?? 1;
         $starting_point = ($current_page * $per_page) - $per_page;
         $array = array_slice($animes, $starting_point, $per_page, true);
-        $array = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
+        $this->array = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
             'path' => $request->url(),
             'query' => $request->query(),
         ]);
-        return $array;
+        return $this;
     }
 
-    private function searchByLetter($letter) {
-        $array = Anime::orderBy('title')->where('title', 'LIKE', "$letter%")->paginate(20);
-        return $array;
+    private function searchByLetter() {
+        $letter = $this->request->query()['l'] ?? '';
+        if($letter === "tous" || $letter === '')
+            return $this->searchAll();
+
+
+        $this->array = $this->array()->where('title', 'LIKE', "%$letter%");
+        return $this;
     }
 
    

@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 class GenreModal extends Component
 {
     public $genres;
+    public $checkedGenres;
     /**
      * Create a new component instance.
      *
@@ -16,16 +17,15 @@ class GenreModal extends Component
     public function __construct()
     {
         $this->genres = Genre::all();
+        $this->checkedGenres = [];
+        if(!request()->genre) return;
+        $this->checkedGenres = Genre::whereIn('id', request()->genre)->
+                                    get()->
+                                    map(function ($a) {
+                                        return $a->id;
+                                    })->toArray();
     }
 
-    public function checked ($id) {
-       
-        if(!request()->genre) return false;
-        if(!in_array($id, request()->genre)) return false;
-        
-        return true;
-
-    }
 
     /**
      * Get the view / contents that represent the component.
