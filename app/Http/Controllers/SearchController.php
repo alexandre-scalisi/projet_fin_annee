@@ -14,10 +14,10 @@ class SearchController extends Controller
 
     public function index(Request $request) {
         $this->request = $request;
-        
         $this->query()
              ->searchOrderBy()
-             ->searchByRating();
+             ->searchByRating()
+             ->searchByGenre();
         
         $array = $this->array->paginate(20);
 
@@ -88,9 +88,12 @@ class SearchController extends Controller
         return $this;
     }
 
-    private function searchByGenre($request) {
-        $array = Anime::whereHas('genres', function($query) use ($request) {return $query->whereIn('id',$request->genre);})->paginate(20);
-        return $array;
+    private function searchByGenre() {
+        if(!isset($this->request['genre']))
+            return $this;
+        $request = $this->request['genre'];
+        $this->array = $this->array->whereHas('genres', function($query) use ($request) {return $query->whereIn('id',$request);});
+        return $this;
     }
 
     private function searchByRating() {
