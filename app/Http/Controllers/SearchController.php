@@ -12,6 +12,7 @@ class SearchController extends Controller
     private $request;
     private $array;
     private $tab;
+    private $tabButtons;
     private $order_by;
 
     public function index(Request $request) {
@@ -24,9 +25,8 @@ class SearchController extends Controller
             ->searchByTab()
             ->searchOrderBy()
             ->searchAll();
-            $array = $this->array;
 
-        return view('search.index', compact('array'));
+        return view('search.index', ['array' => $this->array, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
 
     public function show() {
@@ -68,27 +68,34 @@ class SearchController extends Controller
     }
 
     private function searchByTab() {
-
-        $this->tabs = [];
-
         $order_by = $this->request->order_by ?? '';
         $this->order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
+        $this->tab = $this->request->query()['tab'] ?? '';
 
         switch($this->order_by) {
+
+            case 'title':
+                $this->tabButtons = array_merge(['Tous', 'Autres'], range('a','z'));
+                if(strtolower($this->tab) === 'autres') {
+                    $this->array = $this->array->where('title', 'regexp', '^[0-9]');
+                    return $this;
+                }
+                if(!in_array(strtolower($this->tab), $this->tabButtons)) {
+        
+                    $this->tab = '';
+                }
+                $this->array = $this->array->where('title', 'LIKE', "$this->tab%");
+                break;
             
+            case 'vote': 
+                $this->tabButtons = array_merge(['Pas de note', 'Tous'], range(0, 5), );
+
         }
 
-        $l = $this->request->query()['l'] ?? '';
 
-        if($l === 'autres') {
-            $this->array = $this->array->where('title', 'regexp', '^[0-9]');
-            return $this;
-        }
+        
 
-        if(preg_match('/^[a-zA-Z]$/', $l)) {
-            $this->letter = $l;
-        }
-        $this->array = $this->array->where('title', 'LIKE', "$this->letter%");
+        
         return $this;
     }
 
@@ -129,7 +136,7 @@ class SearchController extends Controller
                                 ->orderBy('title', $d ? 'asc' : 'desc')
                                 ->get()
                                 ->groupBy(function($anime) {
-                                    return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';
+                                    return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'Autres';
                                 });
                                 
                 break;

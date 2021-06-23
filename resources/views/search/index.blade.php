@@ -32,7 +32,7 @@
                     <option value="release_date">date de sortie &downarrow;</option>
                     <option value="upload_date">rajouté le &downarrow;</option>
                 </select>
-                <input type="hidden" name="l" id="letter">
+                <input type="hidden" name="tab" id="tab">
                 <input type="checkbox" name="d" id="direction"
                     {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
                 <label for="direction">inverser direction</label>
@@ -46,9 +46,9 @@
     <div class="w-full rounded-lg bg-gray-400 p-4">
 
         <div class="flex space-x-3 flex-wrap" x-data="">
-            @foreach(array_merge(['tous', 'autres'], range('a','z')) as $l)
+            @foreach($tabButtons as $l)
             <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
-            onclick="document.getElementById('letter').value = this.value;
+            onclick="document.getElementById('tab').value = this.value;
             document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach
             {{-- @foreach( array_merge(range(0, 5), ['Pas de note', 'Tous']) as $l)
