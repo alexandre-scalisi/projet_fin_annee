@@ -14,16 +14,16 @@ class SearchController extends Controller
     private $letter;
 
     public function index(Request $request) {
+
         $this->request = $request;
-        $this->query()
-        ->searchByRating()
-        ->searchByGenre()
-        ->searchByLetter()
-        ->searchOrderBy()
-        ->searchAll();
-        
-        $array = $this->array;
-        dd($array);
+        $this
+            ->query()
+            ->searchByRating()
+            ->searchByGenre()
+            ->searchByLetter()
+            ->searchOrderBy()
+            ->searchAll();
+            $array = $this->array;
 
         return view('search.index', compact('array'));
     }
@@ -39,10 +39,6 @@ class SearchController extends Controller
     }
 
     private function searchAll() {
-        
-        // $animes = $this->array->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
-        // $animes = $this->array->withAvg('votes', 'vote')->orderBy('votes_avg_vote', 'asc')->get()->groupBy(function ($anime) {return (int)$anime["votes_avg_vote"];});
-        // $animes = $this->array->get()->groupBy(function ($anime) {return date('Y', $anime['release_date']);});
 
         $animes = $this->array;
 
@@ -85,6 +81,8 @@ class SearchController extends Controller
         $this->array = $this->array->where('title', 'LIKE', "$this->letter%");
         return $this;
     }
+
+
 
    
 
@@ -133,6 +131,7 @@ class SearchController extends Controller
         if(!isset($this->request['genre']))
             return $this;
         $request = $this->request['genre'];
+
         $this->array = $this->array->whereHas('genres', function($query) use ($request) {return $query->whereIn('id',$request);});
         return $this;
     }
@@ -160,7 +159,7 @@ class SearchController extends Controller
     }
 
     private function orderByUploadedAt() {
-        dd($this->array);
+
         return Anime::oldest()->paginate(20);
     }
 

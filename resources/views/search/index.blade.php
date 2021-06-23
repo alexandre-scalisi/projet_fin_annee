@@ -1,5 +1,5 @@
 <x-app-layout>
-    
+
     <div class="w-full rounded-lg bg-gray-300 p-4 mb-4">
         <form method="GET" id="form">
 
@@ -21,20 +21,20 @@
             </div>
             <div class="block">
                 <label for="orderby">trier par</label>
-                <select name="order_by" id="orderby" x-data="" 
-                x-init="
+                <select name="order_by" id="orderby" x-data="" x-init="
                 order_by = '{{ request()->query()['order_by'] ?? ''}}';
                 found = [...$el.options].some((e) => e.value === order_by);
                 $el.value = found ? order_by : 'title'
                 ">
                     {{-- TODO rendre plus propre --}}
-                    <option value="title" >nom &uparrow;</option>
+                    <option value="title">nom &uparrow;</option>
                     <option value="vote">note &downarrow;</option>
                     <option value="release_date">date de sortie &downarrow;</option>
                     <option value="upload_date">rajouté le &downarrow;</option>
                 </select>
                 <input type="hidden" name="l" id="letter">
-                <input type="checkbox" name="d" id="direction" {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
+                <input type="checkbox" name="d" id="direction"
+                    {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
                 <label for="direction">inverser direction</label>
             </div>
 
@@ -44,26 +44,48 @@
 
     </div>
     <div class="w-full rounded-lg bg-gray-400 p-4">
+
         <div class="flex space-x-3 flex-wrap" x-data="">
-            @foreach(array_merge(['tous', 'autres'], range('a','z')) as $l)
+            {{-- @foreach(array_merge(['tous', 'autres'], range('a','z')) as $l)
             <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
-            onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
+            onclick="document.getElementById('letter').value = this.value;
+            document.getElementById('form').submit()">{{ $l }}</button>
+            @endforeach --}}
+            @foreach( array_merge(range(0, 5), ['Pas de note', 'Tous']) as $l)
+            <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
+                onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach
         </div>
-        
-        @foreach($array as $a) 
-        {{-- @if(!preg_match('/[a-zA-Z]/', $a)) --}}
-        @if(!is_array($a))
-        <li>{{ $a }}</li>
+
+        @foreach($array as $a)
+        @if(!is_object($a))
+        <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $a }}</div>
         @else
-        
-        {{-- <p class="ml-2">{{ $a->title }} </p> --}}
-        <p class="ml-2">{{ $a['title'] }} </p>
-        @endif
 
-        @endforeach
 
-        {{ $array->links() }}
+        <a href="{{ route('animes.show', $a['id'] ) }}">
+            <div class="list-none flex bg-indigo-100 mb-2 rounded-sm items-center space-x-4">
+                <img src="{{ $a->image }}" class="w-52 h-20" />
+                <div>
+                    <p class="text-xl font-weight-bolder">{{ $a['title'] }}</p>
+                    <p class="mb-1 text-sm">{{ implode(', ', $a->genres->map(function($g) {return $g->name;})->toArray())}}</p>
+
+                    <small>Sortie en {{ date('Y', $a->release_date) }}</small><span>
+
+                        @for ($i = 0;$i < 5; $i++) <button type="button" wire:click='vote({{ $i }})'
+                        class="text-xs fa fa-star text-blue-600"></button>
+                        @endfor
+
+                    </span>
+                </div>
+            </div>
+        </a>
+    @endif
+
+    @endforeach
+
+    {{ $array->appends(request()->query())->links() }}
+    </div>
     </div>
 
 </x-app-layout>
