@@ -50,17 +50,20 @@
             onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach
         </div>
+        
         @foreach($array as $a) 
-    
+        {{-- @if(!preg_match('/[a-zA-Z]/', $a)) --}}
         @if(!is_array($a))
         <li>{{ $a }}</li>
         @else
+        
+        {{-- <p class="ml-2">{{ $a->title }} </p> --}}
         <p class="ml-2">{{ $a['title'] }} </p>
         @endif
 
         @endforeach
 
-        {{ $array->appends(request()->query())->links() }}
+        {{ $array->links() }}
     </div>
 
 </x-app-layout>

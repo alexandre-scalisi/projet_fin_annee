@@ -11,16 +11,20 @@ class SearchController extends Controller
 {
     private $request;
     private $array;
+    private $letter;
 
     public function index(Request $request) {
         $this->request = $request;
         $this->query()
-             ->searchOrderBy()
-             ->searchByRating()
-             ->searchByGenre()
-             ->searchByLetter();
+        ->searchByRating()
+        ->searchByGenre()
+        ->searchByLetter()
+        ->searchOrderBy()
+        ->searchAll();
         
         $array = $this->array;
+        dd($array);
+
         return view('search.index', compact('array'));
     }
 
@@ -31,13 +35,17 @@ class SearchController extends Controller
     public function query() {
         $q = $this->request->query()['q'] ?? '';
         $this->array = Anime::where('title', 'LIKE', "%$q%");
-        
         return $this;
     }
 
     private function searchAll() {
         
-        $animes = $this->array->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
+        // $animes = $this->array->get()->groupBy(function($anime) {return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';})->toArray();
+        // $animes = $this->array->withAvg('votes', 'vote')->orderBy('votes_avg_vote', 'asc')->get()->groupBy(function ($anime) {return (int)$anime["votes_avg_vote"];});
+        // $animes = $this->array->get()->groupBy(function ($anime) {return date('Y', $anime['release_date']);});
+
+        $animes = $this->array;
+
         $mapped = [];
         foreach($animes as $l => $anime) {
             $mapped[]=$l;
@@ -58,16 +66,23 @@ class SearchController extends Controller
             'path' => $request->url(),
             'query' => $request->query(),
         ]);
+
         return $this;
     }
 
     private function searchByLetter() {
-        $letter = $this->request->query()['l'] ?? '';
-        if($letter === "tous" || $letter === '')
-            return $this->searchAll();
+        $this->letter = '';
+        $l = $this->request->query()['l'] ?? '';
 
+        if($l === 'autres') {
+            $this->array = $this->array->where('title', 'regexp', '^[0-9]');
+            return $this;
+        }
 
-        $this->array = $this->array()->where('title', 'LIKE', "%$letter%");
+        if(preg_match('/^[a-zA-Z]$/', $l)) {
+            $this->letter = $l;
+        }
+        $this->array = $this->array->where('title', 'LIKE', "$this->letter%");
         return $this;
     }
 
@@ -79,16 +94,37 @@ class SearchController extends Controller
         $order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
         switch($order_by) {
             case 'vote': 
-                $this->array = $this->array->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $d ? 'desc' : 'asc');
+                
+                $this->array = $this->array
+                    ->withAvg('votes', 'vote')
+                    ->orderBy('votes_avg_vote', $d ? 'desc' : 'asc')
+                    ->get()
+                    ->groupBy(function ($anime) {
+                        return (int)$anime["votes_avg_vote"];
+                    });
+
                 break;
             case 'release_date': 
-                $this->array = $this->array->orderBy('release_date', $d ? 'desc' : 'asc' );
+                $this->array = $this->array->
+                orderBy('release_date', $d ? 'desc' : 'asc' )
+                ->get()
+                ->groupBy(function ($anime) {
+                    return date('F Y', $anime->release_date);
+                });
+
                 break;
             case 'upload_date': 
                 $this->array = $d ? $this->array->latest() : $this->array->oldest();
                 break;
             default:
-                $this->array = $this->array->orderBy('title', $d ? 'asc' : 'desc');
+                $this->array = $this->array
+                                ->orderBy('title', $d ? 'asc' : 'desc')
+                                ->get()
+                                ->groupBy(function($anime) {
+                                    return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'autres';
+                                });
+                                
+                break;
         }
         return $this;
     }
