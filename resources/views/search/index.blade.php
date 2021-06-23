@@ -46,15 +46,15 @@
     <div class="w-full rounded-lg bg-gray-400 p-4">
 
         <div class="flex space-x-3 flex-wrap" x-data="">
-            {{-- @foreach(array_merge(['tous', 'autres'], range('a','z')) as $l)
+            @foreach(array_merge(['tous', 'autres'], range('a','z')) as $l)
             <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
             onclick="document.getElementById('letter').value = this.value;
             document.getElementById('form').submit()">{{ $l }}</button>
-            @endforeach --}}
-            @foreach( array_merge(range(0, 5), ['Pas de note', 'Tous']) as $l)
+            @endforeach
+            {{-- @foreach( array_merge(range(0, 5), ['Pas de note', 'Tous']) as $l)
             <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
                 onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
-            @endforeach
+            @endforeach --}}
         </div>
 
         @foreach($array as $a)
@@ -70,13 +70,10 @@
                     <p class="text-xl font-weight-bolder">{{ $a['title'] }}</p>
                     <p class="mb-1 text-sm">{{ implode(', ', $a->genres->map(function($g) {return $g->name;})->toArray())}}</p>
 
-                    <small>Sortie en {{ date('Y', $a->release_date) }}</small><span>
-
-                        @for ($i = 0;$i < 5; $i++) <button type="button" wire:click='vote({{ $i }})'
-                        class="text-xs fa fa-star text-blue-600"></button>
-                        @endfor
-
-                    </span>
+                    <div class="flex items-center">
+                        <small class="mr-4 mt-1">Sortie en {{ date('Y', $a->release_date) }}</small>
+                        <x-stars :animeId="$a->id" textSize="text-sm" color="text-blue-600"/>
+                    </div>
                 </div>
             </div>
         </a>

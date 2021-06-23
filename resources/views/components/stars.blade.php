@@ -1,12 +1,12 @@
 <div>
-    @for ($i = 0; $i<$full_stars; $i++)
-        <span class="fas fa-star text-xl"></span>
+    @for ($i = 0; $i<$stars_infos['full_stars']; $i++)
+        <span class="fas fa-star {{ $text_size }} {{ $color }}"></span>
     @endfor
-    @for ($i = 0; $i<$half_stars; $i++)
-        <span class="fas fa-star-half-alt text-xl"></span>
+    @for ($i = 0; $i<$stars_infos['half_stars']; $i++)
+        <span class="fas fa-star-half-alt {{ $text_size }} {{ $color }}"></span>
     @endfor
-    @for ($i = 0; $i<$empty_stars; $i++)
-        <span class="far fa-star text-xl"></span>
+    @for ($i = 0; $i<$stars_infos['empty_stars']; $i++)
+        <span class="far fa-star {{ $text_size }} {{ $color }}"></span>
     @endfor
-        <p class="text-lg">{{ $anime->votes->count() }} votes</p>
+        
 </div>

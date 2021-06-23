@@ -14,23 +14,8 @@
                         </div>
                         <div>{{ count($anime->episodes) }} épisodes</div>
                         <div class="ml-auto" style="font-size: 0">                         
-                            @php            
-                                $full_vote = $anime->votes->avg('vote') ?? 0;
-                                $full_stars = (int) $full_vote;
-                                $half_stars = $full_vote - $full_stars > .5 ? 1 : 0;
-                                $empty_stars = 5 - $full_stars - $half_stars;   
-                            @endphp
-                            @for ($i = 0; $i<$full_stars; $i++)
-                                <span class="fas fa-star text-xl"></span>
-                            @endfor
-                            @for ($i = 0; $i<$half_stars; $i++)
-                                <span class="fas fa-star-half-alt text-xl"></span>
-                            @endfor
-                            @for ($i = 0; $i<$empty_stars; $i++)
-                                <span class="far fa-star text-xl"></span>
-                            @endfor
+                            <x-stars :animeId="$anime->id" textSize="text-xl" color="text-yellow-300"/>
                                 <p class="text-lg">{{ $anime->votes->count() }} votes</p>
-                            
                         </div>
                     </div>
                 </p>

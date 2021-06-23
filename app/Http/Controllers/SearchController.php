@@ -11,7 +11,8 @@ class SearchController extends Controller
 {
     private $request;
     private $array;
-    private $letter;
+    private $tab;
+    private $order_by;
 
     public function index(Request $request) {
 
@@ -20,7 +21,7 @@ class SearchController extends Controller
             ->query()
             ->searchByRating()
             ->searchByGenre()
-            ->searchByLetter()
+            ->searchByTab()
             ->searchOrderBy()
             ->searchAll();
             $array = $this->array;
@@ -66,8 +67,17 @@ class SearchController extends Controller
         return $this;
     }
 
-    private function searchByLetter() {
-        $this->letter = '';
+    private function searchByTab() {
+
+        $this->tabs = [];
+
+        $order_by = $this->request->order_by ?? '';
+        $this->order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
+
+        switch($this->order_by) {
+            
+        }
+
         $l = $this->request->query()['l'] ?? '';
 
         if($l === 'autres') {
@@ -145,23 +155,6 @@ class SearchController extends Controller
         return $this;
     }
 
-    private function orderByVotesAvg() {
-        return Anime::withAvg('votes', 'vote')->orderBy('votes_avg_vote')->paginate(20);
-    }
-
-    private function orderByTitle() {
-        return Anime::orderBy('title')->paginate(20);
-    }
-
-    private function orderByDate() {
-        $array = Anime::orderBy('release_date', 'desc');
-        return $array;
-    }
-
-    private function orderByUploadedAt() {
-
-        return Anime::oldest()->paginate(20);
-    }
 
 
 }

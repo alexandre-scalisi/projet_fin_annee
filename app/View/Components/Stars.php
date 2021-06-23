@@ -2,18 +2,27 @@
 
 namespace App\View\Components;
 
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 
 class Stars extends Component
 {
+    public $anime_id;
+    public $stars_infos;
+    public $color;
+    public $text_size;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($animeId, $textSize, $color )
     {
-        //
+        $this->color = $color;
+
+        $this->text_size = $textSize;
+        $this->anime_id = $animeId;
+        $this->stars_infos = calculateStars($this->anime_id);
     }
 
     /**
