@@ -28,7 +28,7 @@ class Stars extends Component
     {
         $this->user_vote = Vote::where(['anime_id' => $this->anime->id, 'user_id' => auth()->user()->id])->first()->vote ?? 'Pas de vote';
         //helper (app/Helpers)
-        $this->stars_infos = calculateStars($this->anime->id);
+        $this->stars_infos = h_calculateStars($this->anime->id);
         return view('livewire.stars');
     }
     

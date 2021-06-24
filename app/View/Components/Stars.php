@@ -22,7 +22,7 @@ class Stars extends Component
 
         $this->text_size = $textSize;
         $this->anime_id = $animeId;
-        $this->stars_infos = calculateStars($this->anime_id);
+        $this->stars_infos = h_calculateStars($this->anime_id);
     }
 
     /**

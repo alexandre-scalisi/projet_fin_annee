@@ -56,8 +56,8 @@
                 onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach --}}
         </div>
-
-        @foreach($array as $a)
+   
+        @forelse($array as $a)
         @if(!is_object($a))
         <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $a }}</div>
         @else
@@ -77,9 +77,10 @@
                 </div>
             </div>
         </a>
-    @endif
-
-    @endforeach
+        @endif
+        @empty 
+            Pas de résultat
+        @endforelse
 
     {{ $array->appends(request()->query())->links() }}
     </div>
