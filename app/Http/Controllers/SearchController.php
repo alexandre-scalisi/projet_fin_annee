@@ -161,7 +161,7 @@ class SearchController extends Controller
                     })->toArray();
                     $this->tabButtons = array_merge(['Tous'], Arr::flatten($date_tabs), ['< ' . ($year - $year_count - 1)]);
                     
-
+                    
                     if(in_array($this->tab, $this->tabButtons)) {
                         if(Str::startsWith($this->tab, 'Fin')) {
                             $tab_year = Str::substr($this->tab, -4);
@@ -174,10 +174,13 @@ class SearchController extends Controller
                             
                         }
 
-                        elseif($this->tab < $year - $year_count - 1 ) {
+                     
+                        
+                        elseif($this->tab != "Tous") {
                             $this->array = $this->array->whereYear('created_at', '<', $year - $year_count - 1 );
                         }
                     }
+
                 // $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
                 // $date_ranges_tabs = collect($date_ranges)
                 //                 ->map(function($dr) 
