@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class SearchController extends Controller
 {
     private $request;
-    private $array;
+    private $query;
     private $tab;
     private $tabButtons;
     private $order_by;
@@ -21,23 +21,22 @@ class SearchController extends Controller
         $this->request = $request;
 
         $this
-        ->query()
+        ->searchByTitle()
         ->searchByRating()
         ->searchByGenre()
         ->searchByTab()
         ->searchOrderBy()
-        // dd($this->array)
         ->searchAll();
-        // $this->array = $this->array->paginate(20);
         
-        return view('search.index', ['array' => $this->array, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
+        
+        return view('search.index', ['query' => $this->query, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
     
     // QueryBuilder
     
-    public function query() {
+    public function searchByTitle() {
         $q = $this->request->query()['q'] ?? '';
-        $this->array = Anime::where('title', 'LIKE', "$q%");
+        $this->query = Anime::where('title', 'LIKE', "$q%");
         return $this;
     }
     
@@ -46,7 +45,8 @@ class SearchController extends Controller
             return $this;
         $request = $this->request['minrating'];
         
-        $this->array = $this->array->withAvg('votes', 'vote')->having('votes_avg_vote', '>=', $request);
+        $this->query = $this->query->withAvg('votes', 'vote')
+                                   ->having('votes_avg_vote', '>=', $request);
         return $this;
     }
 
@@ -56,40 +56,35 @@ class SearchController extends Controller
             return $this;
         $request = $this->request['genre'];
 
-        $this->array = $this->array->whereHas('genres', function($query) use ($request) {return $query->whereIn('id',$request);});
+        $this->query = $this->query->whereHas('genres', function($query) use ($request) {
+            return $query->whereIn('id',$request);
+        });
         return $this;
     }
 
 
-
-
-
-    
-
     private function searchByTab() {
         $this->order_by = $this->request->order_by ?? '';
-        // $this->order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
+
         $this->tab = $this->request->query()['tab'] ?? '';
 
         switch($this->order_by) {
 
-            
             case 'vote': 
                 $this->tabButtons = array_merge(['Tous', 'Pas de vote' ], range(1, 5) );
                 if(strtolower($this->tab) === 'pas de vote') {
                    
-                    $this->array = $this->array->withCount('votes')->having('votes_count', 0);
+                    $this->query = $this->query->withCount('votes')->having('votes_count', 0);
                     
                     return $this;
                 }
 
                 if((int) $this->tab != 0) {
-                    $this->array = $this->array
+                    $this->query = $this->query
                                 ->withAvg('votes', 'vote')
                                 ->having('votes_avg_vote', '>=', (int)$this->tab)
                                 ->having('votes_avg_vote', '<', (int)$this->tab + 1);
-                }
-                
+                }    
 
                 break;
 
@@ -111,48 +106,47 @@ class SearchController extends Controller
                     
                     if($this->tab >= $year - $year_offset) {
                         
-                        $query = $this->array->get()->filter(function ($a) {
+                        $query = $this->query->get()->filter(function ($a) {
                             return date('Y', $a->release_date) == $this->tab;
                         });
                         if(count($query) > 0)
                         {
-                            $this->array= $query->toQuery();
+                            $this->query= $query->toQuery();
                         }
                         else {
-                            $this->array = $this->array->whereNull('id');
+                            $this->query = $this->query->whereNull('id');
                         }
                     }
                     else if($this->checkRangeTab()) {
                         [$start, $end] = explode('-', $this->tab);
-                        $query = $this->array->get()->filter(function ($a) use ($start, $end){
+                        $query = $this->query->get()->filter(function ($a) use ($start, $end){
                             return date('Y', $a->release_date) >= $start && date('Y', $a->release_date) <= $end;
                         });
                         
                         if(count($query) > 0)
                         {
-                            $this->array= $query->toQuery();
+                            $this->query= $query->toQuery();
                         }
                         else {
-                            $this->array = $this->array->whereNull('id');
+                            $this->query = $this->query->whereNull('id');
                         }
                     }
                     
                     else if ($this->tab === "<= $last_tab_start") {
-                        $query = $this->array->get()->filter(function ($a) use($last_tab_start) {
+                        $query = $this->query->get()->filter(function ($a) use($last_tab_start) {
                             return date('Y', $a->release_date) <= $last_tab_start;
                         });
                         
                         if(count($query) > 0)
                         {
-                            $this->array= $query->toQuery();
+                            $this->query= $query->toQuery();
                         }
                         else {
-                            $this->array = $this->array->whereNull('id');
+                            $this->query = $this->query->whereNull('id');
                         }
                     }
                     
                 }
-
                 
                 break;
 
@@ -168,65 +162,38 @@ class SearchController extends Controller
                     if(in_array($this->tab, $this->tabButtons)) {
                         if(Str::startsWith($this->tab, 'Fin')) {
                             $tab_year = Str::substr($this->tab, -4);
-                            $this->array = $this->array->whereBetween('created_at', [date("$tab_year-07-01"), date("$tab_year-12-31")]);
+                            $this->query = $this->query->whereBetween('created_at', [date("$tab_year-07-01"), date("$tab_year-12-31")]);
                         }
                         else if ((Str::startsWith($this->tab, 'Début'))) {
                             
                             $tab_year = Str::substr($this->tab, -4);
-                            $this->array = $this->array->whereBetween('created_at',  [date("$tab_year-01-01"), date("$tab_year-06-30")]);
+                            $this->query = $this->query->whereBetween('created_at',  [date("$tab_year-01-01"), date("$tab_year-06-30")]);
                             
                         }
 
                      
                         
                         elseif($this->tab != "Tous") {
-                            $this->array = $this->array->whereYear('created_at', '<', $year - $year_count - 1 );
+                            $this->query = $this->query->whereYear('created_at', '<', $year - $year_count - 1 );
                         }
                     }
                     
-                // $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
-                // $date_ranges_tabs = collect($date_ranges)
-                //                 ->map(function($dr) 
-                //                 {return Arr::first($dr) . '-' . Arr::last($dr);
-                //                 })
-                //                 ->toArray();
-                // $last_tab_start = Arr::first(Arr::last($date_ranges)) - 1;
-                // $this->tabButtons = array_merge(['Tous'], range($year, $year - $year_offset), $date_ranges_tabs, ["<= $last_tab_start"] );
-
-                //     dd('ok');
                 break;
-
-                // if(in_array($this->tab, range($year-11, $year-19))) {
-                //     $query = $this->array->get()->filter(function ($a) {
-                //         return date('Y', $a->release_date) = $this->request->tab;
-                //     });
-                //     if(count($query) > 0)
-                //     {
-                //         $this->array= $query->toQuery();
-                //     }
-                //     else {
-                //         $this->array = $this->array->whereNull('id');
-                //     }
-                // }
                 
-            
+      
                 default:
                 $this->tabButtons = array_merge(['Tous', 'Autres'], range('a','z'));
                 if(strtolower($this->tab) === 'autres') {
-                    $this->array = $this->array->where('title', 'regexp', '^[0-9]');
+                    $this->query = $this->query->where('title', 'regexp', '^[0-9]');
                     return $this;
                 }
                 if(!in_array(strtolower($this->tab), $this->tabButtons)) {
         
                     $this->tab = '';
                 }
-                $this->array = $this->array->where('title', 'LIKE', "$this->tab%");
+                $this->query = $this->query->where('title', 'LIKE', "$this->tab%");
                 break;
-            }
-            
-            
-            
-            
+            }  
             
             return $this;
         }
@@ -242,7 +209,7 @@ class SearchController extends Controller
             switch($order_by) {
                 case 'vote': 
                     
-                    $this->array = $this->array
+                    $this->query = $this->query
                     ->withAvg('votes', 'vote')
                     ->orderBy('votes_avg_vote', $d ? 'desc' : 'asc')
                     ->get()
@@ -252,7 +219,7 @@ class SearchController extends Controller
 
                 break;
             case 'release_date': 
-                $this->array = $this->array->
+                $this->query = $this->query->
                 orderBy('release_date', $d ? 'desc' : 'asc' )
                 ->get()
                 ->groupBy(function ($anime) {
@@ -263,7 +230,7 @@ class SearchController extends Controller
 
                 break;
             case 'upload_date': 
-                $this->array = $this->array
+                $this->query = $this->query
                 ->orderBy('release_date', $d ? 'desc' : 'asc' )
                 ->get()
                 ->groupBy(function ($anime) {
@@ -274,7 +241,7 @@ class SearchController extends Controller
                 
                 break;
             default:
-                $this->array = $this->array
+                $this->query = $this->query
                                 ->orderBy('title', $d ? 'asc' : 'desc')
                                 ->get()
                                 ->groupBy(function($anime) {
@@ -291,7 +258,7 @@ class SearchController extends Controller
 
     private function searchAll() {
 
-        $animes = $this->array;
+        $animes = $this->query;
         // dd($animes->get());
         $mapped = [];
         foreach($animes as $l => $anime) {
@@ -309,7 +276,7 @@ class SearchController extends Controller
         $current_page = $request->input("page") ?? 1;
         $starting_point = ($current_page * $per_page) - $per_page;
         $array = array_slice($animes, $starting_point, $per_page, true);
-        $this->array = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
+        $this->query = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
             'path' => $request->url(),
             'query' => $request->query(),
         ]);

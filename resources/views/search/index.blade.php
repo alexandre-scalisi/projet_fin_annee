@@ -51,28 +51,25 @@
             onclick="document.getElementById('tab').value = this.value;
             document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach
-            {{-- @foreach( array_merge(range(0, 5), ['Pas de note', 'Tous']) as $l)
-            <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
-                onclick="document.getElementById('letter').value = this.value; document.getElementById('form').submit()">{{ $l }}</button>
-            @endforeach --}}
+    
         </div>
    
-        @forelse($array as $a)
-        @if(!is_object($a))
-        <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $a }}</div>
+        @forelse($query as $anime)
+        @if(!is_object($anime))
+        <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $anime }}</div>
         @else
 
 
-        <a href="{{ route('animes.show', $a['id'] ) }}">
+        <a href="{{ route('animes.show', $anime['id'] ) }}">
             <div class="list-none flex bg-indigo-100 mb-2 rounded-sm items-center space-x-4">
-                <img src="{{ $a->image }}" class="w-52 h-20" />
+                <img src="{{ $anime->image }}" class="w-52 h-20" />
                 <div>
-                    <p class="text-xl font-weight-bolder">{{ $a['title'] }}</p>
-                    <p class="mb-1 text-sm">{{ implode(', ', $a->genres->map(function($g) {return $g->name;})->toArray())}}</p>
+                    <p class="text-xl font-weight-bolder">{{ $anime['title'] }}</p>
+                    <p class="mb-1 text-sm">{{ implode(', ', $anime->genres->map(function($g) {return $g->name;})->toArray())}}</p>
 
                     <div class="flex items-center">
-                        <small class="mr-4 mt-1">Sortie en {{ date('Y', $a->release_date) }}</small>
-                        <x-stars :animeId="$a->id" textSize="text-sm" color="text-blue-600"/>
+                        <small class="mr-4 mt-1">Sortie en {{ date('Y', $anime->release_date) }}</small>
+                        <x-stars :animeId="$anime->id" textSize="text-sm" color="text-blue-600"/>
                     </div>
                 </div>
             </div>
@@ -82,7 +79,7 @@
             Pas de résultat
         @endforelse
 
-    {{ $array->appends(request()->query())->links() }}
+    {{ $query->appends(request()->query())->links() }}
     </div>
     </div>
 
