@@ -162,7 +162,7 @@ class SearchController extends Controller
                     $this->tabButtons = array_merge(['Tous'], Arr::flatten($date_tabs), ['< ' . ($year - $year_count - 1)]);
                     
 
-                    if(in_array($this->tab, $this->tabButtons) && Str::startsWith($this->tab, ['Fin', 'Début'])) {
+                    if(in_array($this->tab, $this->tabButtons)) {
                         if(Str::startsWith($this->tab, 'Fin')) {
                             $tab_year = Str::substr($this->tab, -4);
                             $this->array = $this->array->whereBetween('created_at', [date("$tab_year-07-01"), date("$tab_year-12-31")]);
@@ -174,10 +174,10 @@ class SearchController extends Controller
                             
                         }
 
-                        else {
-                            dd('test');
+                        elseif($this->tab < $year - $year_count - 1 ) {
+                            $this->array = $this->array->whereYear('created_at', '<', $year - $year_count - 1 );
                         }
-                }
+                    }
                 // $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
                 // $date_ranges_tabs = collect($date_ranges)
                 //                 ->map(function($dr) 
