@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 class SearchController extends Controller
 {
     private $request;
@@ -18,14 +19,15 @@ class SearchController extends Controller
     public function index(Request $request) {
         
         $this->request = $request;
-        
+
         $this
         ->query()
         ->searchByRating()
         ->searchByGenre()
         ->searchByTab()
-        ->searchOrderBy()
-        ->searchAll();
+        ->searchOrderBy();
+        // ->searchAll();
+        $this->array = $this->array->paginate(20);
         
         return view('search.index', ['array' => $this->array, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
@@ -93,20 +95,100 @@ class SearchController extends Controller
             case 'release_date':
                 
                 $year = getDate()['year'];
-                dd($this->tab);
-                $this->tabButtons = array_merge(['Tous'], range($year,  $year - 10), [$year-11 . '-' . ($year-20)], [$year-21 . '-' . ($year-30)] );
-                if($this->tab >= $year - 10) {
-                    $query = $this->array->get()->filter(function ($a) {
-                        return date('Y', $a->release_date) == $this->tab;
-                    });
-                    if(count($query) > 0)
-                    {
-                        $this->array= $query->toQuery();
+                $year_offset = 10;
+                $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
+                $date_ranges_tabs = collect($date_ranges)
+                                ->map(function($dr) 
+                                {return Arr::first($dr) . '-' . Arr::last($dr);
+                                })
+                                ->toArray();
+                $last_tab_start = Arr::first(Arr::last($date_ranges)) - 1;
+                $this->tabButtons = array_merge(['Tous'], range($year, $year - $year_offset), $date_ranges_tabs, ["<= $last_tab_start"] );
+                
+                if(in_array($this->tab, $this->tabButtons)){
+
+                    
+                    if($this->tab >= $year - $year_offset) {
+                        
+                        $query = $this->array->get()->filter(function ($a) {
+                            return date('Y', $a->release_date) == $this->tab;
+                        });
+                        if(count($query) > 0)
+                        {
+                            $this->array= $query->toQuery();
+                        }
+                        else {
+                            $this->array = $this->array->whereNull('id');
+                        }
                     }
-                    else {
-                        $this->array = $this->array->whereNull('id');
+                    else if($this->checkRangeTab()) {
+                        [$start, $end] = explode('-', $this->tab);
+                        $query = $this->array->get()->filter(function ($a) use ($start, $end){
+                            return date('Y', $a->release_date) >= $start && date('Y', $a->release_date) <= $end;
+                        });
+                        
+                        if(count($query) > 0)
+                        {
+                            $this->array= $query->toQuery();
+                        }
+                        else {
+                            $this->array = $this->array->whereNull('id');
+                        }
                     }
+                    
+                    else if ($this->tab === "<= $last_tab_start") {
+                        $query = $this->array->get()->filter(function ($a) use($last_tab_start) {
+                            return date('Y', $a->release_date) <= $last_tab_start;
+                        });
+                        
+                        if(count($query) > 0)
+                        {
+                            $this->array= $query->toQuery();
+                        }
+                        else {
+                            $this->array = $this->array->whereNull('id');
+                        }
+                    }
+
                 }
+                break;
+
+                case 'upload_date':
+                    $year = getDate()['year'];
+                    $year_count = 3;
+                    $date_tabs = collect(range($year, $year - $year_count - 1))->map(function($y) {
+                        return ["Fin $y", "Début $y"];
+                    })->toArray();
+                    $this->tabButtons = array_merge(['Tous'], Arr::flatten($date_tabs), ['< ' . ($year - $year_count - 1)]);
+                    
+
+                    if(in_array($this->tab, $this->tabButtons) && Str::startsWith($this->tab, ['Fin', 'Début'])) {
+                        if(Str::startsWith($this->tab, 'Fin')) {
+                            $tab_year = Str::substr($this->tab, -4);
+                            $this->array = $this->array->whereBetween('created_at', [date("$tab_year-07-01"), date("$tab_year-12-31")]);
+                        }
+                        else if ((Str::startsWith($this->tab, 'Début'))) {
+                            
+                            $tab_year = Str::substr($this->tab, -4);
+                            $this->array = $this->array->whereBetween('created_at',  [date("$tab_year-01-01"), date("$tab_year-06-30")]);
+                            
+                        }
+
+                        else {
+                            dd('test');
+                        }
+                }
+                // $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
+                // $date_ranges_tabs = collect($date_ranges)
+                //                 ->map(function($dr) 
+                //                 {return Arr::first($dr) . '-' . Arr::last($dr);
+                //                 })
+                //                 ->toArray();
+                // $last_tab_start = Arr::first(Arr::last($date_ranges)) - 1;
+                // $this->tabButtons = array_merge(['Tous'], range($year, $year - $year_offset), $date_ranges_tabs, ["<= $last_tab_start"] );
+
+                //     dd('ok');
+                break;
 
                 // if(in_array($this->tab, range($year-11, $year-19))) {
                 //     $query = $this->array->get()->filter(function ($a) {
@@ -121,9 +203,8 @@ class SearchController extends Controller
                 //     }
                 // }
                 
-                break;
             
-            default:
+                default:
                 $this->tabButtons = array_merge(['Tous', 'Autres'], range('a','z'));
                 if(strtolower($this->tab) === 'autres') {
                     $this->array = $this->array->where('title', 'regexp', '^[0-9]');
@@ -169,12 +250,15 @@ class SearchController extends Controller
                 orderBy('release_date', $d ? 'desc' : 'asc' )
                 ->get()
                 ->groupBy(function ($anime) {
-                    return date('F Y', $anime->release_date);
+                    
+                    return Str::ucfirst(strftime('%B %Y', $anime->release_date ));
+                    
                 });
 
                 break;
             case 'upload_date': 
                 $this->array = $d ? $this->array->latest() : $this->array->oldest();
+                
                 break;
             default:
                 $this->array = $this->array
@@ -192,7 +276,7 @@ class SearchController extends Controller
     
 
     private function searchAll() {
-        
+
         $animes = $this->array;
 
         $mapped = [];
@@ -224,7 +308,7 @@ class SearchController extends Controller
 
 
     private function checkRangeTab() {
-
+       
         $tab = $this->request->tab;
         if(!$tab || strlen($tab) === 0)
             return false;
@@ -236,6 +320,18 @@ class SearchController extends Controller
         return true;
        
         
+    }
+
+
+    
+
+    private function generateDateRanges($start, $length, $count) {
+        $date_ranges = [];
+        for($i = 0; $i < $count; $i++, $start -= $length) {
+            $date_ranges[] = range($start - $length + 1, $start);
+        }
+        return $date_ranges;
+
     }
 
 }
