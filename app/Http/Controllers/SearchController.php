@@ -25,9 +25,10 @@ class SearchController extends Controller
         ->searchByRating()
         ->searchByGenre()
         ->searchByTab()
-        ->searchOrderBy();
-        // ->searchAll();
-        $this->array = $this->array->paginate(20);
+        ->searchOrderBy()
+        // dd($this->array)
+        ->searchAll();
+        // $this->array = $this->array->paginate(20);
         
         return view('search.index', ['array' => $this->array, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
@@ -149,8 +150,10 @@ class SearchController extends Controller
                             $this->array = $this->array->whereNull('id');
                         }
                     }
-
+                    
                 }
+
+                
                 break;
 
                 case 'upload_date':
@@ -180,7 +183,7 @@ class SearchController extends Controller
                             $this->array = $this->array->whereYear('created_at', '<', $year - $year_count - 1 );
                         }
                     }
-
+                    
                 // $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
                 // $date_ranges_tabs = collect($date_ranges)
                 //                 ->map(function($dr) 
@@ -260,7 +263,14 @@ class SearchController extends Controller
 
                 break;
             case 'upload_date': 
-                $this->array = $d ? $this->array->latest() : $this->array->oldest();
+                $this->array = $this->array
+                ->orderBy('release_date', $d ? 'desc' : 'asc' )
+                ->get()
+                ->groupBy(function ($anime) {
+                    
+                    return strftime('%B %Y', $anime->release_date);
+                    
+                });
                 
                 break;
             default:
@@ -272,6 +282,7 @@ class SearchController extends Controller
                                 });
                                 
                 break;
+                
         }
         return $this;
     }
@@ -281,13 +292,13 @@ class SearchController extends Controller
     private function searchAll() {
 
         $animes = $this->array;
-
+        // dd($animes->get());
         $mapped = [];
         foreach($animes as $l => $anime) {
             $mapped[]=$l;
             $mapped[]=$anime;
+            
         }    
-        
         $animes = Arr::flatten($mapped, 1);
         
         
