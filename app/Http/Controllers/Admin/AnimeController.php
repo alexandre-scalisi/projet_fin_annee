@@ -15,7 +15,7 @@ class AnimeController extends Controller
      */
     public function index()
     {
-        $animes = Anime::all();
+        $animes = Anime::orderBy('title')->paginate(20);
     
         return view('admin.animes.index', compact('animes'));
     }

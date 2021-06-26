@@ -1,4 +1,4 @@
-<div class="bg-blue-500 w-44 h-screen">
+<div class="bg-blue-500 w-44 min-h-screen">
     <ul>
         <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
             <a href="#" class="w-full text-lg font-bold inline-block pl-3 py-3">Accueil</a>
@@ -14,12 +14,6 @@
         @endforeach
         <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
             <a href="#" class="w-full text-lg font-bold inline-block pl-3 py-3">Comptes</a>
-        {{--</li>
-        <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
-            <a href="#" class="w-full text-lg font-bold inline-block pl-3 py-3">Genres</a>
         </li>
-        <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
-            <a href="#" class="w-full text-lg font-bold inline-block pl-3 py-3">Comptes</a>
-        </li> --}}
     </ul>    
 </div>

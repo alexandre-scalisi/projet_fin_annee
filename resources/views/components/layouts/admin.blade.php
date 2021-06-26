@@ -26,20 +26,14 @@
             <x-admin-navigation-menu/>
             
             <!-- Page Heading -->
-            @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-            @endif
+            <div class="flex mt-10">
+                <x-admin-sidebar/>
 
-            <x-admin-sidebar/>
-
-            <!-- Page Content -->
-            <main class="">
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
 
         @stack('modals')

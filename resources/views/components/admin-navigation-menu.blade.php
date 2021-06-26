@@ -1,4 +1,4 @@
-<div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4">
+<div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4 fixed top-0">
     <div class="table">
     <a href="#" class="table-cell align-middle hover:text-blue-400">Aller au front-end</a>
     </div>
