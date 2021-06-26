@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
+
 use App\Http\Controllers\SearchController;
 use App\Http\Livewire\Comment;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,20 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', [AnimeController::class, 'index']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('/dashboard', function() {
+        return view('dashboard');
+    })->name('dashboard');
+    
+    Route::group(['middleware'=>'is_admin', 'prefix' => 'admin', 'as' => 'admin.', 'name' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin'], function () {
+        Route::resource('animes', 'AnimeController');
+        Route::resource('episodes', 'EpisodeController');
+        Route::resource('genres', 'GenreController');
+    });
+});
+
+
+
 
 Route::resource('animes', AnimeController::class);
 Route::resource('animes.episodes', EpisodeController::class);
