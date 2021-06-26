@@ -19,6 +19,7 @@
                     @endforeach
                 </select>
             </div>
+
             <div class="block">
                 <label for="orderby">trier par</label>
                 <select name="order_by" id="orderby" x-data="" x-init="
@@ -45,42 +46,43 @@
     </div>
     <div class="w-full rounded-lg bg-gray-400 p-4">
 
-        <div class="flex space-x-3 flex-wrap" x-data="">
+        {{-- BUTTONS --}}
+        <div class="flex space-x-2 flex-wrap" x-data="">
             @foreach($tabButtons as $l)
-            <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2"
-            onclick="document.getElementById('tab').value = this.value;
+            <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2" onclick="document.getElementById('tab').value = this.value;
             document.getElementById('form').submit()">{{ $l }}</button>
             @endforeach
-    
+
         </div>
-   
+
         @forelse($query as $anime)
+
         @if(!is_object($anime))
-        <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $anime }}</div>
+        <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $anime }} </div>
         @else
+            <a href="{{ route('animes.show', $anime['id'] ) }}">
+                <div class="list-none flex bg-indigo-100 mb-2 rounded-sm items-center space-x-4">
+                    <img src="{{ $anime->image }}" class="w-52 h-20" />
+                    <div>
+                        <p class="text-xl font-weight-bolder">{{ $anime['title'] }}</p>
+                        <p class="mb-1 text-sm">
+                            {{ implode(', ', $anime->genres->map(function($g) {return $g->name;})->toArray())}}</p>
 
-
-        <a href="{{ route('animes.show', $anime['id'] ) }}">
-            <div class="list-none flex bg-indigo-100 mb-2 rounded-sm items-center space-x-4">
-                <img src="{{ $anime->image }}" class="w-52 h-20" />
-                <div>
-                    <p class="text-xl font-weight-bolder">{{ $anime['title'] }}</p>
-                    <p class="mb-1 text-sm">{{ implode(', ', $anime->genres->map(function($g) {return $g->name;})->toArray())}}</p>
-
-                    <div class="flex items-center">
-                        <small class="mr-4 mt-1">Sortie en {{ date('Y', $anime->release_date) }}</small>
-                        <x-stars :animeId="$anime->id" textSize="text-sm" color="text-blue-600"/>
+                        <div class="flex items-center">
+                            <small class="mr-4 mt-1">Sortie en {{ date('Y', $anime->release_date) }}</small>
+                            <x-stars :animeId="$anime->id" textSize="text-sm" color="text-blue-600" />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
         @endif
-        @empty 
-            Pas de résultat
+
+        @empty
+        <p>Pas de résultat</p>
         @endforelse
 
-    {{ $query->appends(request()->query())->links() }}
-    </div>
+        {{ $query->appends(request()->query())->links() }}
+        </div>
     </div>
 
 </x-app-layout>

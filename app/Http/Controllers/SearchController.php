@@ -21,12 +21,12 @@ class SearchController extends Controller
         $this->request = $request;
 
         $this
-        ->searchByTitle()
-        ->searchByRating()
-        ->searchByGenre()
-        ->searchByTab()
-        ->searchOrderBy()
-        ->searchAll();
+          ->searchByTitle()
+          ->searchByRating()
+          ->searchByGenre()
+          ->searchBySelect()
+          ->searchOrderBy()
+          ->searchAll();
         
         
         return view('search.index', ['query' => $this->query, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
@@ -63,7 +63,7 @@ class SearchController extends Controller
     }
 
 
-    private function searchByTab() {
+    private function searchBySelect() {
         $this->order_by = $this->request->order_by ?? '';
 
         $this->tab = $this->request->query()['tab'] ?? '';
@@ -71,26 +71,142 @@ class SearchController extends Controller
         switch($this->order_by) {
 
             case 'vote': 
-                $this->tabButtons = array_merge(['Tous', 'Pas de vote' ], range(1, 5) );
-                if(strtolower($this->tab) === 'pas de vote') {
-                   
-                    $this->query = $this->query->withCount('votes')->having('votes_count', 0);
-                    
-                    return $this;
-                }
-
-                if((int) $this->tab != 0) {
-                    $this->query = $this->query
-                                ->withAvg('votes', 'vote')
-                                ->having('votes_avg_vote', '>=', (int)$this->tab)
-                                ->having('votes_avg_vote', '<', (int)$this->tab + 1);
-                }    
+                
+                $this->selectVote();                    
 
                 break;
 
             case 'release_date':
                 
-                $year = getDate()['year'];
+                $this->selectReleaseDate();
+                
+                break;
+
+            case 'upload_date':
+                $this->selectUploadDate();
+                
+            break;
+            
+            default:
+                $this->selectTitle();    
+
+            break;
+        }  
+            
+        return $this;
+    }
+        
+        
+        
+        
+        
+        private function searchOrderBy() {
+            $order_by = $this->request->order_by ?? '';
+            $d = $this->request->d != null && $this->request->d === 'on' ? false : true; 
+            $order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
+
+            switch($order_by) {
+                case 'vote': 
+                    
+                    $this->query = $this->query
+                    ->withAvg('votes', 'vote')
+                    ->orderBy('votes_avg_vote', $d ? 'desc' : 'asc')
+                    ->get()
+                    ->groupBy(function ($anime) {
+                        return $anime->votes->count() > 0 ? (int)$anime["votes_avg_vote"] : 'Pas de vote' ;
+                    });
+
+                break;
+            case 'release_date': 
+                $this->query = $this->query->
+                orderBy('release_date', $d ? 'desc' : 'asc' )
+                ->get()
+                ->groupBy(function ($anime) {
+                    
+                    return Str::ucfirst(strftime('%B %Y', $anime->release_date ));
+                    
+                });
+
+                break;
+            case 'upload_date': 
+                $this->query = $this->query
+                ->orderBy('created_at', $d ? 'desc' : 'asc' )
+                ->get()
+                ->groupBy(function ($anime) {
+                    return Str::ucfirst($anime->created_at->formatLocalized('%B, %Y'));
+                    
+                });
+                
+                break;
+            default:
+                $this->query = $this->query
+                                ->orderBy('title', $d ? 'asc' : 'desc')
+                                ->get()
+                                ->groupBy(function($anime) {
+                                    return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'Autres';
+                                });
+                                
+                break;
+                
+        }
+        return $this;
+    }
+
+    
+
+    private function searchAll() {
+
+        $animes = $this->query;
+
+        $mapped = [];
+        foreach($animes as $l => $anime) {
+            $mapped[]=$l;
+            $mapped[]=$anime;
+            
+        }    
+        $animes = Arr::flatten($mapped, 1);
+        
+        
+        $request = $this->request;
+        
+        $total = count($animes);
+        $per_page= 30;
+        $current_page = $request->input("page") ?? 1;
+        $starting_point = ($current_page * $per_page) - $per_page;
+        $array = array_slice($animes, $starting_point, $per_page, true);
+        $this->query = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]);
+
+        return $this;
+    }
+
+
+    //Helpers
+
+
+
+/////////    SELECT FUNCTIONS         \\\\\\\\\\\\\
+    private function selectVote() {
+        $this->tabButtons = array_merge(['Tous', 'Pas de vote' ], range(1, 5) );
+        if(strtolower($this->tab) === 'pas de vote') {
+                   
+            $this->query = $this->query->withCount('votes')->having('votes_count', 0);
+            
+            return $this;
+        }
+
+        if((int) $this->tab != 0) {
+            $this->query = $this->query
+                        ->withAvg('votes', 'vote')
+                        ->having('votes_avg_vote', '>=', (int)$this->tab)
+                        ->having('votes_avg_vote', '<', (int)$this->tab + 1);
+        }
+    }
+
+    private function selectReleaseDate() {
+        $year = getDate()['year'];
                 $year_offset = 10;
                 $date_ranges = $this->generateDateRanges($year - $year_offset - 1, 10,  2);
                 $date_ranges_tabs = collect($date_ranges)
@@ -147,11 +263,11 @@ class SearchController extends Controller
                     }
                     
                 }
-                
-                break;
 
-                case 'upload_date':
-                    $year = getDate()['year'];
+    }
+    
+    private function selectUploadDate() {
+        $year = getDate()['year'];
                     $year_count = 3;
                     $date_tabs = collect(range($year, $year - $year_count - 1))->map(function($y) {
                         return ["Fin $y", "Début $y"];
@@ -170,122 +286,28 @@ class SearchController extends Controller
                             $this->query = $this->query->whereBetween('created_at',  [date("$tab_year-01-01"), date("$tab_year-06-30")]);
                             
                         }
-
-                     
                         
                         elseif($this->tab != "Tous") {
                             $this->query = $this->query->whereYear('created_at', '<', $year - $year_count - 1 );
                         }
                     }
-                    
-                break;
-                
-      
-                default:
-                $this->tabButtons = array_merge(['Tous', 'Autres'], range('a','z'));
-                if(strtolower($this->tab) === 'autres') {
-                    $this->query = $this->query->where('title', 'regexp', '^[0-9]');
-                    return $this;
-                }
-                if(!in_array(strtolower($this->tab), $this->tabButtons)) {
-        
-                    $this->tab = '';
-                }
-                $this->query = $this->query->where('title', 'LIKE', "$this->tab%");
-                break;
-            }  
-            
-            return $this;
-        }
-        
-        
-        
-        
-        
-        private function searchOrderBy() {
-            $order_by = $this->request->order_by ?? '';
-            $d = $this->request->d != null && $this->request->d === 'on' ? false : true; 
-            $order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
-            switch($order_by) {
-                case 'vote': 
-                    
-                    $this->query = $this->query
-                    ->withAvg('votes', 'vote')
-                    ->orderBy('votes_avg_vote', $d ? 'desc' : 'asc')
-                    ->get()
-                    ->groupBy(function ($anime) {
-                        return $anime->votes->count() > 0 ? (int)$anime["votes_avg_vote"] : 'Pas de vote' ;
-                    });
-
-                break;
-            case 'release_date': 
-                $this->query = $this->query->
-                orderBy('release_date', $d ? 'desc' : 'asc' )
-                ->get()
-                ->groupBy(function ($anime) {
-                    
-                    return Str::ucfirst(strftime('%B %Y', $anime->release_date ));
-                    
-                });
-
-                break;
-            case 'upload_date': 
-                $this->query = $this->query
-                ->orderBy('release_date', $d ? 'desc' : 'asc' )
-                ->get()
-                ->groupBy(function ($anime) {
-                    
-                    return strftime('%B %Y', $anime->release_date);
-                    
-                });
-                
-                break;
-            default:
-                $this->query = $this->query
-                                ->orderBy('title', $d ? 'asc' : 'desc')
-                                ->get()
-                                ->groupBy(function($anime) {
-                                    return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'Autres';
-                                });
-                                
-                break;
-                
-        }
-        return $this;
     }
 
+
+    private function selectTitle() {
+        $this->tabButtons = array_merge(['Tous', 'Autres'], range('a','z'));
+            if(strtolower($this->tab) === 'autres') {
+                $this->query = $this->query->where('title', 'regexp', '^[0-9]');
+                return $this;
+            }
+            if(!in_array(strtolower($this->tab), $this->tabButtons)) {
     
-
-    private function searchAll() {
-
-        $animes = $this->query;
-        // dd($animes->get());
-        $mapped = [];
-        foreach($animes as $l => $anime) {
-            $mapped[]=$l;
-            $mapped[]=$anime;
-            
-        }    
-        $animes = Arr::flatten($mapped, 1);
-        
-        
-        $request = $this->request;
-        
-        $total = count($animes);
-        $per_page= 30;
-        $current_page = $request->input("page") ?? 1;
-        $starting_point = ($current_page * $per_page) - $per_page;
-        $array = array_slice($animes, $starting_point, $per_page, true);
-        $this->query = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
-            'path' => $request->url(),
-            'query' => $request->query(),
-        ]);
-
-        return $this;
+                $this->tab = '';
+            }
+            $this->query = $this->query->where('title', 'LIKE', "$this->tab%");
     }
 
 
-    //Helpers
 
 
     private function checkRangeTab() {
@@ -315,4 +337,8 @@ class SearchController extends Controller
 
     }
 
+               
 }
+
+
+

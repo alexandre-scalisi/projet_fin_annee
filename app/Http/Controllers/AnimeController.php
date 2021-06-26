@@ -15,7 +15,6 @@ class AnimeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    use WithPagination;
 
     public function index()
     {
