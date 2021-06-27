@@ -1,5 +1,6 @@
 <x-app-layout>
     {{-- TODO voir le probleme avec turbolink --}}
+    <h1 class="text-2xl font-bold border-b-4 border-indigo-700 mb-8">{{ $episode->title }}</h1>
     @if(!empty($links))
     @if(key_exists('adn', $links)) @php $links['adn'] = str_replace('video', 'embedded', $links['adn']) @endphp @endif
     <div x-data="{selec: '{{ reset($links) }}' }">

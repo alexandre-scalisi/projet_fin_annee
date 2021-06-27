@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Anime;
 use App\Models\Episode;
 use Illuminate\Http\Request;
 
@@ -45,9 +46,11 @@ class EpisodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Anime $anime, Episode $episode)
     {
-        //
+        
+        $links = $episode->links();
+        return view('episodes.show', compact('episode', 'links'));
     }
 
     /**
