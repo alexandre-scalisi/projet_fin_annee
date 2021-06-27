@@ -12,7 +12,7 @@
         class="absolute bottom-0 transform translate-y-full w-full rounded-b-2xl overflow-hidden z-50 bg-white">
         @forelse($results as $result)
         <li class="text-gray-100 even:bg-gray-500 bg-gray-600 my-px">
-            <a href="{{ route('animes.show', ['anime' => $result->id]) }}">
+            <a href="{{ route('admin.animes.show', ['anime' => $result->id]) }}">
             <div class="flex items-center">
                 <img class="w-20 h-10 mx-2" src="{{ $result->image }}"></img><span
                     class="py-4 inline-block">{{ $result->title }}</span>

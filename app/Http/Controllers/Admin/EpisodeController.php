@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Episode;
 use Illuminate\Http\Request;
 
 class EpisodeController extends Controller
@@ -81,5 +82,10 @@ class EpisodeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function all() {
+        $episodes = Episode::all();
+        return view('admin.episodes.all', compact('episodes'));
     }
 }

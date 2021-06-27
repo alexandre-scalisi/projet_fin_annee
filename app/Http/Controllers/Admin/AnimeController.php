@@ -52,7 +52,10 @@ class AnimeController extends Controller
     public function show($id)
     {
         $anime = Anime::find($id);
-        return view('admin.animes.show', compact('anime'));
+        $episodes = $anime->episodes()->paginate(25);
+        $strArr = explode(' ', $anime->synopsis);
+        $truncated_synopsis = array_reduce($strArr, function($a, $b) { return strlen($a) < 500 ? $a . ' ' . $b : $a;} ) . ' ...';
+        return view('admin.animes.show', compact('anime', 'truncated_synopsis', 'episodes'));
     }
 
     /**
