@@ -11,8 +11,8 @@
                 <tr class="text-left">
                     {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
                     
-                    <th><a href="" class="px-5 py-2 inline-block w-full">Titre</a></th>
-                    <th><a href="#" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
+                    <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
+                    <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
                     <th class="px-5 py-2 inline-block w-full">Action</th>
                 </tr>
             </thead>
@@ -30,7 +30,7 @@
                         </a>
                         <a href="{{ route('admin.animes.episodes.edit', [$episode->anime->id, $episode->id]) }}" class="fa fa-edit mr-2 text-yellow-500">
                         </a>
-                        <a href="{{ route('admin.animes.episodes.destroy', [$episode->anime->id, $episode->id]) }}" class="fa fa-trash mr-2 text-red-500">
+                        <a href="{{ route('admin.animes.episodes.destroy', [$episode->anime->id, $episode->id]) }}" class="fa fa-trash mr-2 text-red-500"onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                         </a>
                        
                     </td>

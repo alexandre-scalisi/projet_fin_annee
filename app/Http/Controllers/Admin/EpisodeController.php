@@ -16,7 +16,7 @@ class EpisodeController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -88,7 +88,22 @@ class EpisodeController extends Controller
     }
 
     public function all() {
-        $episodes = Episode::paginate(20);
+        $episodes = $this->search();
         return view('admin.episodes.all', compact('episodes'));
+    }
+
+
+    private function search() {
+        $order_by = lcfirst(request()->input('order_by', 'title'));
+        $dir = lcfirst(request()->input('dir', 'asc'));
+        $accepted_order_bys = ['title', 'created_at'];
+        $accepted_dirs =['asc', 'desc'];
+        if(!in_array($order_by, $accepted_order_bys))
+            $order_by = 'title';
+        if(!in_array($dir, $accepted_dirs))
+            $dir = 'asc';
+      
+        return Episode::orderBy($order_by, $dir)->paginate(20);
+        
     }
 }

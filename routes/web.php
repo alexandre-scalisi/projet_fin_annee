@@ -31,6 +31,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::group(['middleware'=>'is_admin', 'prefix' => 'admin', 'as' => 'admin.', 'name' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::resource('animes', 'AnimeController');
         Route::get('episodes', 'EpisodeController@all')->name('episodes.all');
+        Route::resource('comments', 'CommentController')->only('index');
+        Route::resource('users', 'UserController')->only('index', 'show', 'create');
         Route::resource('animes.episodes', 'EpisodeController');
         Route::resource('genres', 'GenreController');
     });
