@@ -85,7 +85,7 @@ class EpisodeController extends Controller
     }
 
     public function all() {
-        $episodes = Episode::all();
+        $episodes = Episode::paginate(20);
         return view('admin.episodes.all', compact('episodes'));
     }
 }
