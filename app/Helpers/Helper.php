@@ -30,3 +30,13 @@ function h_sort_table($param, $default = 'asc') {
     return url()->current().'?order_by='.$param.'&dir=desc';
     
 }
+
+function h_truncate ($str, $max_length) {
+
+    $strArr = explode(' ', $str);
+    if(count($strArr)< 2) 
+        return $str;
+    return array_reduce($strArr, function($a, $b) use($max_length) { 
+        return strlen($a) < $max_length ? $a . ' ' . $b : $a;
+    }) . ' ...';
+}

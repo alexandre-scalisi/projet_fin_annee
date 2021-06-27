@@ -1,5 +1,5 @@
 <x-layouts.admin>
-        <h1 class="text-2xl border-b-4 border-gray-800">Tous les Episodes</h1>
+        <h1 class="text-2xl border-b-4 border-gray-800">Tous les épisodes</h1>
         <div class="flex items-center">
             <div class="w-72 ml-auto my-5">
     

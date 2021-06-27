@@ -1,7 +1,7 @@
 <x-layouts.admin>
-    <h1 class="text-2xl border-b-4 border-gray-800">Tous les Animes</h1>
+    <h1 class="text-2xl border-b-4 border-gray-800">Tous les animes</h1>
     <div class="flex items-center justify-between">
-    <a class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
+    <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
         <div class="w-72">
 
         @livewire('search')

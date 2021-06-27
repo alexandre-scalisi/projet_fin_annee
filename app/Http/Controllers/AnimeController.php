@@ -54,8 +54,8 @@ class AnimeController extends Controller
     {   
         // TODO refactoriser le code
         $episodes = $anime->episodes()->paginate(25);
-        $strArr = explode(' ', $anime->synopsis);
-        $truncated_synopsis = array_reduce($strArr, function($a, $b) { return strlen($a) < 500 ? $a . ' ' . $b : $a;} ) . ' ...';
+
+        $truncated_synopsis = h_truncate($anime->synopsis, 500);
         return view('anime.show', compact('anime', 'truncated_synopsis', 'episodes'));
     }
 

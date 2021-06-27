@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class GenreController extends Controller
@@ -14,7 +15,9 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
+        $genres = $this->search();
+
+        return view('admin.genres.index', compact('genres'));
     }
 
     /**
@@ -81,5 +84,20 @@ class GenreController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function search() {
+        $order_by = lcfirst(request()->input('order_by', 'title'));
+        $dir = lcfirst(request()->input('dir', 'asc'));
+        $accepted_order_bys = ['title', 'created_at'];
+        $accepted_dirs =['asc', 'desc'];
+        if(!in_array($order_by, $accepted_order_bys) || $order_by = 'title')
+            $order_by = 'name';
+        
+        if(!in_array($dir, $accepted_dirs))
+            $dir = 'asc';
+        
+        return Genre::orderBy($order_by, $dir)->paginate(20);
+        
     }
 }
