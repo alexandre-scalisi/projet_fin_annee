@@ -17,3 +17,16 @@ function h_is_integer($var, $strict=true) {
         return is_numeric($var) && (int) $var === $var;
     return is_numeric($var) && (int) $var == $var;
 }
+
+function h_sort_table($param, $default = 'asc') {
+    if(!in_array($param, request()->input())) {
+        return url()->current().'?order_by='.$param.'&dir='.$default;
+    }
+    else if (request()->input()['dir'] == "desc") {
+        return url()->current().'?order_by='.$param.'&dir=asc';
+    }
+    
+
+    return url()->current().'?order_by='.$param.'&dir=desc';
+    
+}

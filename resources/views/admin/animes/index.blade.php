@@ -1,14 +1,17 @@
 <x-layouts.admin class="bg-blue-500">
-    
+    <h1 class="text-2xl border-b-4 border-gray-800">Tous les Animes</h1>
+    <a class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
     <table class="table-auto w-full px-4 mb-4">
         <thead class="bg-blue-400">
             <tr class="text-left">
-                <th class="px-5 py-2"><a href="">Nom</th>
-                <th class="px-5 py-2">Date de sortie</th>
-                <th class="px-5 py-2">Date d'ajout</th>
-                <th class="px-5 py-2">Vote</th>
-                <th class="px-5 py-2">Nombre episodes</th>
-                <th class="px-5 py-2">Action</th>
+                {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
+                
+                <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Nom</a></th>
+                <th><a href="{{ h_sort_table('release_date') }}" class="px-5 py-2 inline-block w-full">Date de sortie</a></th>
+                <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
+                <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote</a></th>
+                <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes</a></th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +35,5 @@
         </tbody>
     </table>
     {{ $animes->links() }}
-    {{-- @foreach ($animes as $anime)
-      {{ $anime->title }} 
-    @endforeach --}}
+    
 </x-layouts.admin>
