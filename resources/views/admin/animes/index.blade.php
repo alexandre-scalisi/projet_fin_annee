@@ -3,7 +3,7 @@
     <table class="table-auto w-full px-4 mb-4">
         <thead class="bg-blue-400">
             <tr class="text-left">
-                <th class="px-5 py-2">Nom</th>
+                <th class="px-5 py-2"><a href="">Nom</th>
                 <th class="px-5 py-2">Date de sortie</th>
                 <th class="px-5 py-2">Date d'ajout</th>
                 <th class="px-5 py-2">Vote</th>
@@ -24,7 +24,7 @@
                     </a>
                     <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2">
                     </a>
-                    <a href="{{ route('admin.animes.destroy', $anime->id) }}" class="fa fa-trash text-red-500">
+                    <a href="{{ route('admin.animes.destroy', $anime->id) }}" class="fa fa-trash text-red-500" onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                     </a>
                 </td>
             </tr>

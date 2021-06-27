@@ -49,7 +49,8 @@ class AnimeController extends Controller
      */
     public function show($id)
     {
-        //
+        $anime = Anime::find($id);
+        return view('admin.animes.show', compact('anime'));
     }
 
     /**
@@ -60,7 +61,8 @@ class AnimeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $anime = Anime::find($id);
+        return view('admin.animes.show', compact('anime'));
     }
 
     /**
