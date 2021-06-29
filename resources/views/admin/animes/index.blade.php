@@ -28,7 +28,7 @@
                         {{ $anime->title }}
                     </a>
                 </td>
-                <td class="px-5 py-3">{{ date('d-m-Y', $anime->release_date) }}</td>
+                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-Y') }}</td>
                 <td class="px-5 py-3">{{ $anime->created_at }}</td>
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>

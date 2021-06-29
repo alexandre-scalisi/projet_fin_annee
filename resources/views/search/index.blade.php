@@ -69,7 +69,7 @@
                             {{ implode(', ', $anime->genres->map(function($g) {return $g->name;})->toArray())}}</p>
 
                         <div class="flex items-center">
-                            <small class="mr-4 mt-1">Sortie en {{ date('Y', $anime->release_date) }}</small>
+                            <small class="mr-4 mt-1">Sortie en {{ Carbon\Carbon::parse($anime->release_date)->format('Y') }}</small>
                             <x-stars :animeId="$anime->id" textSize="text-sm" color="text-blue-600" />
                         </div>
                     </div>

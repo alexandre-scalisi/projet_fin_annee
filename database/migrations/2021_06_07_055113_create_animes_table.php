@@ -13,10 +13,11 @@ class CreateAnimesTable extends Migration
      */
     public function up()
     {
+        
         Schema::create('animes', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->integer('release_date');
+            $table->dateTime('release_date');
             $table->text('synopsis');
             $table->string('image');
             $table->string('studio');

@@ -16,7 +16,7 @@ class AnimeSeeder extends Seeder
         DB::table('animes')->insert([
             'id' => $anime['id'],
             'title' => $anime['title'],
-            'release_date' => $anime['releaseDate'],
+            'release_date' => date('Y-m-d H:i:s', $anime['releaseDate']),
             'synopsis' => $anime['synopsis'],
             'image' => $anime['image'],
             'studio' => $anime['studio'],

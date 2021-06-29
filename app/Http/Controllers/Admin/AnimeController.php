@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anime;
+use App\Models\AnimeGenre;
+use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AnimeController extends Controller
@@ -29,7 +33,7 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.animes.create');
     }
 
     /**
@@ -40,7 +44,30 @@ class AnimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedAnime = $request->validate([
+            'title' => 'required|unique:animes|string|min:2|max:80',
+            'synopsis' => 'required|string|min:5|max:2000',
+            'release_date' => 'required|date',
+            'studio' => 'required|string|max:80',
+            'image' => 'required|image|max:4000',
+         ]);
+        
+        
+        $validatedGenres = $request->validate([
+            'genre' => 'required|array',
+            'genre.*' => 'required|string|exists:genres,id'
+        ]);
+        $anime = DB::table('animes')->insertGetId($validatedAnime);
+
+        foreach(Arr::first($validatedGenres) as $genre_id) {
+            
+            DB::table('anime_genre')->insert([
+                'anime_id' => $anime,
+                'genre_id' => $genre_id,
+                'created_at' => now()
+            ]);
+        }
+  
     }
 
     /**

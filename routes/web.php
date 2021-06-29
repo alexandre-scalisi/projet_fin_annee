@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::resource('users', 'UserController');
         Route::resource('animes.episodes', 'EpisodeController');
         Route::resource('genres', 'GenreController');
+        Route::get('/', 'HomeController@index')->name('home');
     });
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -123,7 +124,7 @@ class SearchController extends Controller
                 ->get()
                 ->groupBy(function ($anime) {
                     
-                    return Str::ucfirst(strftime('%B %Y', $anime->release_date ));
+                    return Str::ucfirst(Carbon::parse($anime->release_date)->formatLocalized('%B %Y'));
                     
                 });
 

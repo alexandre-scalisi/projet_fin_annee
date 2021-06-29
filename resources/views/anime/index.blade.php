@@ -10,7 +10,7 @@
                 <a href="{{ route('animes.show', $anime->id) }}" class="anime-card__title">{{ $anime->title }}</a>
                 <p class="anime-card__date">
                     <div class="flex">
-                        <div>{{ Carbon\Carbon::createFromTimestamp( $anime->release_date)->format('Y')}} -
+                        <div>{{ Carbon\Carbon::parse( $anime->release_date)->format('Y')}} -
                         </div>
                         <div>{{ count($anime->episodes) }} épisodes</div>
                         <div class="ml-auto" style="font-size: 0">                         

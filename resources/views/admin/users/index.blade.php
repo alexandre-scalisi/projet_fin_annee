@@ -32,7 +32,7 @@
                 <td class="px-5 py-3">
                     {{ $user->name}}
                 </td>
-                <td class="px-5 py-3">{{ $user->role_id }}</td>
+                <td class="px-5 py-3">{{ $user->role }}</td>
                 <td class="px-5 py-3">{{ $user->created_at }}</td>
                 <td class="px-5 py-3">
                     <a href="{{ route('admin.users.show', $user->id) }}" class="fa fa-eye mr-2">

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -59,9 +60,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function role () {
-        return $this->hasOne(Role::class);
-    }
 
     public function comments() {
         return $this->hasMany(Comment::class);

@@ -18,7 +18,7 @@ class IsAdmin
     {
         
         
-        if(auth()->user()->role_id !== 2) {
+        if(auth()->user()->role !== 'admin') {
             abort(403);
         }
 

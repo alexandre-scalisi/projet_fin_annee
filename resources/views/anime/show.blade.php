@@ -1,7 +1,6 @@
 <x-app-layout>
 <div class="max-w-4xl">
 @php
-    Carbon\Carbon::setlocale(config('app.locale'));
     $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
 
     @endphp
@@ -27,7 +26,7 @@
             </div>
             <ul>
                 <li class="anime__info"><span class="anime__info_big">Date de sortie
-                        :</span> {{ Carbon\Carbon::createFromTimestamp( $anime->release_date)->translatedFormat('d F Y') }}
+                        :</span> {{ Carbon\Carbon::parse( $anime->release_date)->translatedFormat('d F Y') }}
                 </li>
                 <li class="anime__info"><span class="anime__info_big">Studio :</span>
                     {{ $anime->studio }}</li>

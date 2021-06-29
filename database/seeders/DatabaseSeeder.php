@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         $genres = $this->genres;
         
         $this->call([
-            RoleSeeder::class,
-            GenreSeeder::class
+            GenreSeeder::class,
+            UserSeeder::class
             ]);
 
         \App\Models\User::factory(10)->create();

@@ -30,7 +30,7 @@ class AnimeController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**

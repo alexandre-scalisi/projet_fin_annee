@@ -88,7 +88,7 @@ class UserController extends Controller
     private function search() {
         $order_by = lcfirst(request()->input('order_by', 'email'));
         $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['name', 'email', 'role_id', 'created_at'];
+        $accepted_order_bys = ['name', 'email', 'role', 'created_at'];
         $accepted_dirs =['asc', 'desc'];
         if(!in_array($order_by, $accepted_order_bys))
             $order_by = 'email';

@@ -9,6 +9,15 @@ class Anime extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'title',
+        'release_date',
+        'synopsis',
+        'image',
+        'studio'
+    ];
+
     protected $primaryKey = 'id';
 
     public $incrementing = false;
