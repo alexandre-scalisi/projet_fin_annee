@@ -46,24 +46,31 @@ class AnimeController extends Controller
      */
     public function store(Request $request)
     {
-        // $path = $request->file('image')->getPath();
-        // $original_name = $request->file('image')->getClientOriginalName();
-        Storage::put("public/", $request->image);
-        // dd(File::exists(public_path('storage/'.$request->image-)))
+        $image_extension = $request->file('image')->extension();
+        $image_path = 'public/images';
+        $image_name =  uniqid('img_', true);
+        $image_fullname = $image_name.'.'.$image_extension;
+
+        $validatedImage = $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000'
+        ]);
+
         $validatedAnime = $request->validate([
             'title' => 'required|string|min:2|max:80|unique:animes,title',
             'synopsis' => 'required|string|min:5|max:2000',
             'release_date' => 'required|date',
             'studio' => 'required|string|max:80',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:4000',
-         ]);
+        ]);
         
         $validatedGenres = $request->validate([
             'genre' => 'required|array',
             'genre.*' => 'required|string|exists:genres,id'
         ]);
-        $anime = DB::table('animes')->insertGetId(array_merge($validatedAnime, ['created_at' => now()]));
 
+        $anime = DB::table('animes')->insertGetId(array_merge($validatedAnime, ['created_at' => now(), 'image' => $image_fullname]));
+
+        $request->file('image')->storeAs($image_path, $image_fullname);
         foreach(Arr::first($validatedGenres) as $genre_id) {
             
             DB::table('anime_genre')->insert([
