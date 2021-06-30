@@ -6,7 +6,7 @@
     @endphp
 
     <div class="anime-header">
-        <div class="anime__image" style="background-image: url({{ $anime->image }})">
+        <div class="anime__image" style="background-image: url({{ h_find_image($anime->image) }})">
             <a href="#"
                 class="inline-block m-3 h-12 w-12 transition duration-500 bg-white rounded-full hover:bg-gray-200 bg-opacity-75">
                 <svg class="w-full h-full fill-current text-gray-900 p-2" xmlns="http://www.w3.org/2000/svg" width="24"
