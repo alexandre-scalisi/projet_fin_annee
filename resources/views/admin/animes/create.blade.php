@@ -1,6 +1,5 @@
 <x-layouts.admin>
     <h1>Ajouter Anime</h1>
- 
     
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf

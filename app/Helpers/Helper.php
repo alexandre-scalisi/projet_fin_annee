@@ -40,3 +40,10 @@ function h_truncate ($str, $max_length) {
         return strlen($a) < $max_length ? $a . ' ' . $b : $a;
     }) . ' ...';
 }
+
+function h_find_image($path) {
+    if(Illuminate\Support\Str::startsWith($path, 'http')) {
+        return $path;
+    }
+    return asset('storage/images'.'/'.$path);
+}

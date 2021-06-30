@@ -3,7 +3,7 @@
         @foreach ($animes as $anime)
         <div class="anime-card">
             <a href="{{ route('animes.show', $anime->id) }}" class="overflow-hidden block">
-                <img src="{{ $anime->image }}" class="anime-card__image"></img>
+                <img src="{{ h_find_image($anime->image) }}" class="anime-card__image"></img>
 
             </a>
             <div class="px-4 py-3 g-1">
