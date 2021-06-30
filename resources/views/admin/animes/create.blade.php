@@ -1,6 +1,7 @@
 <x-layouts.admin>
     <h1>Ajouter Anime</h1>
-
+ 
+    
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf
         <div class="block mb-4">
@@ -42,10 +43,12 @@
             @enderror
         </div>
         <div class="block mb-4">
-            <label for="image">Image</label>
-            <input type="file" name="image" id="image">
+            <input type="file" name="image" accept="image/*" id="image-input">
+            <div class="w-48 h-28 relative hidden" id="preview-box">
+                <button x-data="" @click.prevent="deleteImage()" class="absolute right-4 z-50 text-red-600 text-2xl" style="text-shadow: 1px 1px 2px black;">&times;</button>
+                <img id="image" class="w-full h-full">
             </div>
-            <div class="text-red-500">
+            <p class="text-red-500 hidden" id="invalid-msg">Format invalide, formats autorisés: jpg, jpeg, png</p>
             @error('image')
             {{ $message }}
             @enderror
@@ -62,3 +65,38 @@
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>
     </form>
 </x-layouts.admin>
+<script>
+    const file = document.getElementById('image-input');
+    const acceptedExtensions = ['jpg', 'jpeg', 'png'];
+    const previewBox = document.getElementById('preview-box');
+    const img = document.getElementById('image');
+    const imgInput = document.getElementById('image-input')
+    const invalidMsg = document.getElementById('invalid-msg');
+
+    file.addEventListener('change', validateImage); 
+
+
+    function validateImage() {
+        
+        const ext = imgInput.value.split('.').pop().toLowerCase();
+
+        if(acceptedExtensions.includes(ext)) {
+            previewBox.classList.remove('hidden');
+            img.src= URL.createObjectURL(this.files[0]);
+            invalidMsg.classList.add('hidden');
+            return;
+        }
+        else {
+
+            deleteImage();
+            invalidMsg.classList.remove('hidden');
+        }
+    }
+
+    function deleteImage() {
+        imgInput.value='';
+        img.src= '';
+        previewBox.classList.add('hidden');
+    }
+    
+</script>

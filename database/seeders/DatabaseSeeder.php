@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class
             ]);
 
-        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(50)->create();
             
 
         foreach($animes as $anime) {

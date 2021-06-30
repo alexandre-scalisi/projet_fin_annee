@@ -9,7 +9,9 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\Input;
 
 class AnimeController extends Controller
 {
@@ -44,20 +46,23 @@ class AnimeController extends Controller
      */
     public function store(Request $request)
     {
+        // $path = $request->file('image')->getPath();
+        // $original_name = $request->file('image')->getClientOriginalName();
+        Storage::put("public/", $request->image);
+        // dd(File::exists(public_path('storage/'.$request->image-)))
         $validatedAnime = $request->validate([
-            'title' => 'required|unique:animes|string|min:2|max:80',
+            'title' => 'required|string|min:2|max:80|unique:animes,title',
             'synopsis' => 'required|string|min:5|max:2000',
             'release_date' => 'required|date',
             'studio' => 'required|string|max:80',
-            'image' => 'required|image|max:4000',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000',
          ]);
-        
         
         $validatedGenres = $request->validate([
             'genre' => 'required|array',
             'genre.*' => 'required|string|exists:genres,id'
         ]);
-        $anime = DB::table('animes')->insertGetId($validatedAnime);
+        $anime = DB::table('animes')->insertGetId(array_merge($validatedAnime, ['created_at' => now()]));
 
         foreach(Arr::first($validatedGenres) as $genre_id) {
             
@@ -67,6 +72,9 @@ class AnimeController extends Controller
                 'created_at' => now()
             ]);
         }
+
+        return redirect()->back()->with('success', 'Anime ajouté avec succès');
+        
   
     }
 
@@ -92,9 +100,9 @@ class AnimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $anime = Anime::find($id);
-        return view('admin.animes.show', compact('anime'));
+        return view('admin.animes.edit', compact('anime'));
     }
 
     /**
@@ -106,7 +114,43 @@ class AnimeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+ 
+        if ($request->hasFile('images')) {
+
+            dd('test');
+            Storage::delete($request->file); // If $file is path to old image
+        
+            $employee->file = $request->file('file')->store('name-of-folder');
+        }
+
+        $validatedAnime = $request->validate([
+            'title' => 'required|string|min:2|max:80|unique:animes,title,'.$id,
+            'synopsis' => 'required|string|min:5|max:2000',
+            'release_date' => 'required|date',
+            'studio' => 'required|string|max:80',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000',
+         ]);
+        
+        $validatedGenres = $request->validate([
+            'genre' => 'required|array',
+            'genre.*' => 'required|string|exists:genres,id'
+        ]);
+        // dd($validatedGenres);
+        $anime = Anime::find($id);
+        $anime->update($validatedAnime);
+        $anime->genres()->sync(Arr::first($validatedGenres));
+        // $anime = DB::table('animes')->updateGetId(array_merge($validatedAnime, ['updated_at' => now()]));
+
+        // foreach(Arr::first($validatedGenres) as $genre_id) {
+            
+        //     DB::table('anime_genre')->update([
+        //         'anime_id' => $anime,
+        //         'genre_id' => $genre_id,
+        //         'created_at' => now()
+        //     ]);
+        // }
+
+        return redirect()->back()->with('success', 'Anime modifié avec succès');
     }
 
     /**
