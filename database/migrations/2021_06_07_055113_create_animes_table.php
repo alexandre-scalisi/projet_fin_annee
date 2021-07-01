@@ -22,6 +22,7 @@ class CreateAnimesTable extends Migration
             $table->string('image');
             $table->string('studio');
             $table->timestamps();
+            $table->softDeletes();
             
         });
     }

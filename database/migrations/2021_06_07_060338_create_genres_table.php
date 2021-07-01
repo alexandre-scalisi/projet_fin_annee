@@ -16,8 +16,8 @@ class CreateGenresTable extends Migration
         Schema::create('genres', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            // $table->foreignId('anime_id')->nullable()->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

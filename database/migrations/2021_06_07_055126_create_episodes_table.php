@@ -21,6 +21,7 @@ class CreateEpisodesTable extends Migration
             $table->string('wakanim')->nullable();
             $table->foreignId('anime_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

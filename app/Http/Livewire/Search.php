@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Anime;
+use Illuminate\Support\Arr;
 use Livewire\Component;
 
 class Search extends Component
@@ -10,19 +11,43 @@ class Search extends Component
     public $search;
     public $results;
 
-    public function mount() {
-        
-
-        
-    //     $result = Anime::orderBy('title')->paginate();
-    //     $sorted_result =$result->getCollection()->sort(function($a, $b) {
-    //             return $a->title[0] !== 'A';  
-    //    })->values();
-
-
-    }
+    
     public function test() {
+       
+
+        $array_words = explode(' ', $this->search);
+        $new = collect($array_words)->reduce(function($a, $b) {
+            return $a . "%$b%";
+        });
+        if($this->search === '')
+            return;
+
+        $first_letter = $this->search[0] ?? '';
+        $collections = Anime::where('title', 'LIKE', "%$new%")->get()->groupBy(function($a) use($first_letter){
+           
+            return ucfirst($a->title[0]) === ucfirst($first_letter);
+        });
+
+        $firstLetterCollection = $collections[1] ?? collect([]);
+        $restCollection = $collections[0] ?? collect([]);
         
+        if(empty($restCollection)) {
+            $this->results = [];
+            return;
+        }
+        $restCollection = $restCollection->sortBy('title');
+    
+        if(!empty($firstLetterCollection)) 
+            $firstLetterCollection = $firstLetterCollection->sortBy('title');
+        
+
+        
+        
+    
+        $this->results = $firstLetterCollection->merge($restCollection)->take(6);
+
+
+     return;
         $array_words = explode(' ', $this->search);
         $new = collect($array_words)->reduce(function($a, $b) {
             return $a . "%$b%";
@@ -30,13 +55,7 @@ class Search extends Component
         if($this->search === '')
             return;
         // if(empty($this->search))
-            // return;
-        $first_letter = $this->search[0] ?? '';
-    //    $this->results = Anime::orderBy('title', 'asc')->where('title','LIKE',$new)->take(5)->get();
-       $this->results = Anime::orderBy('title')->where('title', 'LIKE', $new)->get()->sort(function($a, $b) use( $first_letter ) {
-        // return $a[0]->title[0] !== "A";
-        return ucfirst($a->title[0]) !== ucfirst($first_letter);
-    })->take(5);
+
     }
 
     public function render()
