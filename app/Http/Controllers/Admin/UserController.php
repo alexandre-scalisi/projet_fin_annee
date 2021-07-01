@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use App\Actions\Fortify\CreateNewUserWithRole;
+use App\Actions\Jetstream\DeleteUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use Laravel\Jetstream\Jetstream;
 
 class UserController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        
         $users = $this->search();
         return view('admin.users.index', compact('users'));
     }
@@ -26,7 +33,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('admin.users.create'); 
     }
 
     /**
@@ -37,7 +45,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_create = new CreateNewUserWithRole();
+        $user_create->create($request->only('name', 'email', 'password', 'password_confirmation', 'role'));
+        return redirect()->back()->with('success', 'Utilisateur créé avec succès');
     }
 
     /**
@@ -48,7 +58,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        
     }
 
     /**
@@ -82,7 +93,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+       
+        new DeleteUser();
     }
 
     private function search() {
