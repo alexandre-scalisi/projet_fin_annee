@@ -1,4 +1,4 @@
-<div x-data="{show: false}" @keydown.escape="reboot(); show=false">
+<div x-data="{show: false}" @keydown.escape="reboot(); show=false" class="relative">
     <button type="button" class="bg-blue-400 text-gray-50 px-3 py-2 rounded-full mb-4" @click.prevent="show=!show">Choisissez vos catégories</button>
     
     <div x-show="show" class="z-50 relative">
@@ -16,6 +16,12 @@
                 <button type="button" @click="save(); show= false" class="bg-blue-700 text-gray-100 px-3 py-2 mt-2">sauvegarder</button>
                 <button @click.prevent="reboot(); show= false"class="bg-red-700 text-gray-100 px-3 py-2 mt-2">Fermer</button>
             </div>
+        </div>
+    </div>
+    <div class="absolute">
+        <div>@foreach ($genres as $genre)
+            {{ $genre->name }}
+        @endforeach
         </div>
     </div>
     <script> 

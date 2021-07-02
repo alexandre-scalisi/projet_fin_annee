@@ -6,6 +6,11 @@ use Laravel\Jetstream\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
 {
+
+    function __construct()
+    {
+        return;
+    }
     /**
      * Delete the given user.
      *

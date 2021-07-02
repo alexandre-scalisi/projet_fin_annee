@@ -127,7 +127,7 @@ class AnimeController extends Controller
             dd('test');
             Storage::delete($request->file); // If $file is path to old image
         
-            $employee->file = $request->file('file')->store('name-of-folder');
+            $request->file('file')->store('name-of-folder');
         }
 
         $validatedAnime = $request->validate([

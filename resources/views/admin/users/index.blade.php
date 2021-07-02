@@ -16,7 +16,7 @@
                 <th><a href="{{ h_sort_table('email', 'desc') }}" class="px-5 py-2 inline-block w-full">Email</a></th>
                 <th><a href="{{ h_sort_table('name', 'desc') }}" class="px-5 py-2 inline-block w-full">Nom</a></th>
                 <th><a href="{{ h_sort_table('role', 'desc') }}" class="px-5 py-2 inline-block w-full">Role</a></th>
-                <th><a href="{{ h_sort_table('release_date', 'desc') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>  
+                <th><a href="{{ h_sort_table('created_at', 'desc') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>  
                 <th class="px-5 py-2 inline-block w-full">Action</th>
             </tr>
         </thead>
@@ -34,14 +34,25 @@
                 </td>
                 <td class="px-5 py-3">{{ $user->role }}</td>
                 <td class="px-5 py-3">{{ $user->created_at }}</td>
-                <td class="px-5 py-3">
+                <td class="px-5 py-3" x-data="{show: false}">
                     <a href="{{ route('admin.users.show', $user->id) }}" class="fa fa-eye mr-2">
                     </a>
-                    <a href="{{ route('admin.users.show', $user->id) }}" class="fa fa-edit mr-2 text-yellow-500">
+                    <a href="{{ route('admin.users.update', $user->id) }}" class="fa fa-edit mr-2 text-yellow-500">
                     </a>
-                    <a href="{{ route('admin.users.destroy', $user->id) }}" class="fa fa-trash mr-2 text-red-500"onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
-                    </a>
-                   
+                    
+                    <button @click.prevent="show=true" class="fa fa-trash mr-2 text-red-500">
+                    </button>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="post" x-show="show">
+                        <div class="modal-body">
+                            @csrf
+                            @method('DELETE')
+                            <h5 class="text-center">Are you sure you want to delete {{ $user->name }} ?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Yes, Delete Project</button>
+                        </div>
+                    </form>
                 </td>
             </tr>
             @endforeach

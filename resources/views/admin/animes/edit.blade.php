@@ -5,7 +5,7 @@
         @method('PUT')
         <div class="block mb-4">
         <label for="title">titre</label>
-        <input type="text" name="title" id="title">
+        <input type="text" name="title" id="title" value="{{ $anime->title }}">
         
         </div>
         
@@ -16,7 +16,7 @@
         </div>
         <div class="block mb-4">
         <label for="synopsis">synopsis</label>
-        <textarea name="synopsis" id="synopsis"></textarea>
+        <textarea name="synopsis" id="synopsis">{{ $anime->synopsis }}</textarea>
         </div>
         <div class="text-red-500">
         @error('synopsis')
@@ -24,8 +24,8 @@
             @enderror
         </div>
         <div class="block mb-4">
-            <label for="release_date">release_date</label>
-            <input type="date" name="release_date" id="release_date">
+            <label for="release_date">Date de sortie</label>
+            <input type="date" name="release_date" id="release_date" value="{{ date('Y-m-d', strtotime($anime->release_date)) }}">
         </div>
         <div class="text-red-500">
         @error('release_date')
@@ -34,7 +34,7 @@
         </div>
         <div class="block mb-4">
             <label for="studio">studio</label>
-            <input type="text" name="studio" id="studio">
+            <input type="text" name="studio" id="studio" value="{{ $anime->studio }}">
         </div>
         <div class="text-red-500"> 
         @error('studio')

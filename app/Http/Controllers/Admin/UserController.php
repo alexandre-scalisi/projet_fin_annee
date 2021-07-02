@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Actions\Fortify\CreateNewUserWithRole;
+use App\Actions\Jetstream\DeleteTeam;
 use App\Actions\Jetstream\DeleteUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -93,8 +94,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-       
-        new DeleteUser();
+      
+        $deleteUser = new DeleteUser();
+        $deleteUser->delete(User::find($id));
     }
 
     private function search() {
