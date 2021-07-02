@@ -51,9 +51,6 @@ class AnimeController extends Controller
         $image_name =  uniqid('img_', true);
         $image_fullname = $image_name.'.'.$image_extension;
 
-        $validatedImage = $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000'
-        ]);
 
         $validatedAnime = $request->validate([
             'title' => 'required|string|min:2|max:80|unique:animes,title',
@@ -109,7 +106,8 @@ class AnimeController extends Controller
     public function edit($id)
     {   
         $anime = Anime::find($id);
-        return view('admin.animes.edit', compact('anime'));
+        $edit_genres = $anime->genres->pluck('id')->toArray();
+        return view('admin.animes.edit', compact('anime', 'edit_genres'));
     }
 
     /**
@@ -122,29 +120,39 @@ class AnimeController extends Controller
     public function update(Request $request, $id)
     {
  
+        $anime = Anime::find(3918);
         if ($request->hasFile('images')) {
 
-            dd('test');
+            $image_extension = $request->file('image')->extension();
+            $image_path = 'public/images';
+            $image_name =  uniqid('img_', true);
+            $image_fullname = $image_name.'.'.$image_extension;
             Storage::delete($request->file); // If $file is path to old image
-        
-            $request->file('file')->store('name-of-folder');
+            
+            $request->file('image')->storeAs($image_path, $image_fullname);
         }
+        
 
         $validatedAnime = $request->validate([
             'title' => 'required|string|min:2|max:80|unique:animes,title,'.$id,
             'synopsis' => 'required|string|min:5|max:2000',
             'release_date' => 'required|date',
             'studio' => 'required|string|max:80',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000',
          ]);
         
-        $validatedGenres = $request->validate([
-            'genre' => 'required|array',
-            'genre.*' => 'required|string|exists:genres,id'
-        ]);
-        // dd($validatedGenres);
-        $anime = Anime::find($id);
-        $anime->update($validatedAnime);
+        
+         
+         $validatedGenres = $request->validate([
+             'genre' => 'required|array',
+             'genre.*' => 'required|string|exists:genres,id'
+            ]);
+            // dd($validatedGenres);
+            $anime = Anime::find($id);
+            $anime->update($validatedAnime);
+            if($request->file('image')) {
+                
+                $anime->update( $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000'])); 
+            }
         $anime->genres()->sync(Arr::first($validatedGenres));
         // $anime = DB::table('animes')->updateGetId(array_merge($validatedAnime, ['updated_at' => now()]));
 

@@ -4,7 +4,6 @@
         <form method="GET" id="form">
 
             <input type="text" name="q" placeholder="Titre" class="block">
-            <x-genre-modal />
             <div class="block">
                 <label for="minrating">min rating</label>
                 <select name="minrating" id="minrating" x-data="" x-init="
@@ -12,33 +11,34 @@
                 found = [...$el.options].some((e) => e.value === minrating);
                 $el.value = found ? minrating : 0
                 ">
-                    @foreach(range(0, 5) as $num)
-
-                    <option value="{{ $num }}">{{ $num }}</option>
-
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="block">
-                <label for="orderby">trier par</label>
-                <select name="order_by" id="orderby" x-data="" x-init="
-                order_by = '{{ request()->query()['order_by'] ?? ''}}';
-                found = [...$el.options].some((e) => e.value === order_by);
-                $el.value = found ? order_by : 'title'
-                ">
-                    {{-- TODO rendre plus propre --}}
-                    <option value="title">nom &uparrow;</option>
-                    <option value="vote">note &downarrow;</option>
-                    <option value="release_date">date de sortie &downarrow;</option>
-                    <option value="upload_date">rajouté le &downarrow;</option>
-                </select>
-                <input type="hidden" name="tab" id="tab">
-                <input type="checkbox" name="d" id="direction"
-                    {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
-                <label for="direction">inverser direction</label>
-            </div>
-
+                @foreach(range(0, 5) as $num)
+                
+                <option value="{{ $num }}">{{ $num }}</option>
+                
+                @endforeach
+            </select>
+        </div>
+        
+        <div class="block">
+            <label for="orderby">trier par</label>
+            <select name="order_by" id="orderby" x-data="" x-init="
+            order_by = '{{ request()->query()['order_by'] ?? ''}}';
+            found = [...$el.options].some((e) => e.value === order_by);
+            $el.value = found ? order_by : 'title'
+            ">
+            {{-- TODO rendre plus propre --}}
+            <option value="title">nom &uparrow;</option>
+            <option value="vote">note &downarrow;</option>
+            <option value="release_date">date de sortie &downarrow;</option>
+            <option value="upload_date">rajouté le &downarrow;</option>
+        </select>
+        <input type="hidden" name="tab" id="tab">
+        <input type="checkbox" name="d" id="direction"
+        {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
+        <label for="direction">inverser direction</label>
+        <x-genre-modal />
+    </div>
+    
             <button class="bg-blue-400 text-base mr-3">Rechercher</button>
         </form>
 

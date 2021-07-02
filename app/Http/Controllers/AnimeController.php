@@ -67,7 +67,7 @@ class AnimeController extends Controller
      */
     public function edit(Anime $anime)
     {
-        //
+        
     }
 
     /**
@@ -79,7 +79,7 @@ class AnimeController extends Controller
      */
     public function update(Request $request, Anime $anime)
     {
-        //
+        
     }
 
     /**
