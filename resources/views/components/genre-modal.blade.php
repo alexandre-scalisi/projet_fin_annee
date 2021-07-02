@@ -1,35 +1,6 @@
 <div x-data="{show: false, tooltip: false}"  @keydown.escape="reboot(); show=false;" class="relative">
-    <style>
-
-        .tooltip {
-            bottom: 110%;
-        }
-
-        .tooltip-triangle {
-            position:absolute;
-            bottom: 0;
-            left: 50px;
-            transform: translateY(115%);
-            width: 0; 
-            height: 0; 
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid #333;
-            z-index: 1000;
-        }
-        .tooltip-triangle::after {
-            content: '';
-            position:absolute;
-            bottom: 2px;
-            left: -12px;
-            width: 0; 
-            height: 0; 
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 12px solid rgba(248, 113, 113, 1);
-        }
-    </style>
-    <button type="button" class="bg-blue-400 text-gray-50 px-3 py-2 rounded-full mb-4" @mouseout="" @mouseenter="tooltip=true" @click.prevent="show=!show">Choisissez vos catégories</button>
+   
+    <button type="button" class="bg-blue-400 text-gray-50 px-3 py-2 rounded-full mb-4" @mouseout="tooltip=false" @mouseenter="tooltip=true" @click.prevent="show=!show">Choisissez vos catégories</button>
     
     <div x-show="show" class="z-50 relative">
         <div class="fixed bg-gray-800 bg-opacity-95 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
@@ -48,12 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="tooltip absolute bg-red-400 px-4 py-3 max-w-xs border-2 border-gray-700">
-        <span class="tooltip-triangle"></span>
-        <div id="tooltip-text">
-            
-        </div>
-    </div>
+    <x-tooltip main-color="red-400" secondary-color="gray-800"/>
     
     <script> 
     let checked = [...document.querySelectorAll('input')].filter(e => e.checked);
@@ -85,7 +51,7 @@
     function getCheckedLabelsText() {
         labels = checked.map(c => c.parentElement.getElementsByTagName('label')[0].innerText)
         if(labels.length === 0) {
-            tooltipText.innerText = '';
+            tooltipText.innerText = "Veuillez selectionner des catégories";
             return;
         }
         tooltipText.innerText = labels.reduce((a, b) => `${a}, ${b}`);                
