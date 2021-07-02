@@ -48,23 +48,28 @@ class SearchController extends Controller
         
         $this->query = $this->query->withAvg('votes', 'vote')
                                    ->having('votes_avg_vote', '>=', $request);
+        
         return $this;
     }
 
 
     private function searchByGenre() {
+        
         if(!isset($this->request['genre']))
+        
             return $this;
         $request = $this->request['genre'];
 
         $this->query = $this->query->whereHas('genres', function($query) use ($request) {
-            return $query->whereIn('id',$request);
+            
+            return $query->whereIn('genre_id',$request);
         });
         return $this;
     }
 
 
     private function searchBySelect() {
+        
         $this->order_by = $this->request->order_by ?? '';
 
         $this->tab = $this->request->query()['tab'] ?? '';
@@ -105,7 +110,6 @@ class SearchController extends Controller
             $order_by = $this->request->order_by ?? '';
             $d = $this->request->d != null && $this->request->d === 'on' ? false : true; 
             $order_by = in_array($order_by, ['vote', 'release_date', 'upload_date']) ? $order_by : 'title';
-
             switch($order_by) {
                 case 'vote': 
                     
@@ -116,34 +120,38 @@ class SearchController extends Controller
                     ->groupBy(function ($anime) {
                         return $anime->votes->count() > 0 ? (int)$anime["votes_avg_vote"] : 'Pas de vote' ;
                     });
-
-                break;
-            case 'release_date': 
-                $this->query = $this->query->
-                orderBy('release_date', $d ? 'desc' : 'asc' )
-                ->get()
-                ->groupBy(function ($anime) {
                     
-                    return Str::ucfirst(Carbon::parse($anime->release_date)->formatLocalized('%B %Y'));
-                    
-                });
-
-                break;
-            case 'upload_date': 
-                $this->query = $this->query
-                ->orderBy('created_at', $d ? 'desc' : 'asc' )
-                ->get()
-                ->groupBy(function ($anime) {
-                    return Str::ucfirst($anime->created_at->formatLocalized('%B, %Y'));
-                    
-                });
-                
-                break;
-            default:
-                $this->query = $this->query
-                                ->orderBy('title', $d ? 'asc' : 'desc')
-                                ->get()
-                                ->groupBy(function($anime) {
+                    break;
+                    case 'release_date': 
+                        $this->query = $this->query->
+                        orderBy('release_date', $d ? 'desc' : 'asc' )
+                        ->get()
+                        ->groupBy(function ($anime) {
+                            
+                            return Str::ucfirst(Carbon::parse($anime->release_date)->formatLocalized('%B %Y'));
+                            
+                        });
+                        
+                        break;
+                        case 'upload_date': 
+                            // dd($this->query);
+                            $this->query = $this->query
+                            ->orderBy('created_at', $d ? 'desc' : 'asc' )
+                            ->get()
+                            ->groupBy(function ($anime) {
+                                
+                                return Str::ucfirst($anime->created_at->formatLocalized('%B, %Y'));
+                                
+                            });
+                            
+                            
+                            break;
+                            default:
+                            
+                            $this->query = $this->query
+                            ->orderBy('title', $d ? 'asc' : 'desc')
+                            ->get()
+                            ->groupBy(function($anime) {
                                     return preg_match('/[a-zA-Z]/',$anime['title'][0]) ? $anime['title'][0] : 'Autres';
                                 });
                                 
