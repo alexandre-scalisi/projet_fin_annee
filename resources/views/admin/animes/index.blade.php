@@ -1,10 +1,12 @@
 <x-layouts.admin>
+    
+    {{-- <x-delete-modal :action="{{ route('') }}"/> --}}
     <h1 class="text-2xl border-b-4 border-gray-800">Tous les animes</h1>
     <div class="flex items-center justify-between">
-    <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
+        <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
         <div class="w-72">
-
-        @livewire('search')
+            
+            @livewire('search')
         </div>
     </div>
     <table class="table-auto w-full px-4 mb-4">
@@ -37,8 +39,11 @@
                     </a>
                     <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2">
                     </a>
-                    <a href="{{ route('admin.animes.destroy', $anime->id) }}" class="fa fa-trash text-red-500" onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
-                    </a>
+                    {{-- <a href="{{ route('admin.animes.destroy', $anime->id) }}"  onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
+                    </a> --}}
+                    <div x-data="{show: false}" class="fa fa-trash text-red-500" @click="show=true">
+                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" />
+                    </div>
                 </td>
             </tr>
             @endforeach
