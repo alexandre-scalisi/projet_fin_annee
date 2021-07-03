@@ -25,8 +25,8 @@ class AnimeController extends Controller
     {
         
         $animes = $this->search();
-
-        return view('admin.animes.index', compact('animes'));
+        $type = 'Anime';        
+        return view('admin.animes.index', compact('animes', 'type'));
     }
 
     /**
@@ -177,6 +177,7 @@ class AnimeController extends Controller
     public function destroy($id)
     {
         Anime::find($id)->delete();
+        return redirect()->back()->with('success', 'Anime supprimé avec succès');
     }
 
     

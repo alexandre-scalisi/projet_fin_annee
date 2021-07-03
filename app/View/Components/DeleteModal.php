@@ -7,14 +7,16 @@ use Illuminate\View\Component;
 class DeleteModal extends Component
 {
     public $action;
+    public $type;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($action)
+    public function __construct($action, $type)
     {
         $this->action = $action;
+        $this->type=$type;
     }
 
     /**

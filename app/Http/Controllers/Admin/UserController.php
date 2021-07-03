@@ -24,7 +24,8 @@ class UserController extends Controller
     {
         
         $users = $this->search();
-        return view('admin.users.index', compact('users'));
+        $type = 'Utilisateur';
+        return view('admin.users.index', compact('users', 'type'));
     }
 
     /**
@@ -97,6 +98,8 @@ class UserController extends Controller
       
         $deleteUser = new DeleteUser();
         $deleteUser->delete(User::find($id));
+
+        return redirect()->back()->with('success', 'Utilisateur Supprimé avec succès');
     }
 
     private function search() {

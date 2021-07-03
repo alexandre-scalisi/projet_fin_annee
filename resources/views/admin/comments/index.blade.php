@@ -29,10 +29,13 @@
                         
                     <a/>
                 </td>
-                <td class="px-5 py-3">
+                <td class="px-5 py-3 relative" x-data="{tooltip: false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                     {{ h_truncate ($comment->body, 10) }}
+                    <x-tooltip left="20px" top="-40px">
+                        {{ $comment->body }}
+                    </x-tooltip>
                 </td>
-                <td class="px-5 py-3">{{ $comment->created_at }}</td>
+                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $comment->created_at)->format('d-m-y') }}</td>
                 <td class="px-5 py-3">
                     <a href="{{ route('admin.comments.show', $comment->id) }}" class="fa fa-eye mr-2">
                     </a>

@@ -31,30 +31,30 @@
                         {{ $anime->title }}
                     </a>
                 </td>
-                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-Y') }}</td>
-                <td class="px-5 py-3">{{ $anime->created_at }}</td>
+                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-y') }}</td>
+                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->created_at)->format('d-m-y') }}</td>
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
-                <td class="px-5 py-3 flex items-center justify-center" x-data="{modal: false, tooltip: false}">
+                <td class="px-5 py-3" x-data="{modal: false, tooltip: false}">
                     <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                        <x-tooltip>
+                        <x-tooltip left="-10px">
                             Voir
                         </x-tooltip>
                     </a>
                     <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                        <x-tooltip>
+                        <x-tooltip left="-20px">
                             Editer
                         </x-tooltip>
                     </a>
                     
                     <a class="fa fa-trash text-red-500 cursor-pointer relative mr-2" @click="modal=true" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                        <x-tooltip>
+                        <x-tooltip left="-30px">
                             Supprimer
                         </x-tooltip>
                     </a>
-                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)"/>
+                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" :type="$type"/>
                     <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                        <x-tooltip>
+                        <x-tooltip left="-30px">
                             Ajouter épisode
                         </x-tooltip>
                     </a>
