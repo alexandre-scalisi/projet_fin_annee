@@ -3901,48 +3901,45 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 window.genreModal = function () {
-  console.log('test');
-
-  var checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
-    return e.checked;
-  });
-
-  var tooltipText = document.getElementById('tooltip-text');
-  getCheckedLabelsText();
-
-  function save() {
-    checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
+  return {
+    checked: _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
       return e.checked;
-    });
-    getCheckedLabelsText();
-  }
+    }),
+    tooltipText: document.getElementById('tooltip-text'),
+    save: function save() {
+      this.checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
+        return e.checked;
+      });
+      this.getCheckedLabelsText();
+    },
+    reboot: function reboot() {
+      var _this = this;
 
-  function reboot() {
-    checked = _toConsumableArray(document.querySelectorAll('[name="genre[]"]')).filter(function (e) {
-      if (_toConsumableArray(checked).includes(e)) {
-        e.checked = true;
-        return true;
-      } else e.checked = false;
+      this.checked = _toConsumableArray(document.querySelectorAll('[name="genre[]"]')).filter(function (e) {
+        if (_toConsumableArray(_this.checked).includes(e)) {
+          e.checked = true;
+          return true;
+        } else e.checked = false;
 
-      return false;
-    });
-    getCheckedLabelsText();
-  }
+        return false;
+      });
+      this.getCheckedLabelsText();
+    },
+    getCheckedLabelsText: function getCheckedLabelsText() {
+      labels = this.checked.map(function (c) {
+        return c.parentElement.getElementsByTagName('label')[0].innerText;
+      });
 
-  function getCheckedLabelsText() {
-    labels = checked.map(function (c) {
-      return c.parentElement.getElementsByTagName('label')[0].innerText;
-    });
+      if (labels.length === 0) {
+        this.tooltipText.innerText = "Veuillez selectionner des catégories";
+        return;
+      }
 
-    if (labels.length === 0) {
-      tooltipText.innerText = "Veuillez selectionner des catégories";
-      return;
+      this.tooltipText.innerText = labels.reduce(function (a, b) {
+        return "".concat(a, ", ").concat(b);
+      });
     }
-
-    tooltipText.innerText = labels.reduce(function (a, b) {
-      return "".concat(a, ", ").concat(b);
-    });
-  }
+  };
 };
 
 /***/ }),
