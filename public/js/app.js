@@ -3800,6 +3800,10 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./genreModal */ "./resources/js/genreModal.js");
+
+__webpack_require__(/*! ./edit */ "./resources/js/edit.js");
+
 __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
 var Turbolinks = __webpack_require__(/*! turbolinks */ "./node_modules/turbolinks/dist/turbolinks.js");
@@ -3836,6 +3840,110 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/edit.js":
+/*!******************************!*\
+  !*** ./resources/js/edit.js ***!
+  \******************************/
+/***/ (() => {
+
+window.edit = function () {
+  var file = document.getElementById('image-input');
+  var acceptedExtensions = ['jpg', 'jpeg', 'png'];
+  var previewBox = document.getElementById('preview-box');
+  var img = document.getElementById('image');
+  var imgInput = document.getElementById('image-input');
+  var invalidMsg = document.getElementById('invalid-msg');
+  file.addEventListener('change', validateImage);
+  if (img.src != '') previewBox.classList.remove('hidden');
+
+  function validateImage() {
+    var ext = imgInput.value.split('.').pop().toLowerCase();
+
+    if (acceptedExtensions.includes(ext)) {
+      previewBox.classList.remove('hidden');
+      img.src = URL.createObjectURL(this.files[0]);
+      invalidMsg.classList.add('hidden');
+      return;
+    } else {
+      deleteImage();
+      invalidMsg.classList.remove('hidden');
+    }
+  }
+
+  function deleteImage() {
+    imgInput.value = '';
+    img.src = '';
+    previewBox.classList.add('hidden');
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/genreModal.js":
+/*!************************************!*\
+  !*** ./resources/js/genreModal.js ***!
+  \************************************/
+/***/ (() => {
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+window.genreModal = function () {
+  console.log('test');
+
+  var checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
+    return e.checked;
+  });
+
+  var tooltipText = document.getElementById('tooltip-text');
+  getCheckedLabelsText();
+
+  function save() {
+    checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
+      return e.checked;
+    });
+    getCheckedLabelsText();
+  }
+
+  function reboot() {
+    checked = _toConsumableArray(document.querySelectorAll('[name="genre[]"]')).filter(function (e) {
+      if (_toConsumableArray(checked).includes(e)) {
+        e.checked = true;
+        return true;
+      } else e.checked = false;
+
+      return false;
+    });
+    getCheckedLabelsText();
+  }
+
+  function getCheckedLabelsText() {
+    labels = checked.map(function (c) {
+      return c.parentElement.getElementsByTagName('label')[0].innerText;
+    });
+
+    if (labels.length === 0) {
+      tooltipText.innerText = "Veuillez selectionner des catégories";
+      return;
+    }
+
+    tooltipText.innerText = labels.reduce(function (a, b) {
+      return "".concat(a, ", ").concat(b);
+    });
+  }
+};
 
 /***/ }),
 

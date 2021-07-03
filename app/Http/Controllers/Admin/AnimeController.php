@@ -9,6 +9,7 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\Input;
@@ -120,15 +121,17 @@ class AnimeController extends Controller
     public function update(Request $request, $id)
     {
  
-        $anime = Anime::find(3918);
-        if ($request->hasFile('images')) {
-
+        $anime = Anime::find($id);
+        
+        if ($request->hasFile('image')) {
+            $validatedImage = $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000']);
+            File::delete(asset('images/'. $anime->image));
+            dd('test');
+            $anime->update(['image' => $validatedImage]);
             $image_extension = $request->file('image')->extension();
             $image_path = 'public/images';
             $image_name =  uniqid('img_', true);
             $image_fullname = $image_name.'.'.$image_extension;
-            Storage::delete($request->file); // If $file is path to old image
-            
             $request->file('image')->storeAs($image_path, $image_fullname);
         }
         
@@ -149,10 +152,7 @@ class AnimeController extends Controller
             // dd($validatedGenres);
             $anime = Anime::find($id);
             $anime->update($validatedAnime);
-            if($request->file('image')) {
-                
-                $anime->update( $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000'])); 
-            }
+            
         $anime->genres()->sync(Arr::first($validatedGenres));
         // $anime = DB::table('animes')->updateGetId(array_merge($validatedAnime, ['updated_at' => now()]));
 
