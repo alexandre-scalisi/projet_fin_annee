@@ -58,14 +58,15 @@ class AnimeController extends Controller
             'synopsis' => 'required|string|min:5|max:2000',
             'release_date' => 'required|date',
             'studio' => 'required|string|max:80',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:4000',
         ]);
         
+        $validatedImage = $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000']);
+
         $validatedGenres = $request->validate([
             'genre' => 'required|array',
             'genre.*' => 'required|string|exists:genres,id'
         ]);
-
+        dd($image_fullname);
         $anime = DB::table('animes')->insertGetId(array_merge($validatedAnime, ['created_at' => now(), 'image' => $image_fullname]));
 
         $request->file('image')->storeAs($image_path, $image_fullname);
@@ -122,10 +123,11 @@ class AnimeController extends Controller
     {
  
         $anime = Anime::find($id);
-        
+        Storage::delete('images/'.$anime->image);
+        dd(asset('storage/images/'. $anime->image));
         if ($request->hasFile('image')) {
             $validatedImage = $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000']);
-            File::delete(asset('images/'. $anime->image));
+            File::delete(asset('storage/images/'. $anime->image));
             dd('test');
             $anime->update(['image' => $validatedImage]);
             $image_extension = $request->file('image')->extension();

@@ -3850,34 +3850,36 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (() => {
 
 window.edit = function () {
-  var file = document.getElementById('image-input');
-  var acceptedExtensions = ['jpg', 'jpeg', 'png'];
-  var previewBox = document.getElementById('preview-box');
-  var img = document.getElementById('image');
-  var imgInput = document.getElementById('image-input');
-  var invalidMsg = document.getElementById('invalid-msg');
-  file.addEventListener('change', validateImage);
-  if (img.src != '') previewBox.classList.remove('hidden');
+  return {
+    file: document.getElementById('image-input'),
+    acceptedExtensions: ['jpg', 'jpeg', 'png'],
+    previewBox: document.getElementById('preview-box'),
+    img: document.getElementById('image'),
+    imgInput: document.getElementById('image-input'),
+    invalidMsg: document.getElementById('invalid-msg'),
+    init: function init() {
+      this.file.addEventListener('change', this.validateImage.bind(this));
+      if (this.img.src != '') this.previewBox.classList.remove('hidden');
+    },
+    validateImage: function validateImage() {
+      var ext = this.imgInput.value.split('.').pop().toLowerCase();
 
-  function validateImage() {
-    var ext = imgInput.value.split('.').pop().toLowerCase();
-
-    if (acceptedExtensions.includes(ext)) {
-      previewBox.classList.remove('hidden');
-      img.src = URL.createObjectURL(this.files[0]);
-      invalidMsg.classList.add('hidden');
-      return;
-    } else {
-      deleteImage();
-      invalidMsg.classList.remove('hidden');
+      if (this.acceptedExtensions.includes(ext)) {
+        this.previewBox.classList.remove('hidden');
+        this.img.src = URL.createObjectURL(this.imgInput.files[0]);
+        this.invalidMsg.classList.add('hidden');
+        return;
+      } else {
+        this.deleteImage();
+        this.invalidMsg.classList.remove('hidden');
+      }
+    },
+    deleteImage: function deleteImage() {
+      this.imgInput.value = '';
+      this.img.src = '';
+      this.previewBox.classList.add('hidden');
     }
-  }
-
-  function deleteImage() {
-    imgInput.value = '';
-    img.src = '';
-    previewBox.classList.add('hidden');
-  }
+  };
 };
 
 /***/ }),
@@ -3906,12 +3908,14 @@ window.genreModal = function () {
       return e.checked;
     }),
     tooltipText: document.getElementById('tooltip-text'),
+    //save current checked
     save: function save() {
       this.checked = _toConsumableArray(document.querySelectorAll('input')).filter(function (e) {
         return e.checked;
       });
       this.getCheckedLabelsText();
     },
+    //cancel unsaved checked
     reboot: function reboot() {
       var _this = this;
 
@@ -3925,6 +3929,7 @@ window.genreModal = function () {
       });
       this.getCheckedLabelsText();
     },
+    //get tooltiptext
     getCheckedLabelsText: function getCheckedLabelsText() {
       labels = this.checked.map(function (c) {
         return c.parentElement.getElementsByTagName('label')[0].innerText;

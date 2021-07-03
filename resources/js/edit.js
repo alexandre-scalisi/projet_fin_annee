@@ -1,38 +1,43 @@
 window.edit = () => {
 
-    const file = document.getElementById('image-input');
-    const acceptedExtensions = ['jpg', 'jpeg', 'png'];
-    const previewBox = document.getElementById('preview-box');
-    const img = document.getElementById('image');
-    const imgInput = document.getElementById('image-input')
-    const invalidMsg = document.getElementById('invalid-msg');
+    return {
 
-    file.addEventListener('change', validateImage);
-    if (img.src != '') previewBox.classList.remove('hidden');
+        file: document.getElementById('image-input'),
+        acceptedExtensions: ['jpg', 'jpeg', 'png'],
+        previewBox: document.getElementById('preview-box'),
+        img: document.getElementById('image'),
+        imgInput: document.getElementById('image-input'),
+        invalidMsg: document.getElementById('invalid-msg'),
+        
 
-    function validateImage() {
+        init() {
+            this.file.addEventListener('change', this.validateImage.bind(this));
+            if (this.img.src != '') this.previewBox.classList.remove('hidden');
+        },
 
-        const ext = imgInput.value.split('.').pop().toLowerCase();
+        validateImage() {
+            
+            const ext = this.imgInput.value.split('.').pop().toLowerCase();
 
+            if (this.acceptedExtensions.includes(ext)) {
+                this.previewBox.classList.remove('hidden');
+                this.img.src = URL.createObjectURL(this.imgInput.files[0]);
+                this.invalidMsg.classList.add('hidden');
+                return;
+            } else {
 
+                this.deleteImage();
+                this.invalidMsg.classList.remove('hidden');
+            }
+        },
 
-        if (acceptedExtensions.includes(ext)) {
-            previewBox.classList.remove('hidden');
-            img.src = URL.createObjectURL(this.files[0]);
-            invalidMsg.classList.add('hidden');
-            return;
-        } else {
-
-            deleteImage();
-            invalidMsg.classList.remove('hidden');
+        deleteImage() {
+            this.imgInput.value = '';
+            this.img.src = '';
+            this.previewBox.classList.add('hidden');
         }
-    }
 
-    function deleteImage() {
-        imgInput.value = '';
-        img.src = '';
-        previewBox.classList.add('hidden');
-    }
 
+    }
 
 }

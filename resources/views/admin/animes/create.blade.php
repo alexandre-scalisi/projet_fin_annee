@@ -41,10 +41,10 @@
             {{ $message }}
             @enderror
         </div>
-        <div class="block mb-4">
+        <div class="block mb-4" x-data="{ obj: window.edit() }" x-init="obj.init()">
             <input type="file" name="image" accept="image/*" id="image-input">
             <div class="w-48 h-28 relative hidden" id="preview-box">
-                <button x-data="" @click.prevent="deleteImage()" class="absolute right-4 z-50 text-red-600 text-2xl" style="text-shadow: 1px 1px 2px black;">&times;</button>
+                <button @click.prevent="obj.deleteImage()" class="absolute right-4 z-50 text-red-600 text-2xl" style="text-shadow: 1px 1px 2px black;">&times;</button>
                 <img id="image" class="w-full h-full">
             </div>
             <p class="text-red-500 hidden" id="invalid-msg">Format invalide, formats autorisés: jpg, jpeg, png</p>
