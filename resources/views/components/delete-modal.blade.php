@@ -1,11 +1,5 @@
-<div x-data="{show:false, tooltip: false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false"class="relative">
-    <x-tooltip>
-        Supprimer
-    </x-tooltip>
-    <i class="fa fa-trash text-red-500 cursor-pointer" @click="show=true">
-        
-    </i>
-    <div class="bg-gray-900 bg-opacity-80 fixed top-0 left-0 h-screen w-screen z-50 flex flex-col items-center justify-center" x-show="show">
+<div>
+    <div class="bg-gray-900 bg-opacity-80 fixed top-0 left-0 h-screen w-screen z-50 flex flex-col items-center justify-center" x-show="modal">
 
         <form action="{{ $action }}" method="POST" class="bg-white font-sans" style="width: 21rem">
             @csrf
@@ -25,7 +19,7 @@
             
             <div class="px-4 py-3 text-lg flex justify-between">
                 <button class="bg-gray-900 px-8 py-2 rounded-full text-red-50 ">Confirmer</button>
-                <button type="button" @click="show=false" class="border-red-600 text-red-600 border rounded-full px-8 py-2">Annuler</button>
+                <button type="button" @click="modal=false" class="border-red-600 text-red-600 border rounded-full px-8 py-2">Annuler</button>
             </div>
 
         </form>

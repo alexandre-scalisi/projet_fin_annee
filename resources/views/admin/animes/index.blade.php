@@ -20,7 +20,7 @@
                 <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
                 <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote</a></th>
                 <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes</a></th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
                 <td class="px-5 py-3">{{ $anime->created_at }}</td>
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
-                <td class="px-5 py-3 flex items-center justify-center">
+                <td class="px-5 py-3 flex items-center justify-center" x-data="{modal: false, tooltip: false}">
                     <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip>
                             Voir
@@ -46,10 +46,14 @@
                             Editer
                         </x-tooltip>
                     </a>
-                    {{-- <a href="{{ route('admin.animes.destroy', $anime->id) }}"  onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
-                    </a> --}}
+                    
+                    <a class="fa fa-trash text-red-500 cursor-pointer relative mr-2" @click="modal=true" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip>
+                            Supprimer
+                        </x-tooltip>
+                    </a>
                     <x-delete-modal :action="route('admin.animes.destroy', $anime->id)"/>
-                    <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-yellow-500 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                    <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip>
                             Ajouter épisode
                         </x-tooltip>
