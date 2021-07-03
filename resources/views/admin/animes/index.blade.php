@@ -35,15 +35,25 @@
                 <td class="px-5 py-3">{{ $anime->created_at }}</td>
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
-                <td class="px-5 py-3 flex items-center">
-                    <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2">
+                <td class="px-5 py-3 flex items-center justify-center">
+                    <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip>
+                            Voir
+                        </x-tooltip>
                     </a>
-                    <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2">
+                    <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip>
+                            Editer
+                        </x-tooltip>
                     </a>
                     {{-- <a href="{{ route('admin.animes.destroy', $anime->id) }}"  onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                     </a> --}}
                     <x-delete-modal :action="route('admin.animes.destroy', $anime->id)"/>
-                    
+                    <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-yellow-500 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip>
+                            Ajouter épisode
+                        </x-tooltip>
+                    </a>
                 </td>
             </tr>
             @endforeach

@@ -1,6 +1,10 @@
-<div x-data="{show:false, tooltip: false}" class="relative" @mouseenter="tooltip=true">
-    <x-tooltip mainColor="white" secondaryColor="black" />
-    <i class="fa fa-trash text-red-500 cursor-pointer" @click="show=true"></i>
+<div x-data="{show:false, tooltip: false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false"class="relative">
+    <x-tooltip>
+        Supprimer
+    </x-tooltip>
+    <i class="fa fa-trash text-red-500 cursor-pointer" @click="show=true">
+        
+    </i>
     <div class="bg-gray-900 bg-opacity-80 fixed top-0 left-0 h-screen w-screen z-50 flex flex-col items-center justify-center" x-show="show">
 
         <form action="{{ $action }}" method="POST" class="bg-white font-sans" style="width: 21rem">
