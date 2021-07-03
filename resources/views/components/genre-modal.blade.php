@@ -26,7 +26,7 @@
             </div>
         </div>
     </div>
-    <x-tooltip main-color="red-400" secondary-color="gray-800"/>
+    <x-custom-tooltip main-color="red-400" secondary-color="gray-800"/>
     
 </div>
     

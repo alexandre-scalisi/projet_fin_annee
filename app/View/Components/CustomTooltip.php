@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Tooltip extends Component
+class CustomTooltip extends Component
 {
 
     public $mainColor;
@@ -27,6 +27,6 @@ class Tooltip extends Component
      */
     public function render()
     {
-        return view('components.tooltip');
+        return view('components.custom-tooltip');
     }
 }

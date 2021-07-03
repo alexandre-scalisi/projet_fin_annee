@@ -1,9 +1,9 @@
-.tooltip {
-    @apply absolute px-4 py-3 max-w-xs border-2 border-gray-700 w-full;
+.custom-tooltip {
+    @apply absolute px-4 py-3 max-w-xs border-2 border-gray-700 w-screen;
     bottom: 110%;
 }
 
-.tooltip-triangle {
+.custom-tooltip-triangle {
     @apply absolute bottom-0 h-0 w-0;
     bottom: 0;
     left: 50px;
@@ -14,7 +14,7 @@
     
     z-index: 1000;
 }
-.tooltip-triangle::after {
+.custom-tooltip-triangle::after {
     content: '';
     position:absolute;
     bottom: 2px;

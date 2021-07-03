@@ -1,6 +1,7 @@
 <x-layouts.admin>
-    
+
     {{-- <x-delete-modal :action="{{ route('') }}"/> --}}
+    
     <h1 class="text-2xl border-b-4 border-gray-800">Tous les animes</h1>
     <div class="flex items-center justify-between">
         <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
@@ -34,16 +35,15 @@
                 <td class="px-5 py-3">{{ $anime->created_at }}</td>
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
-                <td class="px-5 py-3">
+                <td class="px-5 py-3 flex items-center">
                     <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2">
                     </a>
                     <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2">
                     </a>
                     {{-- <a href="{{ route('admin.animes.destroy', $anime->id) }}"  onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                     </a> --}}
-                    <div x-data="{show: false}" class="fa fa-trash text-red-500" @click="show=true">
-                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" />
-                    </div>
+                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)"/>
+                    
                 </td>
             </tr>
             @endforeach

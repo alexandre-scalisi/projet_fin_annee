@@ -176,7 +176,7 @@ class AnimeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Anime::find($id)->delete();
     }
 
     

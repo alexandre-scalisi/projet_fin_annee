@@ -326,7 +326,7 @@
   line-height: 1.25rem;
 }
 
-.tooltip {
+.custom-tooltip {
   --tw-border-opacity: 1;
   border-color: rgba(55, 65, 81, var(--tw-border-opacity));
   border-width: 2px;
@@ -336,11 +336,11 @@
   padding-left: 1rem;
   padding-right: 1rem;
   position: absolute;
-  width: 100%;
+  width: 100vw;
   bottom: 110%;
 }
 
-.tooltip-triangle {
+.custom-tooltip-triangle {
   height: 0px;
   position: absolute;
   bottom: 0px;
@@ -354,7 +354,7 @@
   z-index: 1000;
 }
 
-.tooltip-triangle::after {
+.custom-tooltip-triangle::after {
   content: "";
   position: absolute;
   bottom: 2px;
