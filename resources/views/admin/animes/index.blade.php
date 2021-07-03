@@ -10,6 +10,10 @@
             @livewire('search')
         </div>
     </div>
+    <div class="flex py-2">
+        <p class="px-2 border-r border-gray-900"><a href="#">Tous</a> {{ $withoutTrashedCount }}</p>
+        <p class="px-2"><a href="#">Corbeille</a> {{ $trashedCount }}</p>
+    </div>
     <table class="table-auto w-full px-4 mb-4">
         <thead class="bg-blue-400">
             <tr class="text-left">
