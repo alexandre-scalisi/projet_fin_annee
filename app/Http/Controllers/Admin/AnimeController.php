@@ -123,18 +123,16 @@ class AnimeController extends Controller
     {
  
         $anime = Anime::find($id);
-        Storage::delete('images/'.$anime->image);
-        dd(asset('storage/images/'. $anime->image));
         if ($request->hasFile('image')) {
+
             $validatedImage = $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000']);
-            File::delete(asset('storage/images/'. $anime->image));
-            dd('test');
-            $anime->update(['image' => $validatedImage]);
+            Storage::delete('public/images/'.$anime->image);
             $image_extension = $request->file('image')->extension();
             $image_path = 'public/images';
             $image_name =  uniqid('img_', true);
             $image_fullname = $image_name.'.'.$image_extension;
             $request->file('image')->storeAs($image_path, $image_fullname);
+            $anime->update(['image' => $image_fullname]);
         }
         
 
