@@ -16,18 +16,30 @@
         <thead class="bg-blue-400">
             <tr class="text-left">
                 {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
-                
+                <th class="px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[id^=\'check-\']')}">
+                    <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
+                    @click="isChecked = $event.target.checked === true ? true : false;
+                                       [...allCheckboxes].forEach(c => c.checked = isChecked);
+                    ">
+                    <x-tooltip left="0" top="-40px">
+                        Tout cocher
+                    </x-tooltip>   
+                </th>
                 <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
                 <th><a href="{{ h_sort_table('release_date') }}" class="px-5 py-2 inline-block w-full">Date de sortie <i class="{{ h_sortArrow('release_date') }}"></i></a></th>
                 <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout <i class="{{ h_sortArrow('created_at') }}"></i></a></th>
                 <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote <i class="{{ h_sortArrow('vote') }}"></i></a></th>
                 <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes <i class="{{ h_sortArrow('episodes') }}"></i></a></th>
                 <th class="text-center">Action</th>
-            </tr>
+            </th>
         </thead>
         <tbody>
             @foreach ($animes as $anime)
+            
             <tr class="even:bg-blue-100">
+                <td class="px-3">
+                    <input type="checkbox" name="check-{{ $anime->id }}" id="check-{{ $anime->id }}">
+                </td>
                 <td>
                     <a href="{{ route('animes.show', $anime->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
                         {{ $anime->title }}
