@@ -10,6 +10,13 @@ class Episode extends Model
 {
     use HasFactory,SoftDeletes;
     
+    protected $fillable = [
+        'title',
+        'adn',
+        'crunchyroll',
+        'wakanim',
+        'anime_id'
+    ];
 
     public function anime() {
         return $this->belongsTo(Anime::class);

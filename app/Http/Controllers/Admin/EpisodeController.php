@@ -24,9 +24,10 @@ class EpisodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Anime $anime)
     {
-        //
+        $anime_id = $anime->id;  
+        return view('admin.episodes.create', compact('anime_id'));
     }
 
     /**
@@ -35,9 +36,37 @@ class EpisodeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request, Anime $anime)
+    {   
+        
+        $validatedAdn = [];
+        $validatedCrunchyroll = [];
+        $validatedWakanim = [];
+        $validatedTitle = $request->validate([
+            'title' => 'required|string|min:2|max:80|unique:episodes,title',
+        ]);
+        
+        if(request('adn')) {
+            $validatedAdn = $request->validate([
+                'adn' => 'string|starts_with:https://animedigitalnetwork.fr/video|unique:episodes,adn'
+            ]);
+        }
+        if(request('crunchyroll')) {
+            $validatedCrunchyroll = $request->validate([
+                'crunchyroll' => 'string|starts_with:https://www.crunchyroll.com/affiliate_iframeplayer|unique:episodes,crunchyroll'
+            ]);
+        }
+        if(request('wakanim')) {
+            $validatedWakanim = $request->validate([
+                'wakanim' => 'string|starts_with:https://www.wakanim.tv/fr/v2/catalogue/embeddedplayer|unique:episodes,wakanim'
+            ]);
+        }
+        
+        Episode::create(array_merge($validatedTitle, $validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['anime_id' => $anime->id]));
+
+        
+
+        return redirect()->back()->with('success', 'Anime ajouté avec succès');
     }
 
     /**
