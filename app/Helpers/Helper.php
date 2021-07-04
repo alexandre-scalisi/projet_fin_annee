@@ -59,3 +59,7 @@ function h_find_image($path) {
     }
     return asset('storage/images/'.$path);
 }
+
+function h_isAdminRoute() {
+    return Illuminate\Support\Facades\Request::segment(1) === 'admin';
+}
