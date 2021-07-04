@@ -13,9 +13,9 @@
             <tr class="text-left">
                 {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
                 
-                <th><a href="{{ h_sort_table('author', 'desc') }}" class="px-5 py-2 inline-block w-full">Auteur</a></th>
+                <th><a href="{{ h_sort_table('author', 'desc') }}" class="px-5 py-2 inline-block w-full">Auteur <i class="{{ h_sortArrow('author') }}"></i></a></th>
                 <th class="px-5 py-2 inline-block w-full">Contenu</th>
-                <th><a href="{{ h_sort_table('created_at', 'desc') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
+                <th><a href="{{ h_sort_table('created_at', 'asc') }}" class="px-5 py-2 inline-block w-full">Date d'ajout <i class="{{ h_sortArrow('created_at') }}"></i></a></th>
                 <th class="px-5 py-2 inline-block w-full">Action</th>
             </tr>
         </thead>
@@ -39,7 +39,7 @@
                 <td class="px-5 py-3">
                     <a href="{{ route('admin.comments.show', $comment->id) }}" class="fa fa-eye mr-2">
                     </a>
-                    <a href="{{ route('admin.comments.destroy', $comment->id) }}" class="fa fa-trash mr-2 text-red-500"onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
+                    <a href="{{ route('admin.comments.destroy', $comment->id) }}" class="fa fa-trash mr-2 text-red-500" onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                     </a>
                    
                 </td>
