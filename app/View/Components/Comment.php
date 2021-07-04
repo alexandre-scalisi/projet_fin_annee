@@ -23,6 +23,8 @@ class Comment extends Component
     }
 
     public function is_different() {
+        if(!auth()->user())
+            return true;
         return $this->item->author->id !== auth()->user()->id;
     }
 

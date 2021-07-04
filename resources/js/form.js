@@ -3,13 +3,10 @@ window.app = () => {
         form: document.getElementById('form'),
 
         test(el) {
-            console.log('hello')
-
             form.scrollTop > 0 ? el.classList.add('opacity-100') : el.classList.remove('opacity-100')
         },
 
         test2(el) {
-            console.log('hello')
 
             form.scrollTop !== form.scrollTopMax ? el.classList.add('opacity-100') : el.classList.remove('opacity-100')
         },

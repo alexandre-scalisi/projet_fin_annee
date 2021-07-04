@@ -6,7 +6,17 @@
 {{-- TODO reparer background form-container --}}
 <div x-data="">
     <h1>Postez votre commentaire:</h1>
-    @livewire('form', ['commentable_id' => $type_id, 'commentable_type' => "App\Models\\$type"], key(-6))
+    @guest
+        <div>
+            <p>Vous devez être connecté pour pouvoir poster un commentaire</p>
+            <a>Connectez vous</a>
+
+        </div>
+    @endguest
+    
+    @auth
+        @livewire('form', ['commentable_id' => $type_id, 'commentable_type' => "App\Models\\$type"], key(-6))
+    @endauth
     <div class="form-container" id="form" @scroll.debounce="app().scrollFunc($event)">
         <div class="form-container__bg form-container__bg_top  opacity-0" x-data="" x-init="app().test($el)" id="bg-top" wire:ignore></div>
 

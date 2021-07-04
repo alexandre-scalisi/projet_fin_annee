@@ -5,6 +5,7 @@
 </h1>
     <p>{{ $item->body }}
        @auth 
+       
         @if($is_different())
                 <button @click="show = !show" class="comment__reply">reply</button>
         @endif
@@ -13,6 +14,6 @@
 
        @if($reply)
        en reponse à {{ $item->parent->author->name }}
-@endif
+       @endif
     </p> 
 </div>

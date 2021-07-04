@@ -68,6 +68,8 @@ class User extends Authenticatable
     }
 
     public function is_logged_in_user() {
+        if(!auth()->user())
+            return false;
         return $this->id === auth()->user()->id;
     }
 

@@ -15,7 +15,6 @@
 
             </a>
 
-            {{-- TODO VOIR CE QUE JE FAIS DU SVG --}}
         </div>
 
         <div class="anime-header__content-container">
