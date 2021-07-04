@@ -69,7 +69,6 @@ class AnimeController extends Controller
             'genre' => 'required|array',
             'genre.*' => 'required|string|exists:genres,id'
         ]);
-        dd($image_fullname);
         $anime = DB::table('animes')->insertGetId(array_merge($validatedAnime, ['created_at' => now(), 'image' => $image_fullname]));
 
         $request->file('image')->storeAs($image_path, $image_fullname);

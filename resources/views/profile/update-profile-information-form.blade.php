@@ -21,7 +21,8 @@
                                     reader.onload = (e) => {
                                         photoPreview = e.target.result;
                                     };
-                                    reader.readAsDataURL($refs.photo.files[0]);
+                                    reader.readAsDataURL($refs.photo.files[0])
+                                    
                             " />
 
                 <x-jet-label for="photo" value="{{ __('Photo') }}" />
