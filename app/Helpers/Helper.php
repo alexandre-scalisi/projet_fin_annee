@@ -31,6 +31,18 @@ function h_sort_table($param, $default = 'asc') {
     
 }
 
+function h_sortArrow($col) {
+    // recuperer la requete
+    // recuper orderby
+    //recuperer direction
+    $order_by = request('order_by');
+    if($order_by !==$col)
+        return '';
+    $dir = request('dir');
+    return $dir === 'desc' ? 'fa fa-arrow-down' : 'fa fa-arrow-up';
+    
+}
+
 function h_truncate ($str, $max_length) {
 
     $strArr = explode(' ', $str);

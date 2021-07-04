@@ -17,11 +17,11 @@
             <tr class="text-left">
                 {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
                 
-                <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
-                <th><a href="{{ h_sort_table('release_date') }}" class="px-5 py-2 inline-block w-full">Date de sortie</a></th>
-                <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
-                <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote</a></th>
-                <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes</a></th>
+                <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre <i class="{{ h_sortArrow('title') }}"></i></a></th>
+                <th><a href="{{ h_sort_table('release_date') }}" class="px-5 py-2 inline-block w-full">Date de sortie <i class="{{ h_sortArrow('release_date') }}"></i></a></th>
+                <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout <i class="{{ h_sortArrow('created_at') }}"></i></a></th>
+                <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote <i class="{{ h_sortArrow('vote') }}"></i></a></th>
+                <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes <i class="{{ h_sortArrow('episodes') }}"></i></a></th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
