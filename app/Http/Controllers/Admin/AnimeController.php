@@ -24,7 +24,7 @@ class AnimeController extends Controller
     public function index()
     {
         
-        $animes = $this->search();
+        $animes = $this->search(Anime::withoutTrashed());
         $type = 'Anime';
         $withoutTrashedCount = Anime::all()->count();
         $trashedCount = Anime::onlyTrashed()->count();
@@ -180,14 +180,34 @@ class AnimeController extends Controller
     public function destroy($id)
     {
         Anime::find($id)->delete();
-        return redirect()->back()->with('success', 'Anime supprimé avec succès');
+        return redirect()->back()->with('success', 'Anime envoyé à la poubelle avec succès');
+    }
+    public function restore($id)
+    {
+        Anime::onlyTrashed()->find($id)->restore();
+        return redirect()->back()->with('success', 'Anime restauré avec succès');
+    }
+    public function forceDelete($id)
+    {
+        Anime::onlyTrashed()->find($id)->forceDelete();
+        return redirect()->back()->with('success', 'Anime définitivement supprimé avec succès');
+    }
+
+    public function trashed() {
+        $animes = $this->search(Anime::onlyTrashed());
+        $type = 'Anime';
+        $withoutTrashedCount = Anime::all()->count();
+        $trashedCount = Anime::onlyTrashed()->count();
+              
+        return view('admin.animes.trashed', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount'));
     }
 
     
-    private function search() {
+    private function search($animes) {
+        
         $order_by = lcfirst(request()->input('order_by', 'title'));
         $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes', 'deleted_at'];
         $accepted_dirs =['asc', 'desc'];
         if(!in_array($order_by, $accepted_order_bys))
             $order_by = 'title';
@@ -195,13 +215,17 @@ class AnimeController extends Controller
             $dir = 'asc';
         if($order_by === 'vote') {
             
-            return Anime::withAvg('votes', 'vote')->orderBy('votes_avg_vote', $dir)->paginate(20);
+            return $animes->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $dir)->paginate(20);
 
         }
         else if($order_by == "episodes") {
-            return Anime::withCount('episodes')->orderBy('episodes_count', $dir)->paginate(20);
+            return $animes->withCount('episodes')->orderBy('episodes_count', $dir)->paginate(20);
         }
-        return Anime::orderBy($order_by, $dir)->paginate(20);
+        
+      
+        return $animes->orderBy($order_by, $dir)->paginate(20);
         
     }
+
+    
 }

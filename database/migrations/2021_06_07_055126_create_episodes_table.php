@@ -19,7 +19,7 @@ class CreateEpisodesTable extends Migration
             $table->string('adn')->nullable();
             $table->string('crunchyroll')->nullable();
             $table->string('wakanim')->nullable();
-            $table->foreignId('anime_id')->constrained();
+            $table->foreignId('anime_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

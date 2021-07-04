@@ -15,8 +15,8 @@ class CreateAnimeGenreTable extends Migration
     {
         Schema::create('anime_genre', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anime_id')->constrained();
-            $table->foreignId('genre_id')->constrained();
+            $table->foreignId('anime_id')->constrained()->onDelete('cascade');
+            $table->foreignId('genre_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
