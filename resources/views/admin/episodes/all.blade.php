@@ -9,36 +9,25 @@
         <table class="table-auto w-full px-4 mb-4">
             <thead class="bg-blue-400">
                 <tr class="text-left">
-                    <th class="px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
-                        <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
-                        @click="isChecked = $event.target.checked === true ? true : false;
-                                           [...allCheckboxes].forEach(c => c.checked = isChecked);
-                        ">
-                        <x-tooltip left="0" top="-40px">
-                            Tout cocher
-                        </x-tooltip>   
-                    </th>
-                    <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
-                    <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
-                    <th class="px-5 py-2 inline-block w-full">Action</th>
+                    
+                    <x-table.th.checkbox />
+                    <x-table.th.order-by sort-by="title" default="desc" text="abc"> Titre </x-table.th.order-by>
+                    <x-table.th.order-by sort-by="created_at"> Date d'ajout </x-table.th.order-by>
+                    <x-table.th.th>Action</x-table.th.th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($episodes as $episode)
                 <tr class="even:bg-blue-100">
-                    <td class="px-3">
-                        <input type="checkbox" name="check-{{ $episode->id }}" class="check-{{ $episode->id }}" 
-                        onclick="const checked = this.checked;
-                            [...document.getElementsByClassName('check-{{ $episode->id }}')].forEach(c => c.checked = checked)">
-                    </td>
+                    <x-table.td.checkbox :object="$episode" />
                     <td>
                         <a href="{{ route('admin.animes.episodes.show', [$episode->anime->id, $episode->id]) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
                             {{ $episode->title }}
                         </a>
                     </td>
-                    <td class="px-5 py-3">{{ $episode->created_at }}</td>
+                    <x-table.td.td> {{ $episode->created_at }}</x-table.td.td>
                     <td class="px-5 py-3">
-                        <a href="{{ route('admin.animes.episodes.show', [$episode->anime->id, $episode->id]) }}" class="fa fa-eye mr-2">
+                        <x-table.actions.show :route="route('admin.animes.episodes.show', [$episode->anime->id, $episode->id])" />
                         </a>
                         <a href="{{ route('admin.animes.episodes.edit', [$episode->anime->id, $episode->id]) }}" class="fa fa-edit mr-2 text-yellow-500">
                         </a>

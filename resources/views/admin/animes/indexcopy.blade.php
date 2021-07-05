@@ -52,9 +52,23 @@
                 <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
                 <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
                 <td class="px-5 py-3" x-data="{modal: false, tooltip: false}">
-                    <x-table.actions.show :route="route('admin.animes.show', $anime->id)" />
-                    <x-table.actions.edit :route="route('admin.animes.edit', $anime->id)" />
-                    <x-table.actions.destroy :route="route('admin.animes.destroy', -1)" type="Anime" :value="$anime->id" />                    
+                    <a href="{{ route('admin.animes.show', $anime->id) }}" class="fa fa-eye mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip left="-10px">
+                            Voir
+                        </x-tooltip>
+                    </a>
+                    <a href="{{ route('admin.animes.edit', $anime->id) }}" class="fa fa-edit text-yellow-500 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip left="-20px">
+                            Editer
+                        </x-tooltip>
+                    </a>
+                    
+                    <a class="fa fa-trash text-red-500 cursor-pointer relative mr-2" @click="modal=true" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                        <x-tooltip left="-30px">
+                            Supprimer
+                        </x-tooltip>
+                    </a>
+                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" :type="$type" :value="$anime->id"/>
                     <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip left="-30px">
                             Ajouter épisode
