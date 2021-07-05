@@ -22,17 +22,13 @@
                 <x-table.th.order-by sort-by="vote">Vote</x-table.th.order-by>
                 <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
                 <th class="text-center">Action</th>
-            </th>
+            </tr>
         </thead>
         <tbody>
             @foreach ($animes as $anime)
             
             <tr class="even:bg-blue-100">
-                <td class="px-3">
-                    <input type="checkbox" name="check-{{ $anime->id }}" class="check-{{ $anime->id }}" 
-                        onclick="const checked = this.checked;
-                        [...document.getElementsByClassName('check-{{ $anime->id }}')].forEach(c => c.checked = checked)">
-                </td>
+                <x-table.td.checkbox :object="$anime" />
                 <td>
                     <a href="{{ route('animes.show', $anime->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
                         {{ $anime->title }}
