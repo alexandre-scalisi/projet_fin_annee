@@ -12,21 +12,16 @@
         <p class="px-2 border-r border-gray-900"><a href="{{ route('admin.animes.index') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Tous:</a> {{ $withoutTrashedCount }}</p>
         <p class="px-2"><a href="{{ route('admin.animes.trashed') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Corbeille:</a> {{ $trashedCount }}</p>
     </div>
-    <table class="table-auto w-full px-4 mb-4">
-        <thead class="bg-blue-400">
-            <tr class="text-left">
-                <x-table.th.checkbox />
+    <x-table.table>
+        <x-slot name="tableHeader">
                 <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
                 <x-table.th.order-by sort-by="release_date">Date de sortie </x-table.th.order-by>
                 <x-table.th.order-by sort-by="created_at">Date d'ajout</x-table.th.order-by>
                 <x-table.th.order-by sort-by="vote">Vote</x-table.th.order-by>
                 <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
-                <th class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
+        </x-slot>
+        <x-slot name="tableBody">
             @foreach ($animes as $anime)
-            
             <tr class="even:bg-blue-100">
                 <x-table.td.checkbox :object="$anime" />
                 <td>
@@ -49,9 +44,9 @@
                     </a>
                 </x-table.actions.td>
             </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endforeach
+        </x-slot>
+    </x-table.table>
     <form action="{{ route('admin.animes.destroy', -1)}}" method="POST">
         @csrf
         @method('DELETE')
