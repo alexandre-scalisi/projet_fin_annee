@@ -11,7 +11,7 @@
                 <tr class="text-left">
                     
                     <x-table.th.checkbox />
-                    <x-table.th.order-by sort-by="title" default="desc" text="abc"> Titre </x-table.th.order-by>
+                    <x-table.th.order-by sort-by="title" default="desc"> Titre </x-table.th.order-by>
                     <x-table.th.order-by sort-by="created_at"> Date d'ajout </x-table.th.order-by>
                     <x-table.th.th>Action</x-table.th.th>
                 </tr>

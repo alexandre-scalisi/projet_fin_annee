@@ -15,21 +15,12 @@
     <table class="table-auto w-full px-4 mb-4">
         <thead class="bg-blue-400">
             <tr class="text-left">
-                {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
-                <th class="px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
-                    <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
-                    @click="isChecked = $event.target.checked === true ? true : false;
-                                       [...allCheckboxes].forEach(c => c.checked = isChecked);
-                    ">
-                    <x-tooltip left="0" top="-40px">
-                        Tout cocher
-                    </x-tooltip>   
-                </th>
-                <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
-                <th><a href="{{ h_sort_table('release_date') }}" class="px-5 py-2 inline-block w-full">Date de sortie <i class="{{ h_sortArrow('release_date') }}"></i></a></th>
-                <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout <i class="{{ h_sortArrow('created_at') }}"></i></a></th>
-                <th><a href="{{ h_sort_table('vote') }}" class="px-5 py-2 inline-block w-full">Vote <i class="{{ h_sortArrow('vote') }}"></i></a></th>
-                <th><a href="{{ h_sort_table('episodes') }}" class="px-5 py-2 inline-block w-full">Nombre episodes <i class="{{ h_sortArrow('episodes') }}"></i></a></th>
+                <x-table.th.checkbox />
+                <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
+                <x-table.th.order-by sort-by="release_date">Date de sortie </x-table.th.order-by>
+                <x-table.th.order-by sort-by="created_at">Date d'ajout</x-table.th.order-by>
+                <x-table.th.order-by sort-by="vote">Vote</x-table.th.order-by>
+                <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
                 <th class="text-center">Action</th>
             </th>
         </thead>
@@ -47,11 +38,11 @@
                         {{ $anime->title }}
                     </a>
                 </td>
-                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-y') }}</td>
-                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $anime->created_at)->format('d-m-y') }}</td>
-                <td class="px-5 py-3">{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</td>
-                <td class="px-5 py-3 text-center">{{ $anime->episodes->count() }}</td>
-                <td class="px-5 py-3" x-data="{modal: false, tooltip: false}">
+                <x-table.td.td>{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ Carbon\Carbon::parse( $anime->created_at)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</x-table.td.td>
+                <x-table.td.td>{{ $anime->episodes->count() }}</x-table.td.td>
+                <x-table.actions.td>
                     <x-table.actions.show :route="route('admin.animes.show', $anime->id)" />
                     <x-table.actions.edit :route="route('admin.animes.edit', $anime->id)" />
                     <x-table.actions.destroy :route="route('admin.animes.destroy', -1)" type="Anime" :value="$anime->id" />                    
@@ -60,7 +51,7 @@
                             Ajouter épisode
                         </x-tooltip>
                     </a>
-                </td>
+                </x-table.actions.td>
             </tr>
             @endforeach
         </tbody>
