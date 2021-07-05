@@ -8,15 +8,17 @@ class DeleteModal extends Component
 {
     public $action;
     public $type;
+    public $value;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($action, $type)
+    public function __construct($action, $type, $value)
     {
         $this->action = $action;
-        $this->type=$type;
+        $this->type= $type;
+        $this->value = $value;
     }
 
     /**

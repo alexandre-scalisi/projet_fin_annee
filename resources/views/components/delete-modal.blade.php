@@ -18,6 +18,7 @@
 
 
         <div class="px-4 py-3 text-lg flex justify-between">
+            <input type="hidden" name="delete[]" value="{{ $value }}">
             <button class="bg-gray-900 px-8 py-2 rounded-full text-red-50 ">Confirmer</button>
             <button type="button" @click="modal=false"
                 class="border-red-600 text-red-600 border rounded-full px-8 py-2">Annuler</button>

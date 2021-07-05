@@ -111,19 +111,32 @@ class EpisodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
-    }
-
-    public function destroyMany() {
         $deletes = request('delete');
         if(!$deletes)
             return redirect()->back();
-        foreach($deletes as $delete) {
-            Episode::find($delete)->delete();
-        }
-        return redirect()->back()->with('success', 'Animes envoyés à la poubelle avec succès');
+
+        Episode::withoutTrashed()->whereIn('id', $deletes)->delete();
+        return redirect()->back()->with('success', 'Episode(s) envoyé(s) à la poubelle avec succès');
+    }
+    public function restore()
+    {
+        $restores = request('restore');
+
+        if(!$restores)
+            return redirect()->back();
+        Episode::onlyTrashed()->whereIn('id', $restores)->restore();
+        return redirect()->back()->with('success', 'Episode(s) restauré(s) avec succès');
+    }
+    public function forceDelete()
+    {
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+
+            Episode::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
+        return redirect()->back()->with('success', 'Episodes définitivement supprimés avec succès');
     }
 
     public function all() {

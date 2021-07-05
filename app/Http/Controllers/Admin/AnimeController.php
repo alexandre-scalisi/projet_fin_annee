@@ -176,20 +176,32 @@ class AnimeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        Anime::find($id)->delete();
-        return redirect()->back()->with('success', 'Anime envoyé à la poubelle avec succès');
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+
+        Anime::withoutTrashed()->whereIn('id', $deletes)->delete();
+        return redirect()->back()->with('success', 'Anime(s) envoyé(s) à la poubelle avec succès');
     }
-    public function restore($id)
+    public function restore()
     {
-        Anime::onlyTrashed()->find($id)->restore();
-        return redirect()->back()->with('success', 'Anime restauré avec succès');
+        $restores = request('restore');
+
+        if(!$restores)
+            return redirect()->back();
+        Anime::onlyTrashed()->whereIn('id', $restores)->restore();
+        return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
     }
-    public function forceDelete($id)
+    public function forceDelete()
     {
-        Anime::onlyTrashed()->find($id)->forceDelete();
-        return redirect()->back()->with('success', 'Anime définitivement supprimé avec succès');
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+
+        Anime::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
+        return redirect()->back()->with('success', 'Animes définitivement supprimés avec succès');
     }
 
     public function trashed() {
@@ -200,26 +212,6 @@ class AnimeController extends Controller
               
         return view('admin.animes.trashed', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount'));
     }
-
-    public function destroyMany() {
-        
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
-        foreach($deletes as $delete) {
-            Anime::find($delete)->delete();
-        }
-        return redirect()->back()->with('success', 'Animes envoyés à la poubelle avec succès');
-    }
-
-    public function forceDeleteMany() {
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
-        Anime::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
-        return redirect()->back()->with('success', 'Animes définitivement supprimés avec succès');
-    }
-
     
     private function search($animes) {
         

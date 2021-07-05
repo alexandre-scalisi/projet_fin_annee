@@ -51,7 +51,7 @@
                 @endforeach
             </tbody>
         </table>
-        <form action="{{ route('admin.episodes.destroyMany', $episode->anime->id)}}" method="POST">
+        <form action="{{ route('admin.episodes.destroy', -1)}}" method="POST">
             @csrf
             @method('DELETE')
             @foreach ($episodes as $episode)

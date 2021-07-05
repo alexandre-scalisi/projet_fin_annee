@@ -68,7 +68,7 @@
                             Supprimer
                         </x-tooltip>
                     </a>
-                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" :type="$type"/>
+                    <x-delete-modal :action="route('admin.animes.destroy', $anime->id)" :type="$type" :value="$anime->id"/>
                     <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip left="-30px">
                             Ajouter épisode
@@ -79,7 +79,7 @@
             @endforeach
         </tbody>
     </table>
-    <form action="{{ route('admin.animes.destroyMany')}}" method="POST">
+    <form action="{{ route('admin.animes.destroy', -1)}}" method="POST">
         @csrf
         @method('DELETE')
         @foreach ($animes as $anime)
