@@ -32,8 +32,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     
     Route::group(['middleware'=>'is_admin', 'prefix' => 'admin', 'as' => 'admin.', 'name' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::get('animes/trashed', 'AnimeController@trashed')->name('animes.trashed');
+        Route::delete('animes/trashMany', 'AnimeController@destroyMany')->name('animes.destroyMany');
         Route::delete('animes/trashed/{anime}', 'AnimeController@forceDelete')->name('animes.forceDelete');
+        Route::delete('animes/trashed/', 'AnimeController@forceDeleteMany')->name('animes.forceDeleteMany');
         Route::post('animes/trashed/{anime}', 'AnimeController@restore')->name('animes.restore');
+        Route::delete('animes/{anime}/episodes', 'EpisodeController@destroyMany')->name('episodes.destroyMany');
         Route::resource('animes', 'AnimeController');
         Route::get('episodes', 'EpisodeController@all')->name('episodes.all');
         Route::resource('comments', 'CommentController')->only('index', 'show', 'destroy');

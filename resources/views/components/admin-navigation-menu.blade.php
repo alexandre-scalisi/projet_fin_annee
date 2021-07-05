@@ -1,6 +1,6 @@
 <div class="mb-10">
     
-<div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4 fixed top-0">
+<div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4 fixed top-0" style="z-index: 9999">
     <div class="table">
     <a href="{{ h_isAdminRoute() ? route('dashboard') : route('admin.home') }}" class="table-cell align-middle hover:text-blue-400">{{ h_isAdminRoute() ? 'Front office' : 'Back office'}}</a>
     </div>

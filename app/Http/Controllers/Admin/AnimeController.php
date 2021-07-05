@@ -201,6 +201,25 @@ class AnimeController extends Controller
         return view('admin.animes.trashed', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount'));
     }
 
+    public function destroyMany() {
+        
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+        foreach($deletes as $delete) {
+            Anime::find($delete)->delete();
+        }
+        return redirect()->back()->with('success', 'Animes envoyés à la poubelle avec succès');
+    }
+
+    public function forceDeleteMany() {
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+        Anime::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
+        return redirect()->back()->with('success', 'Animes définitivement supprimés avec succès');
+    }
+
     
     private function search($animes) {
         

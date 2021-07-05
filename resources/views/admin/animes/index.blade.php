@@ -16,7 +16,7 @@
         <thead class="bg-blue-400">
             <tr class="text-left">
                 {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
-                <th class="px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[id^=\'check-\']')}">
+                <th class="px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
                     <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
                     @click="isChecked = $event.target.checked === true ? true : false;
                                        [...allCheckboxes].forEach(c => c.checked = isChecked);
@@ -38,7 +38,9 @@
             
             <tr class="even:bg-blue-100">
                 <td class="px-3">
-                    <input type="checkbox" name="check-{{ $anime->id }}" id="check-{{ $anime->id }}">
+                    <input type="checkbox" name="check-{{ $anime->id }}" class="check-{{ $anime->id }}" 
+                        onclick="const checked = this.checked;
+                        [...document.getElementsByClassName('check-{{ $anime->id }}')].forEach(c => c.checked = checked)">
                 </td>
                 <td>
                     <a href="{{ route('animes.show', $anime->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
@@ -77,6 +79,14 @@
             @endforeach
         </tbody>
     </table>
+    <form action="{{ route('admin.animes.destroyMany')}}" method="POST">
+        @csrf
+        @method('DELETE')
+        @foreach ($animes as $anime)
+            <input type="checkbox" name="delete[]" value="{{ $anime->id }}" class="check-{{ $anime->id }} hidden">
+        @endforeach
+        <button class="text-red-600 border border-red-600 px-4 py-1 rounded-full">Supprimer les éléments sélectionnés</button>
+    </form>
     {{ $animes->links() }}
     
 </x-layouts.admin>

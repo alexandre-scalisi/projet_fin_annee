@@ -116,6 +116,16 @@ class EpisodeController extends Controller
         //
     }
 
+    public function destroyMany() {
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+        foreach($deletes as $delete) {
+            Episode::find($delete)->delete();
+        }
+        return redirect()->back()->with('success', 'Animes envoyés à la poubelle avec succès');
+    }
+
     public function all() {
         $episodes = $this->search();
         return view('admin.episodes.all', compact('episodes'));
