@@ -1,7 +1,7 @@
 <div class="bg-gray-900 bg-opacity-80 fixed top-0 left-0 h-screen w-screen z-50 flex flex-col items-center justify-center"
     x-show="modal">
 
-    <form action="{{ $action }}" method="POST" class="bg-white font-sans" style="width: 21rem">
+    <form action="{{ route($destroy, $value) }}" method="POST" class="bg-white font-sans" style="width: 21rem">
         @csrf
         @method('DELETE')
         <div class="bg-red-600 h-12 flex items-center justify-around">

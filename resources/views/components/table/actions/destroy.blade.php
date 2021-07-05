@@ -3,4 +3,4 @@
         Supprimer
     </x-tooltip>
 </a>
-<x-delete-modal :action="$route" :type="$type" :value="$value"/>
+<x-delete-modal :destroy="$destroy" :type="$type" :value="$value"/>

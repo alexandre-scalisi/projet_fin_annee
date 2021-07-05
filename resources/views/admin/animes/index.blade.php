@@ -2,7 +2,7 @@
     
     <h1 class="text-2xl border-b-4 border-gray-800">Tous les animes</h1>
     <div class="flex items-center justify-between">
-        @if(in_array('create', $routes))
+        @if(array_key_exists('create', $routes))
             <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
         @endif
         <div class="w-72">        
@@ -22,37 +22,36 @@
                 <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
         </x-slot>
         <x-slot name="tableBody">
-            @foreach ($animes as $object)
+            @foreach ($objects as $object)
             <tr class="even:bg-blue-100">
-                {{ dd('test') }}
                 <x-table.td.checkbox :object="$object"/>
                 <x-table.td.link :show="$routes['show']" :id="$object->id">{{ $object->title }} </x-table.td.link> 
-                <x-table.td.td>{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-y') }}</x-table.td.td>
-                <x-table.td.td>{{ Carbon\Carbon::parse( $anime->created_at)->format('d-m-y') }}</x-table.td.td>
-                <x-table.td.td>{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</x-table.td.td>
-                <x-table.td.td>{{ $anime->episodes->count() }}</x-table.td.td>
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->release_date)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ $object->votes->count() > 0 ? round($object->votes->avg('vote'), 2) : 'Pas de vote'}}</x-table.td.td>
+                <x-table.td.td>{{ $object->episodes->count() }}</x-table.td.td>
                 <x-table.actions.td>
-                    <x-table.actions.show :id="$anime->id" :show="$routes['show']"/>
-                    <x-table.actions.update :id="$anime->id" :update="$routes['update']"/>
-                    <x-table.actions.destroy :id="$anime->id" />                    
-                    <a href="{{ route('admin.object.episodes.create', $object->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                        <x-tooltip left="-30px">
-                            Ajouter épisode
-                        </x-tooltip>
+                <x-table.actions.show :id="$object->id" :show="$routes['show']"/>
+                <x-table.actions.update :id="$object->id" :update="$routes['update']"/>
+                <x-table.actions.destroy :destroy="$routes['destroy']" :type="$type" :value="$object->id"/>                    
+                <a href="{{ route('admin.animes.episodes.create', $object->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                    <x-tooltip left="-30px">
+                        Ajouter épisode
+                    </x-tooltip>
                     </a>
                 </x-table.actions.td>
             </tr>
             @endforeach
         </x-slot>
     </x-table.table>
-    <form action="{{ route('admin.animes.destroy', -1)}}" method="POST">
+    <form action="{{ route( $routes['destroy'], -1) }}" method="POST">
         @csrf
         @method('DELETE')
-        @foreach ($animes as $anime)
-            <input type="checkbox" name="delete[]" value="{{ $anime->id }}" class="check-{{ $anime->id }} hidden">
+        @foreach ($objects as $object)
+            <input type="checkbox" name="delete[]" value="{{ $object->id }}" class="check-{{ $object->id }} hidden">
         @endforeach
         <button class="text-red-600 border border-red-600 px-4 py-1 rounded-full">Supprimer les éléments sélectionnés</button>
     </form>
-    {{ $animes->links() }}
+    {{ $objects->links() }}
     
 </x-layouts.admin>

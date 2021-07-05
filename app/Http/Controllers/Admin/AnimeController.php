@@ -24,7 +24,7 @@ class AnimeController extends Controller
     public function index()
     {
         
-        $animes = $this->search(Anime::withoutTrashed());
+        $objects = $this->search(Anime::withoutTrashed());
         $type = 'Anime';
         $withoutTrashedCount = Anime::all()->count();
         $trashedCount = Anime::onlyTrashed()->count();
@@ -38,7 +38,7 @@ class AnimeController extends Controller
         ];
         //show edit delete addAnime
               
-        return view('admin.animes.index', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
+        return view('admin.animes.index', compact('objects', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
     }
 
     /**
