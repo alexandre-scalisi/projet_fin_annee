@@ -18,7 +18,6 @@
                             Tout cocher
                         </x-tooltip>   
                     </th>
-                    
                     <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
                     <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
                     <th class="px-5 py-2 inline-block w-full">Action</th>
@@ -29,7 +28,7 @@
                 <tr class="even:bg-blue-100">
                     <td class="px-3">
                         <input type="checkbox" name="check-{{ $episode->id }}" class="check-{{ $episode->id }}" 
-                            onclick="const checked = this.checked;
+                        onclick="const checked = this.checked;
                             [...document.getElementsByClassName('check-{{ $episode->id }}')].forEach(c => c.checked = checked)">
                     </td>
                     <td>
@@ -45,7 +44,7 @@
                         </a>
                         <a href="{{ route('admin.animes.episodes.destroy', [$episode->anime->id, $episode->id]) }}" class="fa fa-trash mr-2 text-red-500"onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
                         </a>
-                       
+                        
                     </td>
                 </tr>
                 @endforeach

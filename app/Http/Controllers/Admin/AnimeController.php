@@ -181,8 +181,11 @@ class AnimeController extends Controller
         $deletes = request('delete');
         if(!$deletes)
             return redirect()->back();
-
-        Anime::withoutTrashed()->whereIn('id', $deletes)->delete();
+        foreach($deletes as $delete) {
+            Anime::withoutTrashed()->find($delete)->episodes()->delete();
+            Anime::withoutTrashed()->find($delete)->delete();
+        }
+        
         return redirect()->back()->with('success', 'Anime(s) envoyé(s) à la poubelle avec succès');
     }
     public function restore()
@@ -191,7 +194,11 @@ class AnimeController extends Controller
 
         if(!$restores)
             return redirect()->back();
-        Anime::onlyTrashed()->whereIn('id', $restores)->restore();
+        foreach($restores as $restore) {
+            Anime::onlyTrashed()->find($restore)->episodes()->delete();
+            Anime::onlyTrashed()->find($restore)->delete();
+        }
+        
         return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
     }
     public function forceDelete()
