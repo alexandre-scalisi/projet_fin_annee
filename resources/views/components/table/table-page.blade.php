@@ -1,19 +1,18 @@
 <x-layouts.admin>
-    
+
     <h1 class="text-2xl border-b-4 border-gray-800">Tous les animes</h1>
     <div class="flex items-center justify-between">
-        @if(in_array('create', $routes))
-            <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
-        @endif
-        <div class="w-72">        
+        <a href="{{ route('admin.animes.create') }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
+        <div class="w-72">
+            
             @livewire('search')
         </div>
     </div>
     <div class="flex py-2">
-        <p class="px-2 border-r border-gray-900"><a href="{{ $routes['index'] }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Tous:</a> {{ $withoutTrashedCount }}</p>
-        <p class="px-2"><a href="{{ $routes['trash'] }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Corbeille:</a> {{ $trashedCount }}</p>
+        <p class="px-2 border-r border-gray-900"><a href="{{ route('admin.animes.index') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Tous:</a> {{ $withoutTrashedCount }}</p>
+        <p class="px-2"><a href="{{ route('admin.animes.trashed') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Corbeille:</a> {{ $trashedCount }}</p>
     </div>
-    <x-table.table>
+    <x-table.table :objects="$animes" :type="$type">
         <x-slot name="tableHeader">
                 <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
                 <x-table.th.order-by sort-by="release_date">Date de sortie </x-table.th.order-by>
@@ -22,27 +21,30 @@
                 <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
         </x-slot>
         <x-slot name="tableBody">
-            @foreach ($animes as $object)
+            @foreach ($animes as $anime)
             <tr class="even:bg-blue-100">
-                {{ dd('test') }}
-                <x-table.td.checkbox :object="$object"/>
-                <x-table.td.link :show="$routes['show']" :id="$object->id">{{ $object->title }} </x-table.td.link> 
+                <x-table.td.checkbox :object="$anime" />
+                <td>
+                    <a href="{{ route('animes.show', $anime->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
+                        {{ $anime->title }}
+                    </a>
+                </td>
                 <x-table.td.td>{{ Carbon\Carbon::parse( $anime->release_date)->format('d-m-y') }}</x-table.td.td>
                 <x-table.td.td>{{ Carbon\Carbon::parse( $anime->created_at)->format('d-m-y') }}</x-table.td.td>
                 <x-table.td.td>{{ $anime->votes->count() > 0 ? round($anime->votes->avg('vote'), 2) : 'Pas de vote'}}</x-table.td.td>
                 <x-table.td.td>{{ $anime->episodes->count() }}</x-table.td.td>
                 <x-table.actions.td>
-                    <x-table.actions.show :id="$anime->id" :show="$routes['show']"/>
-                    <x-table.actions.update :id="$anime->id" :update="$routes['update']"/>
-                    <x-table.actions.destroy :id="$anime->id" />                    
-                    <a href="{{ route('admin.object.episodes.create', $object->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
+                    <x-table.actions.show :route="route('admin.animes.show', $anime->id)" />
+                    <x-table.actions.update :route="route('admin.animes.edit', $anime->id)" />
+                    <x-table.actions.destroy :route="route('admin.animes.destroy', -1)" type="Anime" :value="$anime->id" />                    
+                    <a href="{{ route('admin.animes.episodes.create', $anime->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip left="-30px">
                             Ajouter épisode
                         </x-tooltip>
                     </a>
                 </x-table.actions.td>
             </tr>
-            @endforeach
+                @endforeach
         </x-slot>
     </x-table.table>
     <form action="{{ route('admin.animes.destroy', -1)}}" method="POST">
