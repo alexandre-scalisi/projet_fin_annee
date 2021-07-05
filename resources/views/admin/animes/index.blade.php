@@ -12,7 +12,7 @@
         <p class="px-2 border-r border-gray-900"><a href="{{ route('admin.animes.index') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Tous:</a> {{ $withoutTrashedCount }}</p>
         <p class="px-2"><a href="{{ route('admin.animes.trashed') }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Corbeille:</a> {{ $trashedCount }}</p>
     </div>
-    <x-table.table>
+    <x-table.table :objects="$animes" :type="$type">
         <x-slot name="tableHeader">
                 <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
                 <x-table.th.order-by sort-by="release_date">Date de sortie </x-table.th.order-by>

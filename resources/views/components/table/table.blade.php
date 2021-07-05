@@ -7,9 +7,7 @@
             <th class="text-center">Action</th>
         </tr>
     </thead>
-    </tbody>
-        
+    <tbody>
         {{ $tableBody }}
-        
     </tbody>
 </table>
