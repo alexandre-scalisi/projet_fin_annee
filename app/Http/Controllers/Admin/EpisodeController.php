@@ -16,7 +16,18 @@ class EpisodeController extends Controller
      */
     public function index()
     {
-        
+        $objects = $this->search();
+        $type = 'Anime';
+        $withoutTrashedCount = Episode::all()->count();
+        $trashedCount = Episode::onlyTrashed()->count();
+        $routes = [
+            'index' => route('admin.episodes.index'),
+            'trash' => route('admin.episodes.trashed'),
+            'show' => 'admin.animes.episodes.show',
+            'update' => 'admin.animes.episodes.update',
+            'destroy' => 'admin.animes.episodes.destroy'
+        ];
+        return view('admin.episodes.index', compact('objects', 'routes', 'trashedCount', 'type', 'withoutTrashedCount'));
     }
 
     /**
@@ -139,11 +150,9 @@ class EpisodeController extends Controller
         return redirect()->back()->with('success', 'Episodes définitivement supprimés avec succès');
     }
 
-    public function all() {
-        $episodes = $this->search();
-        return view('admin.episodes.all', compact('episodes'));
+    public function trashed() {
+        return ;
     }
-
 
     private function search() {
         $order_by = lcfirst(request()->input('order_by', 'title'));

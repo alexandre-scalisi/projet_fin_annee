@@ -14,7 +14,7 @@
             </li>
         @endforeach
         <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
-            <a href="{{ route('admin.episodes.all')}}" class="w-full text-lg font-bold inline-block pl-3 py-3">Episodes</a>
+            <a href="{{ route('admin.episodes.index')}}" class="w-full text-lg font-bold inline-block pl-3 py-3">Episodes</a>
         </li>
         <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
             <a href="{{ route('admin.comments.index')}}" class="w-full text-lg font-bold inline-block pl-3 py-3">Commentaires</a>
