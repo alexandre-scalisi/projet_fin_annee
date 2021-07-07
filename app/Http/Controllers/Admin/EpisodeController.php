@@ -7,7 +7,7 @@ use App\Models\Anime;
 use App\Models\Episode;
 use Illuminate\Http\Request;
 
-class EpisodeController extends Controller
+class EpisodeController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
@@ -15,40 +15,23 @@ class EpisodeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function __construct()
-    // {
-    //     $this->model_name = 'Episode';
-    //     parent::__construct();
+    public function __construct()
+    {
+        $this->model_name = 'Episode';
+        parent::__construct();
         
-    // }
+    }
 
 
     public function index()
     {
-
-        // $arr = $this->counts();
+        $arr = $this->counts();
+        $accepted_order_bys = ['title', 'created_at'];
+        $default_order_by = 'title';
+        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
+        $arr['routes'] = $this->getRoutes([], ['show', 'update', 'destroy'], 'animes');
         
-        // $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
-        // $default_order_by = 'title';
-        // $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        // $arr['routes'] = $this->getRoutes('show', 'create', 'update', 'destroy');
-        
-        // return view('admin.animes.index', $arr);
-
-
-
-        $objects = $this->search();
-        $type = 'Anime';
-        $withoutTrashedCount = Episode::all()->count();
-        $trashedCount = Episode::onlyTrashed()->count();
-        $routes = [
-            'index' => route('admin.episodes.index'),
-            'trash' => route('admin.episodes.trashed'),
-            'show' => 'admin.animes.episodes.show',
-            'update' => 'admin.animes.episodes.update',
-            'destroy' => 'admin.animes.episodes.destroy'
-        ];
-        return view('admin.episodes.index', compact('objects', 'routes', 'trashedCount', 'type', 'withoutTrashedCount'));
+        return view('admin.episodes.index', $arr);
     }
 
     /**
@@ -175,17 +158,4 @@ class EpisodeController extends Controller
         return ;
     }
 
-    private function search() {
-        $order_by = lcfirst(request()->input('order_by', 'title'));
-        $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['title', 'created_at'];
-        $accepted_dirs =['asc', 'desc'];
-        if(!in_array($order_by, $accepted_order_bys))
-            $order_by = 'title';
-        if(!in_array($dir, $accepted_dirs))
-            $dir = 'asc';
-      
-        return Episode::orderBy($order_by, $dir)->paginate(20);
-        
-    }
 }

@@ -25,11 +25,18 @@ abstract class BaseAdminController extends Controller
         return compact('withoutTrashedCount', 'trashedCount' );
     }
     
-    protected function getRoutes(...$routes) {
+    protected function getRoutes($routes, $nested = [], $nested_model='' ) {
         $finalRoutes = ['index' => route("admin.$this->lc_plural_model.index"),
                         'trash' => route("admin.$this->lc_plural_model.trashed")];
+        
         foreach($routes as $route) {
             $finalRoutes[$route] = "admin.$this->lc_plural_model.$route";
+        }
+
+        if($nested) {
+            foreach ($nested as $nest) {
+                $finalRoutes[$nest] = "admin.$nested_model.$this->lc_plural_model.$nest";
+            }
         }
 
         return $finalRoutes;
@@ -40,7 +47,7 @@ abstract class BaseAdminController extends Controller
  
         $accepted_dirs =['asc', 'desc'];
         if(!in_array($order_by, $accepted_order_bys))
-            $order_by = 'title';
+            $order_by = $default_order_by;
         if(!in_array($dir, $accepted_dirs))
             $dir = 'asc';
         if($order_by === 'vote') {
@@ -52,7 +59,6 @@ abstract class BaseAdminController extends Controller
             return $model->withCount('episodes')->orderBy('episodes_count', $dir)->paginate(20);
         }
         
-      
         return $model->orderBy($order_by, $dir)->paginate(20);
     }
 

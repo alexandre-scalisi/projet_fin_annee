@@ -35,10 +35,10 @@ class AnimeController extends BaseAdminController
 
         $arr = $this->counts();
         
-        $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        $accepted_order_bys = ['title', 'created_at', 'vote', 'episodes'];
         $default_order_by = 'title';
         $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        $arr['routes'] = $this->getRoutes('show', 'create', 'update', 'destroy');
+        $arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
         
         return view('admin.animes.index', $arr);
     }

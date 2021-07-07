@@ -6,28 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
-class GenreController extends Controller
+class GenreController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->model_name = 'Genre';
+        parent::__construct();
+        
+    }
+
     public function index()
     {
-        $objects = $this->search();
-        $type = 'Genre';
-        $withoutTrashedCount = Genre::all()->count();
-        $trashedCount = Genre::onlyTrashed()->count();
-        $routes = [
-            'index' => route('admin.genres.index'),
-            'trash' => route('admin.genres.trashed'),
-            'show' => 'admin.genres.show',
-            'create' => 'admin.genres.create',
-            'update' => 'admin.genres.update',
-            'destroy' => 'admin.genres.destroy'
-        ];
-        return view('admin.genres.index', compact('objects', 'routes', 'trashedCount', 'withoutTrashedCount', 'type'));
+        $arr = $this->counts();
+        
+        $accepted_order_bys = ['name', 'created_at'];
+        $default_order_by = 'name';
+        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
+        $arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+        
+        return view('admin.genres.index', $arr);
+
     }
 
     /**
@@ -99,21 +103,6 @@ class GenreController extends Controller
 
     public function trashed() {
 
-    }
-
-    private function search() {
-        $order_by = lcfirst(request()->input('order_by', 'title'));
-        $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['title', 'created_at'];
-        $accepted_dirs =['asc', 'desc'];
-        if(!in_array($order_by, $accepted_order_bys) || $order_by = 'title')
-            $order_by = 'name';
-        
-        if(!in_array($dir, $accepted_dirs))
-            $dir = 'asc';
-        
-        return Genre::orderBy($order_by, $dir)->paginate(20);
-        
     }
 
 

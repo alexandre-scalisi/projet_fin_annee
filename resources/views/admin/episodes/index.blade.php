@@ -12,9 +12,9 @@
             <x-table.td.checkbox :object="$object"/>
             <x-table.td.link :show="$routes['show']" :ids="[$object->anime->id, $object->id]">{{ $object->title }} </x-table.td.link> 
             <x-table.td.td> {{ $object->created_at }}</x-table.td.td>
-            <x-table.actions.index-actions :routes="$routes" :type="$type" :ids="[$object->anime->id, $object->id]" :value="$object->id" />
-        </tr>
-        @endforeach
-    </x-slot>
-</x-table.table>
+            <x-table.actions.index-actions :routes="$routes" type="episodes" :ids="[$object->anime->id, $object->id]" :value="$object->id" />
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table.table>
 </x-table.table-page>

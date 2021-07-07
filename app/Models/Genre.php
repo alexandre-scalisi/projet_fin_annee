@@ -10,6 +10,8 @@ class Genre extends Model
 {
     use HasFactory, SoftDeletes;
 
+    
+
     public function animes() {
         return $this->belongsToMany(Anime::class);
     }
