@@ -10,31 +10,37 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
-class AnimeController extends Controller
+class AnimeController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * Class constructor.
+     */
+    public function __construct()
+    {
+        $this->model_name = 'Anime';
+        parent::__construct();
+        
+    }
+
+
     public function index()
     {
         
-        $objects = $this->search(Anime::withoutTrashed());
-        $type = 'Anime';
-        $withoutTrashedCount = Anime::all()->count();
-        $trashedCount = Anime::onlyTrashed()->count();
-        $routes = [
-            'index' => route('admin.animes.index'),
-            'trash' => route('admin.animes.trashed'),
-            'show' => 'admin.animes.show',
-            'create' => 'admin.animes.create',
-            'update' => 'admin.animes.update',
-            'destroy' => 'admin.animes.destroy'
-        ];
-        //show edit delete addAnime
-              
-        return view('admin.animes.index', compact('objects', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
+
+        $arr = $this->counts();
+        
+        $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        $default_order_by = 'title';
+        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
+        $arr['routes'] = $this->getRoutes('show', 'create', 'update', 'destroy');
+        
+        return view('admin.animes.index', $arr);
     }
 
     /**
@@ -215,29 +221,7 @@ class AnimeController extends Controller
         return view('admin.animes.trashed', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount'));
     }
     
-    private function search($animes) {
-        
-        $order_by = lcfirst(request()->input('order_by', 'title'));
-        $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes', 'deleted_at'];
-        $accepted_dirs =['asc', 'desc'];
-        if(!in_array($order_by, $accepted_order_bys))
-            $order_by = 'title';
-        if(!in_array($dir, $accepted_dirs))
-            $dir = 'asc';
-        if($order_by === 'vote') {
-            
-            return $animes->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $dir)->paginate(20);
-
-        }
-        else if($order_by == "episodes") {
-            return $animes->withCount('episodes')->orderBy('episodes_count', $dir)->paginate(20);
-        }
-        
-      
-        return $animes->orderBy($order_by, $dir)->paginate(20);
-        
-    }
+    
 
     
     

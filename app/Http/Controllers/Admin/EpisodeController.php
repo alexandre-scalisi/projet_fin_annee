@@ -14,8 +14,29 @@ class EpisodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // public function __construct()
+    // {
+    //     $this->model_name = 'Episode';
+    //     parent::__construct();
+        
+    // }
+
+
     public function index()
     {
+
+        // $arr = $this->counts();
+        
+        // $accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        // $default_order_by = 'title';
+        // $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
+        // $arr['routes'] = $this->getRoutes('show', 'create', 'update', 'destroy');
+        
+        // return view('admin.animes.index', $arr);
+
+
+
         $objects = $this->search();
         $type = 'Anime';
         $withoutTrashedCount = Episode::all()->count();

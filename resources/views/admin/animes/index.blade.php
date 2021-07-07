@@ -17,7 +17,7 @@
                 <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
                 <x-table.td.td>{{ $object->votes->count() > 0 ? round($object->votes->avg('vote'), 2) : 'Pas de vote'}}</x-table.td.td>
                 <x-table.td.td>{{ $object->episodes->count() }}</x-table.td.td>
-                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" :type="$type">               
+                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime">               
                     <a href="{{ route('admin.animes.episodes.create', $object->id) }}" class="fa fa-plus text-green-600 mr-2 relative" x-data="{tooltip:false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
                         <x-tooltip left="-30px">
                             Ajouter épisode
