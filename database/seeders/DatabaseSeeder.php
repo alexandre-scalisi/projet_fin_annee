@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
     public function __construct()
     {
-        $this->anime_json=$this->getJson('animu');
+        $this->anime_json=$this->getJson('anime');
         $this->genres=$this->getJson('genres');
     }
 
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
         foreach($animes as $anime) {
             $episodes = $anime['episodes'];
-            $anime_genres = $anime['genre'];
+            $anime_genres = $anime['genres'];
 
             $this->callWith(AnimeSeeder::class, compact('anime'));
             $this->callWith(AnimeGenreSeeder::class, compact('anime_genres', 'anime', 'genres'));

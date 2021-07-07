@@ -22,10 +22,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        
-        $users = $this->search();
+        $objects = $this->search();
         $type = 'Utilisateur';
-        return view('admin.users.index', compact('users', 'type'));
+        $withoutTrashedCount = User::all()->count();
+        $trashedCount = User::onlyTrashed()->count();
+        $routes = [
+            'index' => route('admin.users.index'),
+            'trash' => route('admin.users.trashed'),
+            'show' => 'admin.users.show',
+            'create' => 'admin.users.create',
+            'destroy' => 'admin.users.destroy'
+        ];
+        //show edit delete addAnime
+              
+        return view('admin.users.index', compact('objects', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
     }
 
     /**
@@ -93,11 +103,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
       
         $deleteUser = new DeleteUser();
-        $deleteUser->delete(User::find($id));
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+        foreach($deletes as $delete) {
+            
+            $deleteUser->delete(User::withoutTrashed()->find($delete));
+        }
 
         return redirect()->back()->with('success', 'Utilisateur Supprimé avec succès');
     }

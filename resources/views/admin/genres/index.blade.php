@@ -1,43 +1,23 @@
-<x-layouts.admin>
-    <h1 class="text-2xl border-b-4 border-gray-800">Tous les genres</h1>
-    <div class="flex items-center">
-        <div class="w-72 ml-auto my-5">
-
-        @livewire('search')
-        </div>
-    </div>
-    <table class="table-auto w-full px-4 mb-4">
-        <thead class="bg-blue-400">
-            <tr class="text-left">
-                {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
-                
-                <th><a href="{{ h_sort_table('title', 'desc') }}" class="px-5 py-2 inline-block w-full">Titre</a></th>
-                <th><a href="{{ h_sort_table('created_at') }}" class="px-5 py-2 inline-block w-full">Date d'ajout</a></th>
-                <th class="px-5 py-2 inline-block w-full">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($genres as $genre)
+<x-table.table-page :routes="$routes" :objects="$objects" :without-trashed-count="$withoutTrashedCount" :trashed-count="$trashedCount">
+    <x-slot name="h1">Tous les genres</x-slot>
+    <x-table.table>
+        <x-slot name="tableHeader">
+                <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th>
+                <x-table.th.order-by sort-by="title" default="desc">Titre</x-table.th.order-by>
+                <x-table.th.order-by sort-by="created_at">Date d'ajout</x-table.th.order-by>
+        </x-slot>
+        <x-slot name="tableBody">
+            @foreach ($objects as $object)
             <tr class="even:bg-blue-100">
-                <td>
-                    <a href="{{ route('admin.genres.show', $genre->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
-                        {{ $genre->name }}
-                    </a>
-                </td>
-                <td class="px-5 py-3">{{ $genre->created_at }}</td>
-                <td class="px-5 py-3">
-                    <a href="{{ route('admin.genres.show', $genre->id) }}" class="fa fa-eye mr-2">
-                    </a>
-                    <a href="{{ route('admin.genres.edit', $genre->id) }}" class="fa fa-edit mr-2 text-yellow-500">
-                    </a>
-                    <a href="{{ route('admin.genres.destroy', $genre->id) }}" class="fa fa-trash mr-2 text-red-500"onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
-                    </a>
-                   
-                </td>
+                <x-table.td.checkbox :object="$object"/>
+                <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->name }} </x-table.td.link> 
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->release_date)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
+    
+                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" :type="$type">
+                </x-table.actions.index-actions>
             </tr>
             @endforeach
-        </tbody>
-    </table>
-    {{ $genres->links() }}
-    
-</x-layouts.admin>
+        </x-slot>
+    </x-table.table>
+</x-table.table-page>

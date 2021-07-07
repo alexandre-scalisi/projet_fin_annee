@@ -1,4 +1,4 @@
-<div class="bg-blue-500 w-44 min-h-screen">
+<div class="bg-blue-500 w-44 min-h-screen fixed">
     <ul>
         <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
             <a href="{{ route('admin.home') }}" class="w-full text-lg font-bold inline-block pl-3 py-3">Accueil</a>

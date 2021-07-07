@@ -1,52 +1,30 @@
-<x-layouts.admin>
-    
-    <h1 class="text-2xl border-b-4 border-gray-800">Tous les commentaires</h1>
-    <div class="flex items-center">
-        <div class="w-72 ml-auto my-5">
+<x-table.table-page :routes="$routes" :objects="$objects" :without-trashed-count="$withoutTrashedCount" :trashed-count="$trashedCount">
+    <x-slot name="h1">Tous les commentaires</x-slot>
+    <x-table.table>
+        <x-slot name="tableHeader">
+            <x-table.th.order-by sort-by="title">Nom</x-table.th.order-by>
+            <x-table.th.order-by sort-by="author" default="desc">Auteur</x-table.th.order-by>
+            <th class="px-5 py-2 inline-block w-full">Contenu</th>
             
-            @livewire('search')
-        </div>
-        
-    </div>
-    <table class="table-auto w-full px-4 mb-4">
-        <thead class="bg-blue-400">
-            <tr class="text-left">
-                {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block w-full">Nom</a></th> --}}
-                
-                <th><a href="{{ h_sort_table('author', 'desc') }}" class="px-5 py-2 inline-block w-full">Auteur <i class="{{ h_sortArrow('author') }}"></i></a></th>
-                <th class="px-5 py-2 inline-block w-full">Contenu</th>
-                <th><a href="{{ h_sort_table('created_at', 'asc') }}" class="px-5 py-2 inline-block w-full">Date d'ajout <i class="{{ h_sortArrow('created_at') }}"></i></a></th>
-                <th class="px-5 py-2 inline-block w-full">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($comments as $comment)
-            
+           
+        </x-slot>
+        <x-slot name="tableBody">
+            @foreach ($objects as $object)
             <tr class="even:bg-blue-100">
-                <td>
-                    <a href="{{ route('admin.comments.show', $comment->id) }}" class="w-full inline-block px-5 py-3 hover:text-green-700 hover:underline">
-                        {{ $comment->author->email }}
-                        
-                    <a/>
-                </td>
-                <td class="px-5 py-3 relative" x-data="{tooltip: false}" @mouseenter="tooltip=true" @mouseleave="tooltip=false">
-                    {{ h_truncate ($comment->body, 10) }}
-                    <x-tooltip left="20px" top="-40px">
-                        {{ $comment->body }}
-                    </x-tooltip>
-                </td>
-                <td class="px-5 py-3">{{ Carbon\Carbon::parse( $comment->created_at)->format('d-m-y') }}</td>
-                <td class="px-5 py-3">
-                    <a href="{{ route('admin.comments.show', $comment->id) }}" class="fa fa-eye mr-2">
-                    </a>
-                    <a href="{{ route('admin.comments.destroy', $comment->id) }}" class="fa fa-trash mr-2 text-red-500" onclick="return confirm('Êtes vous sûr de vouloir supprimer ?')">
-                    </a>
-                   
-                </td>
+            
+                <x-table.td.checkbox :object="$object"/>
+                <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->author->email }} </x-table.td.link> 
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->release_date)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
+                <x-table.actions.td>
+                    <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
+                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="Comment" :value="$object->id" />
+
+                </x-table.actions.td>
+
+                
             </tr>
             @endforeach
-        </tbody>
-    </table>
-    {{ $comments->links() }}
-    
-</x-layouts.admin>
+        </x-slot>
+    </x-table.table>
+</x-table.table-page> 

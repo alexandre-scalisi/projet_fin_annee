@@ -15,9 +15,19 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genres = $this->search();
-
-        return view('admin.genres.index', compact('genres'));
+        $objects = $this->search();
+        $type = 'Genre';
+        $withoutTrashedCount = Genre::all()->count();
+        $trashedCount = Genre::onlyTrashed()->count();
+        $routes = [
+            'index' => route('admin.genres.index'),
+            'trash' => route('admin.genres.trashed'),
+            'show' => 'admin.genres.show',
+            'create' => 'admin.genres.create',
+            'update' => 'admin.genres.update',
+            'destroy' => 'admin.genres.destroy'
+        ];
+        return view('admin.genres.index', compact('objects', 'routes', 'trashedCount', 'withoutTrashedCount', 'type'));
     }
 
     /**
@@ -86,6 +96,11 @@ class GenreController extends Controller
         //
     }
 
+
+    public function trashed() {
+
+    }
+
     private function search() {
         $order_by = lcfirst(request()->input('order_by', 'title'));
         $dir = lcfirst(request()->input('dir', 'asc'));
@@ -100,4 +115,6 @@ class GenreController extends Controller
         return Genre::orderBy($order_by, $dir)->paginate(20);
         
     }
+
+
 }

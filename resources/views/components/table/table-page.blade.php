@@ -3,7 +3,7 @@
     <h1 class="text-2xl border-b-4 border-gray-800">{{ $h1 }}</h1>
     <div class="flex items-center justify-between">
         @if(array_key_exists('create', $routes))
-            <a href="{{ $routes['create'] }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
+            <a href="{{ route($routes['create']) }}" class="bg-gray-800 text-gray-200 px-3 py-2 my-5 inline-block">Nouveau</a>
         @endif
         <div class="w-72">        
             @livewire('search')

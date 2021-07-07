@@ -4,15 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anime;
-use App\Models\AnimeGenre;
-use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\Input;
+
 
 class AnimeController extends Controller
 {
@@ -160,21 +156,11 @@ class AnimeController extends Controller
              'genre' => 'required|array',
              'genre.*' => 'required|string|exists:genres,id'
             ]);
-            // dd($validatedGenres);
+      
             $anime = Anime::find($id);
             $anime->update($validatedAnime);
             
         $anime->genres()->sync(Arr::first($validatedGenres));
-        // $anime = DB::table('animes')->updateGetId(array_merge($validatedAnime, ['updated_at' => now()]));
-
-        // foreach(Arr::first($validatedGenres) as $genre_id) {
-            
-        //     DB::table('anime_genre')->update([
-        //         'anime_id' => $anime,
-        //         'genre_id' => $genre_id,
-        //         'created_at' => now()
-        //     ]);
-        // }
 
         return redirect()->back()->with('success', 'Anime modifié avec succès');
     }

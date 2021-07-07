@@ -1,4 +1,4 @@
-<x-layouts.admin>
+{{-- <x-layouts.admin>
 
     <h1 class="text-2xl border-b-4 border-gray-800">Tous les comptes</h1>
     <div class="flex items-center justify-between">
@@ -12,8 +12,6 @@
     <table class="table-auto w-full px-4 mb-4">
         <thead class="bg-blue-400">
             <tr class="text-left">
-                {{-- <th class=""><a href="{{ url()->full()."?order_by=title" }}" class="px-5 py-2 inline-block
-                w-full">Nom</a></th> --}}
 
                 <th><a href="{{ h_sort_table('email', 'desc') }}" class="px-5 py-2 inline-block w-full">Email</a></th>
                 <th><a href="{{ h_sort_table('name', 'desc') }}" class="px-5 py-2 inline-block w-full">Nom</a></th>
@@ -69,4 +67,32 @@
     </table>
     {{ $users->links() }}
 
-</x-layouts.admin>
+</x-layouts.admin> --}}
+
+
+<x-table.table-page :routes="$routes" :objects="$objects" :without-trashed-count="$withoutTrashedCount" :trashed-count="$trashedCount">
+    <x-slot name="h1">Tous les utilisateurs</x-slot>
+    <x-table.table>
+        <x-slot name="tableHeader">
+            <x-table.th.order-by sort-by="email" default="desc">Email </x-table.th.order-by>
+            <x-table.th.order-by sort-by="name" default="desc">Nom</x-table.th.order-by>
+            <x-table.th.order-by sort-by="role" default="desc">Role</x-table.th.order-by>
+            <x-table.th.order-by sort-by="created_at" default="desc">Date</x-table.th.order-by>
+        </x-slot>
+        <x-slot name="tableBody">
+            @foreach ($objects as $object)
+            <tr class="even:bg-blue-100">
+                <x-table.td.checkbox :object="$object"/>
+                <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->email }} </x-table.td.link> 
+                <x-table.td.td>{{ $object->name }}</x-table.td.td> 
+                <x-table.td.td>{{ $object->role }}</x-table.td.td> 
+                <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
+                <x-table.actions.td>
+                    <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
+                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" :type="$type" :value="$object->id" />
+                </x-table.actions.td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table.table>
+</x-table.table-page>
