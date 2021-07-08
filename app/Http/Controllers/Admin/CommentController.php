@@ -26,28 +26,14 @@ class CommentController extends BaseAdminController
 
         $arr = $this->counts();
         
-        $accepted_order_bys = ['author', 'created_at'];
-        $default_order_by = 'author';
+        $accepted_order_bys = ['author', 'created_at', 'email'];
+        $default_order_by = 'email';
         $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
         $arr['routes'] = $this->getRoutes(['show', 'destroy']);
         
-        return view('admin.animes.index', $arr);
+        return view('admin.comments.index', $arr);
 
 
-        $objects = $this->search();
-        $type = 'Comment';
-        $withoutTrashedCount = Comment::all()->count();
-        $trashedCount = Comment::onlyTrashed()->count();
-        
-        $routes = [
-            'index' => route('admin.comments.index'),
-            'trash' => route('admin.comments.trashed'),
-            'show' => 'admin.comments.show',
-            'destroy' => 'admin.animes.destroy'
-        ];
-        
-              
-        return view('admin.comments.index', compact('objects', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
 
     }
 

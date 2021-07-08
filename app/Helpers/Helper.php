@@ -26,7 +26,6 @@ function h_sort_table($param, $default = 'asc') {
         return url()->current().'?order_by='.$param.'&dir=asc';
     }
     
-
     return url()->current().'?order_by='.$param.'&dir=desc';
     
 }
@@ -37,8 +36,9 @@ function h_sortArrow($col) {
     //recuperer direction
     $order_by = request('order_by');
     if($order_by !==$col)
-        return '';
+    return '';
     $dir = request('dir');
+   
     return $dir === 'desc' ? 'fa fa-arrow-down' : 'fa fa-arrow-up';
     
 }
