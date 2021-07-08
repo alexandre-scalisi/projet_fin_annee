@@ -32,7 +32,8 @@ class AnimeController extends BaseAdminController
     public function index()
     {
         $this->indexAndRestoreHelper($this->model::withoutTrashed());
-        
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+
         return view('admin.animes.index', $this->arr);
     }
 
@@ -40,6 +41,7 @@ class AnimeController extends BaseAdminController
 
         
         $this->indexAndRestoreHelper($this->model::onlyTrashed());
+        $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
 
         return view('admin.animes.trashed', $this->arr);
     }
@@ -218,7 +220,6 @@ class AnimeController extends BaseAdminController
         $this->accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
         $this->default_order_by = 'title';
         $this->arr['objects'] = $this->search($model, $this->accepted_order_bys, $this->default_order_by);
-        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
     }
     
     

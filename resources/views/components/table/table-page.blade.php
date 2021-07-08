@@ -15,7 +15,7 @@
     </div>
 
     {{ $slot }}
-    <form action="{{ route( $routes['destroy'], [-1, -1]) }}" method="POST">
+    <form action="{{ route( $routes['destroy'] ?? $routes['forceDelete'], [-1, -1]) }}" method="POST">
         @csrf
         @method('DELETE')
         @foreach ($objects as $object)
