@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 
 abstract class BaseAdminController extends Controller
 {
+    protected $per_page;
     protected $model_name;
     
     protected function __construct() {
         $this->model = 'App\\Models\\'.$this->model_name;
+        $this->arr = $this->counts();
         $this->lc_plural_model = Str::plural(Str::lower($this->model_name));
+        $this->per_page = 20;
     }
 
     protected function counts() {
@@ -41,6 +44,14 @@ abstract class BaseAdminController extends Controller
 
         return $finalRoutes;
     }
+
+
+
+    
+
+
+
+////////////////////////  SEARCH METHODS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     protected function search($model, $accepted_order_bys, $default_order_by) {
         $order_by = lcfirst(request()->input('order_by', $default_order_by));
         $order_by = in_array( $order_by, $accepted_order_bys) ? $order_by : $default_order_by;
@@ -48,29 +59,30 @@ abstract class BaseAdminController extends Controller
         $dir = lcfirst(request()->input('dir', 'asc')) === 'desc' ? 'desc' : 'asc';
         $special_order_bys = ["author", "email", "vote", "episodes"];
         
-        
-        if(in_array($order_by, $special_order_bys)) {
-            return $this->specialSearch($model, $order_by, $dir);
+        if(in_array($order_by, $special_order_bys) && $this->model_name != 'User') {
+            return $this->specialSearch($model, $order_by, $dir)->paginate($this->per_page);
         }
 
-        return $model->orderBy($order_by, $dir)->paginate(20);
+        return $model->orderBy($order_by, $dir)->paginate($this->per_page);
     }
 
+
+    //helper for search function
     private function specialSearch($model, $order_by, $dir) {
+
         if($order_by === "name" || $order_by === "email") {
             return $model->join('users', 'users.id', '=', "$this->lc_plural_model.user_id")
                                  ->select("$this->lc_plural_model.*", 'users.'.$order_by)
-                                 ->orderBy($order_by, $dir)
-                                 ->paginate(20);
+                                 ->orderBy($order_by, $dir);
         }
 
         if($order_by === 'vote') {
             
-            return $model->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $dir)->paginate(20);
+            return $model->withAvg('votes', 'vote')->orderBy('votes_avg_vote', $dir);
 
         }
         else if($order_by == "episodes") {
-            return $model->withCount('episodes')->orderBy('episodes_count', $dir)->paginate(20);
+            return $model->withCount('episodes')->orderBy('episodes_count', $dir);
         }
     }
 

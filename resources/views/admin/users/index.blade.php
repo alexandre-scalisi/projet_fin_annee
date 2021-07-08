@@ -89,7 +89,7 @@
                 <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
                 <x-table.actions.td>
                     <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
-                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" :type="$type" :value="$object->id" />
+                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="utilisateur" :value="$object->id" />
                 </x-table.actions.td>
             </tr>
             @endforeach

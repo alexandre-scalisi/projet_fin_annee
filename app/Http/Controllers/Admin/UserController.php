@@ -12,9 +12,17 @@ use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 
-class UserController extends Controller
+class UserController extends BaseAdminController
 {
     
+
+    public function __construct()
+    {
+        $this->model_name = 'User';
+        parent::__construct();
+        
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,20 +30,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $objects = $this->search();
-        $type = 'Utilisateur';
-        $withoutTrashedCount = User::all()->count();
-        $trashedCount = User::onlyTrashed()->count();
-        $routes = [
-            'index' => route('admin.users.index'),
-            'trash' => route('admin.users.trashed'),
-            'show' => 'admin.users.show',
-            'create' => 'admin.users.create',
-            'destroy' => 'admin.users.destroy'
-        ];
-        //show edit delete addAnime
+        $arr = $this->counts();
+
+        $accepted_order_bys = ['email', 'name', 'role', 'created_at'];
+        $default_order_by = 'email';
+        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
+        $arr['routes'] = $this->getRoutes(['show', 'create', 'destroy']);
+
               
-        return view('admin.users.index', compact('objects', 'type', 'withoutTrashedCount', 'trashedCount', 'routes'));
+        return view('admin.users.index', $arr);
     }
 
     /**
@@ -118,17 +121,17 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Utilisateur Supprimé avec succès');
     }
 
-    private function search() {
-        $order_by = lcfirst(request()->input('order_by', 'email'));
-        $dir = lcfirst(request()->input('dir', 'asc'));
-        $accepted_order_bys = ['name', 'email', 'role', 'created_at'];
-        $accepted_dirs =['asc', 'desc'];
-        if(!in_array($order_by, $accepted_order_bys))
-            $order_by = 'email';
-        if(!in_array($dir, $accepted_dirs))
-            $dir = 'asc';
+    // private function search() {
+    //     $order_by = lcfirst(request()->input('order_by', 'email'));
+    //     $dir = lcfirst(request()->input('dir', 'asc'));
+    //     $accepted_order_bys = ['name', 'email', 'role', 'created_at'];
+    //     $accepted_dirs =['asc', 'desc'];
+    //     if(!in_array($order_by, $accepted_order_bys))
+    //         $order_by = 'email';
+    //     if(!in_array($dir, $accepted_dirs))
+    //         $dir = 'asc';
       
-        return User::orderBy($order_by, $dir)->paginate(20);
+    //     return User::orderBy($order_by, $dir)->paginate(20);
         
-    }
+    // }
 }

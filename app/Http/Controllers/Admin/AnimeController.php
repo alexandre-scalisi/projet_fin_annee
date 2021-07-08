@@ -31,16 +31,17 @@ class AnimeController extends BaseAdminController
 
     public function index()
     {
+        $this->indexAndRestoreHelper($this->model::withoutTrashed());
         
+        return view('admin.animes.index', $this->arr);
+    }
 
-        $arr = $this->counts();
+    public function trashed() {
+
         
-        $accepted_order_bys = ['title', 'created_at', 'vote', 'episodes'];
-        $default_order_by = 'title';
-        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        $arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+        $this->indexAndRestoreHelper($this->model::onlyTrashed());
 
-        return view('admin.animes.index', $arr);
+        return view('admin.animes.trashed', $this->arr);
     }
 
     /**
@@ -212,13 +213,12 @@ class AnimeController extends BaseAdminController
         return redirect()->back()->with('success', 'Animes définitivement supprimés avec succès');
     }
 
-    public function trashed() {
-        $animes = $this->search(Anime::onlyTrashed());
-        $type = 'Anime';
-        $withoutTrashedCount = Anime::all()->count();
-        $trashedCount = Anime::onlyTrashed()->count();
-              
-        return view('admin.animes.trashed', compact('animes', 'type', 'withoutTrashedCount', 'trashedCount'));
+
+    private function indexAndRestoreHelper($model) {
+        $this->accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        $this->default_order_by = 'title';
+        $this->arr['objects'] = $this->search($model, $this->accepted_order_bys, $this->default_order_by);
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
     }
     
     
