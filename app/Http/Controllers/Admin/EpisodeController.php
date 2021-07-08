@@ -135,6 +135,11 @@ class EpisodeController extends BaseAdminController
         Episode::withoutTrashed()->whereIn('id', $deletes)->delete();
         return redirect()->back()->with('success', 'Episode(s) envoyé(s) à la poubelle avec succès');
     }
+
+    
+
+
+
     public function restore()
     {
         $restores = request('restore');
@@ -154,8 +159,5 @@ class EpisodeController extends BaseAdminController
         return redirect()->back()->with('success', 'Episodes définitivement supprimés avec succès');
     }
 
-    public function trashed() {
-        return ;
-    }
 
 }

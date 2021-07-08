@@ -37,15 +37,6 @@ class AnimeController extends BaseAdminController
         return view('admin.animes.index', $this->arr);
     }
 
-    public function trashed() {
-
-        
-        $this->indexAndRestoreHelper($this->model::onlyTrashed());
-        $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
-
-        return view('admin.animes.trashed', $this->arr);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -192,34 +183,22 @@ class AnimeController extends BaseAdminController
         
         return redirect()->back()->with('success', 'Anime(s) envoyé(s) à la poubelle avec succès');
     }
-    public function restore()
+   
+   
+
+
+    protected function restore()
     {
         $restores = request('restore');
 
         if(!$restores)
             return redirect()->back();
         foreach($restores as $restore) {
-            Anime::onlyTrashed()->find($restore)->episodes()->delete();
-            Anime::onlyTrashed()->find($restore)->delete();
+            // Anime::onlyTrashed()->find($restore)->episodes()->restore();
+            $this->model::onlyTrashed()->find($restore)->restore();
         }
         
         return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
-    }
-    public function forceDelete()
-    {
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
-
-        Anime::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
-        return redirect()->back()->with('success', 'Animes définitivement supprimés avec succès');
-    }
-
-
-    private function indexAndRestoreHelper($model) {
-        $this->accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
-        $this->default_order_by = 'title';
-        $this->arr['objects'] = $this->search($model, $this->accepted_order_bys, $this->default_order_by);
     }
     
     

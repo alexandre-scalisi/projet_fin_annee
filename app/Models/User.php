@@ -77,4 +77,7 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class);
     }
     
+    public function restore() {
+        dd($this->onlyTrashed());
+    }
 }

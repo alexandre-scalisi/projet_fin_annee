@@ -63,3 +63,7 @@ function h_find_image($path) {
 function h_isAdminRoute() {
     return Illuminate\Support\Facades\Request::segment(1) === 'admin';
 }
+
+function h_format_date_short($date) {
+    return Carbon\Carbon::parse( $date)->format('d-m-y');
+}

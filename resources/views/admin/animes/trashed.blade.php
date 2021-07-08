@@ -85,19 +85,19 @@
 
 <x-table.table-page :routes="$routes" :objects="$objects" :without-trashed-count="$withoutTrashedCount" :trashed-count="$trashedCount">
     <x-slot name="h1">Tous les animes supprimés</x-slot>
-    <x-table.table>
+    <x-table.table :objects="$objects" type="anime" :routes="$routes">
+        
         <x-slot name="tableHeader">
             <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
-            <x-table.th.order-by sort-by="deleted_at">Date de suppression</x-table.th.order-by>
         </x-slot>
         <x-slot name="tableBody">
             @foreach ($objects as $object)
             <tr class="even:bg-blue-100">
                 <x-table.td.checkbox :object="$object"/>
-                <x-table.td.td>{{ Carbon\Carbon::parse( $object->delete_at)->format('d-m-y') }}</x-table.td.td>
-                <x-table.actions.trash-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime"/>
-                    
-            </tr>
+                <x-table.td.td>{{ $object->title }} </x-table.td.td> 
+                <x-table.td.date :date="$object->deleted_at"/>
+                <x-table.actions.trash-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime" />           
+            </tr>    
             @endforeach
         </x-slot>
     </x-table.table>

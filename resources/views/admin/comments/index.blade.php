@@ -6,8 +6,6 @@
             <x-table.th.order-by sort-by="email" default="desc">Email</x-table.th.order-by>
             <x-table.th.order-by sort-by="name" default="desc">Auteur</x-table.th.order-by>
             <x-table.th.th>Contenu</x-table.th.th>
-            <th class="px-5 py-2 inline-block w-full">Date de création</th>
-            
         </x-slot>
         <x-slot name="tableBody">
             @foreach ($objects as $object)
@@ -21,10 +19,8 @@
                 <x-table.actions.td>
                     <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
                     <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="comment" :value="$object->id" />
-
                 </x-table.actions.td>
 
-                
             </tr>
             @endforeach
         </x-slot>

@@ -1,0 +1,1 @@
+<x-table.td.td>{{ h_format_date_short($date)}}</x-table.td.td>

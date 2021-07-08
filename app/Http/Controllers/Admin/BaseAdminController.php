@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 abstract class BaseAdminController extends Controller
 {
     protected $per_page;
+    protected $arr;
     protected $model_name;
+    protected $lc_plural_model;
     
     protected function __construct() {
         $this->model = 'App\\Models\\'.$this->model_name;
@@ -27,6 +29,39 @@ abstract class BaseAdminController extends Controller
         
         return compact('withoutTrashedCount', 'trashedCount' );
     }
+
+    protected function trashed() {
+
+        $this->indexAndRestoreHelper($this->model::onlyTrashed());
+        $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
+    
+        return view('admin.'.$this->lc_plural_model.'.trashed', $this->arr);
+    }
+
+    protected function forceDelete()
+    {
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+
+        $this->model::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
+        return redirect()->back()->with('success', $this->model_name.'(s) définitivement supprimé(s) avec succès');
+    }
+
+    protected function restore()
+    {
+        $restores = request('restore');
+
+        if(!$restores)
+            return redirect()->back();
+        foreach($restores as $restore) {
+            // Anime::onlyTrashed()->find($restore)->episodes()->restore();
+            $this->model::onlyTrashed()->find($restore)->restore();
+        }
+        
+        return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
+    }
+
     
     protected function getRoutes($routes, $nested = [], $nested_model='' ) {
         $finalRoutes = ['index' => route("admin.$this->lc_plural_model.index"),
@@ -48,7 +83,11 @@ abstract class BaseAdminController extends Controller
 
 
     
-
+    protected function indexAndRestoreHelper($model) {
+        $this->accepted_order_bys = ['title', 'release_date', 'created_at', 'vote', 'episodes'];
+        $this->default_order_by = 'title';
+        $this->arr['objects'] = $this->search($model, $this->accepted_order_bys, $this->default_order_by);
+    }
 
 
 ////////////////////////  SEARCH METHODS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
