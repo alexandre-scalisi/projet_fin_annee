@@ -78,6 +78,7 @@ class User extends Authenticatable
     }
     
     public function restore() {
-        dd($this->onlyTrashed());
+        $this->episodes->restore();
+        $this->restore();
     }
 }
