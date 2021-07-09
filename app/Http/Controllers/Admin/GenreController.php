@@ -96,11 +96,4 @@ class GenreController extends BaseAdminController
      * @return \Illuminate\Http\Response
      */
 
-
-
-    public function trashed() {
-
-    }
-
-
 }
