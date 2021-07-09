@@ -165,41 +165,7 @@ class AnimeController extends BaseAdminController
         return redirect()->back()->with('success', 'Anime modifié avec succès');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy()
-    {
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
-        foreach($deletes as $delete) {
-            Anime::withoutTrashed()->find($delete)->episodes()->delete();
-            Anime::withoutTrashed()->find($delete)->delete();
-        }
-        
-        return redirect()->back()->with('success', 'Anime(s) envoyé(s) à la poubelle avec succès');
-    }
    
-   
-
-
-    protected function restore()
-    {
-        $restores = request('restore');
-
-        if(!$restores)
-            return redirect()->back();
-        foreach($restores as $restore) {
-            // Anime::onlyTrashed()->find($restore)->episodes()->restore();
-            $this->model::onlyTrashed()->find($restore)->restore();
-        }
-        
-        return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
-    }
     
     
 

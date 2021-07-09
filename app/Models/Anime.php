@@ -19,6 +19,18 @@ class Anime extends Model
         'studio'
     ];
 
+   public static function boot() {
+       parent::boot();
+
+       static::deleted(function($anime) {
+        $anime->episodes()->delete();
+       });
+
+       static::restored(function($anime) {
+            $anime->episodes()->restore();
+       });
+   }
+
     protected $primaryKey = 'id';
 
     public $incrementing = false;

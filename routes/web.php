@@ -63,4 +63,3 @@ Route::resource('animes', AnimeController::class);
 Route::resource('animes.episodes', EpisodeController::class);
 
 Route::resource('search', SearchController::class)->only(['index', 'show']);
-Route::match(['GET', 'POST', 'PATCH'], '/test');

@@ -95,10 +95,7 @@ class GenreController extends BaseAdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+
 
 
     public function trashed() {

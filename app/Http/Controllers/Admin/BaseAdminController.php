@@ -38,6 +38,20 @@ abstract class BaseAdminController extends Controller
         return view('admin.'.$this->lc_plural_model.'.trashed', $this->arr);
     }
 
+
+    protected function destroy()
+    {
+       
+        $deletes = request('delete');
+        if(!$deletes)
+            return redirect()->back();
+
+        $this->model::whereIn('id', $deletes)->delete();
+        
+        return redirect()->back()->with('success', $this->model_name.'(s) supprimé(s) avec succès');
+    }
+
+
     protected function forceDelete()
     {
         $deletes = request('delete');
@@ -48,19 +62,21 @@ abstract class BaseAdminController extends Controller
         return redirect()->back()->with('success', $this->model_name.'(s) définitivement supprimé(s) avec succès');
     }
 
+    
+
     protected function restore()
     {
         $restores = request('restore');
 
         if(!$restores)
             return redirect()->back();
-        foreach($restores as $restore) {
-            // Anime::onlyTrashed()->find($restore)->episodes()->restore();
-            $this->model::onlyTrashed()->find($restore)->restore();
-        }
+
+        $this->model::onlyTrashed()->where('id', $restores)->restore();
         
-        return redirect()->back()->with('success', 'Anime(s) restauré(s) avec succès');
+        return redirect()->back()->with('success', $this->model_name.'(s) restauré(s) avec succès');
     }
+
+    
 
     
     protected function getRoutes($routes, $nested = [], $nested_model='' ) {
