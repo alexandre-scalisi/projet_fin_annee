@@ -25,16 +25,15 @@ class AnimeController extends BaseAdminController
     {
         $this->model_name = 'Anime';
         parent::__construct();
-        
+        $this->accepted_order_bys = ['title', 'created_at', 'vote', 'episodes'];
+        $this->default_order_by = 'title';
     }
 
 
     public function index()
     {
-        $this->indexAndRestoreHelper($this->model::withoutTrashed());
         $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
-
-        return view('admin.animes.index', $this->arr);
+        return parent::index();
     }
 
     /**
