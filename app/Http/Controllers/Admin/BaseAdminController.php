@@ -38,8 +38,8 @@ abstract class BaseAdminController extends Controller
     }
     
     protected function trashed() {
-
-        $this->model = $this->model::withoutTrashed();
+        array_push($this->accepted_order_bys, 'deleted_at');
+        $this->model = $this->model::onlyTrashed();
         $this->arr['objects'] = $this->search();
         $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
         
@@ -112,13 +112,13 @@ abstract class BaseAdminController extends Controller
         $order_by = in_array( $order_by, $this->accepted_order_bys) ? $order_by : $this->default_order_by;
         
         $dir = lcfirst(request()->input('dir', 'asc')) === 'desc' ? 'desc' : 'asc';
-
         $special_order_bys = ["author", "email", "vote", "episodes"];
         
         if(in_array($order_by, $special_order_bys) && $this->model_name != 'User') {
             return $this->specialSearch($order_by, $dir)->paginate($this->per_page);
         }
-
+        
+        
         return $this->model->orderBy($order_by, $dir)->paginate($this->per_page);
     }
     
