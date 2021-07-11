@@ -14,10 +14,7 @@
                 <x-table.td.td>{{ $object->name }}</x-table.td.td> 
                 <x-table.td.td>{{ $object->role }}</x-table.td.td> 
                 <x-table.td.date :date="$object->created_at"/>
-                <x-table.actions.td>
-                    <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
-                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="utilisateur" :value="$object->id" />
-                </x-table.actions.td>
+                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime"></x-table.actions.index-actions>
             </tr>
             @endforeach
         </x-slot>
