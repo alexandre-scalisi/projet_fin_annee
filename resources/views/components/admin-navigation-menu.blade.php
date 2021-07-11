@@ -1,5 +1,4 @@
-<div class="mb-10">
-    
+<div class="mb-10"></div>
 <div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4 fixed top-0" style="z-index: 9999">
     <div class="table">
     <a href="{{ h_isAdminRoute() ? route('dashboard') : route('admin.home') }}" class="table-cell align-middle hover:text-blue-400">{{ h_isAdminRoute() ? 'Front office' : 'Back office'}}</a>
@@ -23,10 +22,10 @@
             </ul>
         </div>
         <div class="table" style="margin-left: 0">
-        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">créer nouveau xx<a/>
-        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">modifier xx<a/>
-        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">supprimer xx<a/>
+        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">créer nouveau xx</a>
+        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">modifier xx</a>
+        <a href="#" class="table-cell align-middle px-6 hover:text-blue-400">supprimer xx</a>
         </div>
     </div>
 </div>
-</div>
+<div class="mb-24 md:mb-0"></div>

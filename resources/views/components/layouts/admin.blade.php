@@ -26,11 +26,11 @@
             <x-admin-navigation-menu/>
             
             <!-- Page Heading -->
-            <div class="flex mt-10">
-                <x-admin-sidebar/>
+            <x-admin-sidebar/>
+            <div class="flex mt-10 flex-wrap md:flex-nowrap md:ml-44">
             
                 <!-- Page Content -->
-                <main class="max-w-7xl w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <main class="max-w-7xl w-full mx-auto md:py-6 px-4 sm:px-6 lg:px-8">
                     
                     @if (Session::has('success'))
                         <div class="rounded-md bg-green-500 w-full h-12 px-2 mb-4 flex items-center space-x-4" x-show="show" x-data="{ show:true }" >
