@@ -24,7 +24,7 @@
             @enderror
         </div>
         <div class="block mb-4">
-            <label for="release_date">release_date</label>
+            <label for="release_date">date de sortie</label>
             <input type="date" name="release_date" id="release_date">
         </div>
         <div class="text-red-500">

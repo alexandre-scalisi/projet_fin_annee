@@ -13,7 +13,7 @@
 
         </div>
         <div class="px-4 py-4 text-xl text-center">
-            <p>Etes vous sûr de vouloir supprimer cet {{ $type }} ?</p>
+            <p>Etes vous sûr de vouloir supprimer ce(t) {{ $type }} ?</p>
         </div>
 
 

@@ -19,6 +19,8 @@ class UserController extends BaseAdminController
     public function __construct()
     {
         $this->model_name = 'User';
+        $this->default_order_by = 'email';
+        $this->accepted_order_bys=['email'];
         parent::__construct();
         
     }
@@ -30,15 +32,9 @@ class UserController extends BaseAdminController
      */
     public function index()
     {
-        $arr = $this->counts();
-
-        $accepted_order_bys = ['email', 'name', 'role', 'created_at'];
-        $default_order_by = 'email';
-        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        $arr['routes'] = $this->getRoutes(['show', 'create', 'destroy']);
-
-              
-        return view('admin.users.index', $arr);
+        array_push($this->accepted_order_bys, 'name', 'role', 'created_at');
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'destroy']);
+        return parent::index();
     }
 
     /**

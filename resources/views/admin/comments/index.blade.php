@@ -15,10 +15,10 @@
                 <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->author->email }} </x-table.td.link> 
                 <x-table.td.td>{{ $object->author->name }}</x-table.td.td>
                 <x-table.td.td>{{ $object->body }}</x-table.td.td>
-                <x-table.td.td>{{ Carbon\Carbon::parse( $object->created_at)->format('d-m-y') }}</x-table.td.td>
+                <x-table.td.date :date="$object->created_at"/>
                 <x-table.actions.td>
                     <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
-                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="comment" :value="$object->id" />
+                    <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="commentaire" :value="$object->id" />
                 </x-table.actions.td>
 
             </tr>
@@ -26,3 +26,4 @@
         </x-slot>
     </x-table.table>
 </x-table.table-page> 
+

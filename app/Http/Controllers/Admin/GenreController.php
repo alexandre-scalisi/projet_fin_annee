@@ -18,17 +18,16 @@ class GenreController extends BaseAdminController
     {
         $this->model_name = 'Genre';
         parent::__construct();
-        $this->accepted_order_bys = ['name', 'created_at'];
         $this->default_order_by = 'name';
+        $this->accepted_order_bys=['name'];
         
     }
 
     public function index()
     {     
-        $this->arr['objects'] = $this->search();
+        array_push($this->accepted_order_bys, 'release_date', 'created_at', 'vote', 'episodes');
         $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
-
-        return view('admin.genres.index', $this->arr);
+        return parent::index();
 
     }
 

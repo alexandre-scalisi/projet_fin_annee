@@ -18,6 +18,8 @@ class EpisodeController extends BaseAdminController
     public function __construct()
     {
         $this->model_name = 'Episode';
+        $this->default_order_by = 'title';
+        $this->accepted_order_bys=['title'];
         parent::__construct();
         
     }
@@ -25,13 +27,9 @@ class EpisodeController extends BaseAdminController
 
     public function index()
     {
-        $arr = $this->counts();
-        $accepted_order_bys = ['title', 'created_at'];
-        $default_order_by = 'title';
-        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        $arr['routes'] = $this->getRoutes([], ['show', 'update', 'destroy'], 'animes');
-        
-        return view('admin.episodes.index', $arr);
+        array_push($this->accepted_order_bys, 'created_at');
+        $this->arr['routes'] = $this->getRoutes([], ['show', 'update', 'destroy'], 'animes' );
+        return parent::index();
     }
 
     /**

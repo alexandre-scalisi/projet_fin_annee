@@ -34,7 +34,7 @@ abstract class BaseAdminController extends Controller
         $this->model = $this->model::withoutTrashed();
         $this->arr['objects'] = $this->search();
 
-        return view('admin.animes.index', $this->arr);
+        return view('admin.'.$this->lc_plural_model.'.index', $this->arr);
     }
     
     protected function trashed() {

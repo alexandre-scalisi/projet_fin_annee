@@ -18,28 +18,20 @@ class CommentController extends BaseAdminController
     public function __construct()
     {
         $this->model_name = 'Comment';
+        $this->default_order_by = 'email';
+        $this->accepted_order_bys = ['email'];
         parent::__construct();
         
     }
     public function index()
     {
 
-        $arr = $this->counts();
-        
-        $accepted_order_bys = ['author', 'created_at', 'email'];
-        $default_order_by = 'email';
-        $arr['objects'] = $this->search($this->model::withoutTrashed(), $accepted_order_bys, $default_order_by);
-        $arr['routes'] = $this->getRoutes(['show', 'destroy']);
-        
-        return view('admin.comments.index', $arr);
-
-
-
+        array_push($this->accepted_order_bys, 'created_at', 'email');
+        $this->arr['routes'] = $this->getRoutes(['show', 'destroy']);
+        return parent::index();
     }
 
     public function show($id) {}
-
-    public function trashed(){}
 
 
     public function destroy(){}
