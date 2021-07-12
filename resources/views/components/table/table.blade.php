@@ -5,9 +5,9 @@
             <x-table.th.checkbox />
             {{ $tableHeader }}
             @if (last(explode('/', url()->current())) === "trashed")
-            <x-table.th.order-by sort-by="deleted_at" default="desc">Date de suppression</x-table.th.order-by>
+            <x-table.th.order-by sort-by="deleted_at" default="desc" center="true">Date de suppression</x-table.th.order-by>
             @else
-            <x-table.th.order-by sort-by="created_at" default="desc">Date de création</x-table.th.order-by>
+            <x-table.th.order-by sort-by="created_at" default="desc" center="true">Date de création</x-table.th.order-by>
             @endif
             <th class="text-center">Action</th>
         </tr>

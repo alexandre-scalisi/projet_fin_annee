@@ -3,44 +3,16 @@
     
     <form method="POST" action={{ route('admin.animes.episodes.store', $anime_id) }} enctype="multipart/form-data">
         @csrf
-        <div class="flex">
-            <div class="block mb-4">
-                <label for="title" class="block">Numéro de l'épisode</label>
-                <input type="text" name="title" id="title">
-            </div>
-            <div class="block mb-4">
-                <label for="title" class="block">Numéro de l'épisode</label>
-                <input type="text" name="title" id="title">
-            </div>
+        <div class="flex flex-wrap gap-x-8">
+            <x-form.number name="episode_number" text="Numéro de l'épisode" max="10000"/>
+            <x-form.number name="season_number" text="Numéro de la saison (vide si pas de saison)" max="100"/>
         </div>
         
-        <x-form.error error="title" />
-        <div class="block mb-4">
-            <label for="adn">ADN</label>
-            <input type="text" name="adn" id="adn">
-        </div>
-        <x-form.error error="adn" />
+        <x-form.text name="adn" text="ADN"/>
 
-        <div class="block mb-4">
-            <label for="crunchyroll">Crunchyroll</label>
-            <input type="text" name="crunchyroll" id="crunchyroll">
-        </div>
+        <x-form.text name="crunchyroll" text="Crunchyroll"/>
         
-        <div class="text-red-500">
-            @error('crunchyroll')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-            <label for="wakanim">Wakanim</label>
-            <input type="text" name="wakanim" id="wakanim">
-        </div>
-        
-        <div class="text-red-500">
-            @error('wakanim')
-            {{ $message }}
-            @enderror
-        </div>
+        <x-form.text name="wakanim" text="Wakanim"/>
 
 
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>

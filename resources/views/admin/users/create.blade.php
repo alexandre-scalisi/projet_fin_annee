@@ -1,63 +1,25 @@
 <x-layouts.admin>
-    <h1>Ajouter Utilisateur</h1>
+    <h1 class="mb-4">Ajouter Utilisateur</h1>
     
     <form method="POST" action={{ route('admin.users.store') }}>
         @csrf
-        <div class="block mb-4">
-        <label for="nom">Nom</label>
-        <input type="text" name="name" id="name">
+        <x-form.basic-input name="name" text="Nom"/>
         
-        </div>
-        <div class="text-red-500">
-            @error('name')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-        <label for="email">email</label>
-        <input type="email" name="email" id="email">
+        <x-form.basic-input type="email" name="email" text="Email" /> 
         
-        </div>
-        <div class="text-red-500">
-            @error('email')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-        <label for="password">password</label>
-        <input type="password" name="password" id="password">
+        <x-form.basic-input type="password" name="password" id="password" text="Mot de passe" />
         
-        </div>
-        <div class="text-red-500">
-            @error('password')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-        <label for="password_confirmation">confirmer le mot de passe</label>
-        <input type="password" name="password_confirmation" id="password_confirmation">
+        <x-form.basic-input type="password" name="password_confirm" text="Confirmer le mot de passe" />
         
-        </div>
-        <div class="text-red-500">
-            @error('password')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
+        <x-form.container error="role">
+            <label for="role" class="block">Role</label>
             <select name="role">
                 <option>user</option>
                 <option>premium</option>
                 <option>admin</option>
             </select>
-        </div>
-        <div class="text-red-500">
-            @error('role')
-            {{ $message }}
-            @enderror
-        </div>
-        
-       
-        
+        </x-form.container>
+
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>
     </form>
 </x-layouts.admin>

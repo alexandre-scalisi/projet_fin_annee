@@ -1,4 +1,4 @@
-@props(['error' => null, 'name', 'text'])
+@props(['error' => $name, 'name', 'text'])
 
 <x-form.container :error="$error"> 
     <label for="{{ $name }}" class="block">{{ $text }}</label>

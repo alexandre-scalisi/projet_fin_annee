@@ -3,12 +3,12 @@
     
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf
-        <x-form.text name="title" text="Titre" error="title"/>
+        <x-form.text name="title" text="Titre"/>
         
-        <x-form.textarea name="synopsis" text="Synopsis" error="synopsis" />
+        <x-form.textarea name="synopsis" text="Synopsis"/>
         
-        <x-form.date name="release_date" text="Date de sortie" error="release_date" />
-        <x-form.text name="studio" text="studio" error="studio" /> 
+        <x-form.date name="release_date" text="Date de sortie"/>
+        <x-form.text name="studio" text="studio" /> 
         <x-form.container error="image">
             <div x-data="{ obj: window.edit() }" x-init="obj.init()">
                 <label for="image-input" class="block">Image (16/9 recommandé)</label>
@@ -20,7 +20,7 @@
                 <p class="text-red-500 hidden" id="invalid-msg">Format invalide, formats autorisés: jpg, jpeg, png</p>
             </div>
         </x-form.container>
-        <div class="block mb-4">
+        <x-form.container>
             <x-genre-modal />
             @error('genre.*')
             {{ $message }}
@@ -28,7 +28,7 @@
             @error('genre')
             {{ $message }}
             @enderror
-        </div>
+        </x-form.container>
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>
     </form>
 </x-layouts.admin>
