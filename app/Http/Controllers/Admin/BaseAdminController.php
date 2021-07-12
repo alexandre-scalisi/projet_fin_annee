@@ -53,7 +53,9 @@ abstract class BaseAdminController extends Controller
         $deletes = request('delete');
         if(!$deletes)
         return redirect()->back();
-        
+        $this->model::where('id', $deletes)->each(function ($m) {
+            $m->delete();
+        });
         $this->model::whereIn('id', $deletes)->delete();
         
         return redirect()->back()->with('success', $this->model_name.'(s) supprimé(s) avec succès');

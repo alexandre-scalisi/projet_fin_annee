@@ -22,11 +22,11 @@ class Anime extends Model
    public static function boot() {
        parent::boot();
 
-       static::deleted(function($anime) {
+       self::deleting(function($anime) {
         $anime->episodes()->delete();
        });
 
-       static::restored(function($anime) {
+       self::restoring(function($anime) {
             $anime->episodes()->restore();
        });
    }
