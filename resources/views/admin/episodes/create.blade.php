@@ -3,26 +3,24 @@
     
     <form method="POST" action={{ route('admin.animes.episodes.store', $anime_id) }} enctype="multipart/form-data">
         @csrf
-        <div class="block mb-4">
-            <label for="title">Titre</label>
-            <input type="text" name="title" id="title">
+        <div class="flex">
+            <div class="block mb-4">
+                <label for="title" class="block">Numéro de l'épisode</label>
+                <input type="text" name="title" id="title">
+            </div>
+            <div class="block mb-4">
+                <label for="title" class="block">Numéro de l'épisode</label>
+                <input type="text" name="title" id="title">
+            </div>
         </div>
         
-        <div class="text-red-500">
-            @error('title')
-            {{ $message }}
-            @enderror
-        </div>
+        <x-form.error error="title" />
         <div class="block mb-4">
             <label for="adn">ADN</label>
             <input type="text" name="adn" id="adn">
         </div>
-        
-        <div class="text-red-500">
-            @error('adn')
-            {{ $message }}
-            @enderror
-        </div>
+        <x-form.error error="adn" />
+
         <div class="block mb-4">
             <label for="crunchyroll">Crunchyroll</label>
             <input type="text" name="crunchyroll" id="crunchyroll">

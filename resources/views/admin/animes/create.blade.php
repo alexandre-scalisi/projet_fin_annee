@@ -3,55 +3,23 @@
     
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf
-        <div class="block mb-4">
-        <label for="title">titre</label>
-        <input type="text" name="title" id="title">
+        <x-form.text name="title" text="Titre" error="title"/>
         
-        </div>
+        <x-form.textarea name="synopsis" text="Synopsis" error="synopsis" />
         
-        <div class="text-red-500">
-        @error('title')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-        <label for="synopsis">synopsis</label>
-        <textarea name="synopsis" id="synopsis"></textarea>
-        </div>
-        <div class="text-red-500">
-        @error('synopsis')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-            <label for="release_date">date de sortie</label>
-            <input type="date" name="release_date" id="release_date">
-        </div>
-        <div class="text-red-500">
-        @error('release_date')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4">
-            <label for="studio">studio</label>
-            <input type="text" name="studio" id="studio">
-        </div>
-        <div class="text-red-500"> 
-        @error('studio')
-            {{ $message }}
-            @enderror
-        </div>
-        <div class="block mb-4" x-data="{ obj: window.edit() }" x-init="obj.init()">
-            <input type="file" name="image" accept="image/*" id="image-input">
-            <div class="w-48 h-28 relative hidden" id="preview-box">
-                <button @click.prevent="obj.deleteImage()" class="absolute right-4 z-50 text-red-600 text-2xl" style="text-shadow: 1px 1px 2px black;">&times;</button>
-                <img id="image" class="w-full h-full">
+        <x-form.date name="release_date" text="Date de sortie" error="release_date" />
+        <x-form.text name="studio" text="studio" error="studio" /> 
+        <x-form.container error="image">
+            <div x-data="{ obj: window.edit() }" x-init="obj.init()">
+                <label for="image-input" class="block">Image (16/9 recommandé)</label>
+                <input type="file" name="image" accept="image/*" id="image-input">
+                <div class="w-48 h-28 relative hidden" id="preview-box">
+                    <button @click.prevent="obj.deleteImage()" class="absolute right-4 z-50 text-red-600 text-2xl" style="text-shadow: 1px 1px 2px black;">&times;</button>
+                    <img id="image" class="w-full h-full">
+                </div>
+                <p class="text-red-500 hidden" id="invalid-msg">Format invalide, formats autorisés: jpg, jpeg, png</p>
             </div>
-            <p class="text-red-500 hidden" id="invalid-msg">Format invalide, formats autorisés: jpg, jpeg, png</p>
-            @error('image')
-            {{ $message }}
-            @enderror
-        </div>
+        </x-form.container>
         <div class="block mb-4">
             <x-genre-modal />
             @error('genre.*')
