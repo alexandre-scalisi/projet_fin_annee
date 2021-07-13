@@ -23,7 +23,8 @@
     <body class="font-sans antialiased">
         @auth
             @if(auth()->user()->role === 'admin')
-        <x-admin-navigation-menu/>
+            <x-admin-navigation-menu/>
+            <div class="mb-24"></div>
             @endif
         @endauth
         <x-jet-banner />
@@ -40,7 +41,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-16">
                 {{ $slot }}
             </main>
         </div>
