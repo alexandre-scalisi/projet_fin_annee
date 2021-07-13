@@ -21,8 +21,6 @@
                 </p>
             </div>
         </div>
-
-
         @endforeach
     </div>
     {{ $animes->links() }}

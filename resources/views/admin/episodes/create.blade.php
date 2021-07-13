@@ -8,11 +8,11 @@
             <x-form.number name="season_number" text="Numéro de la saison (vide si pas de saison)" max="100"/>
         </div>
         
-        <x-form.text name="adn" text="ADN"/>
+        <x-form.basic-input name="adn" text="ADN"/>
 
-        <x-form.text name="crunchyroll" text="Crunchyroll"/>
+        <x-form.basic-input name="crunchyroll" text="Crunchyroll"/>
         
-        <x-form.text name="wakanim" text="Wakanim"/>
+        <x-form.basic-input name="wakanim" text="Wakanim"/>
 
 
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>

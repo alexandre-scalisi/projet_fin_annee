@@ -42,7 +42,7 @@
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
                     class="anime__btn">Dernier EP</a>                    
                    
-                <a href="#" class="anime__comment-link">0 commentaires</a>
+                <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
             </div>
             {{-- TODO Rajouter votes --}}
         </div>

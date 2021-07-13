@@ -51,10 +51,15 @@ class EpisodeController extends BaseAdminController
      */
     public function store(Request $request, Anime $anime)
     {   
+        $title=$anime->title;
+        $episode_name = 'Episode ' . request('episode_number') . ' vostfr';
+        $season = request('season_number') ? ' saison ' . request('season_number') : '';
+        $fullname = $title . ' - ' . $episode_name . $season;
         
         $validatedAdn = [];
         $validatedCrunchyroll = [];
         $validatedWakanim = [];
+
         $validatedTitle = $request->validate([
             'title' => 'required|string|min:2|max:80|unique:episodes,title',
         ]);

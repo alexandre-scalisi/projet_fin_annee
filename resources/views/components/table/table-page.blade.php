@@ -7,9 +7,9 @@
             <a href="{{ route($routes['create']) }}" class="px-3 py-2 h-full block">Nouveau</a>
         @endif
         </div>
-        <div class="w-72">        
-            @livewire('search')
-        </div>
+        <form class="ml-auto" method="GET">        
+            <input type="search" name="q" id="q" placeholder="Rechercher">
+        </form>
     </div>
     <div class="flex py-2">
         <p class="px-2 border-r border-gray-900"><a href="{{ $routes['index'] }}" class="hover:text-green-900 hover:underline font-semibold text-lg">Tous:</a> {{ $withoutTrashedCount }}</p>

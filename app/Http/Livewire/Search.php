@@ -39,11 +39,7 @@ class Search extends Component
     
         if(!empty($firstLetterCollection)) 
             $firstLetterCollection = $firstLetterCollection->sortBy('title');
-        
 
-        
-        
-    
         $this->results = $firstLetterCollection->merge($restCollection)->take(6);
 
 
