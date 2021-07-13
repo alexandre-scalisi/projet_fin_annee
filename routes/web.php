@@ -61,6 +61,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
 
 Route::resource('animes', AnimeController::class);
-Route::resource('animes.episodes', EpisodeController::class);
+Route::resource('animes.episodes', EpisodeController::class)->middleware('verify_episodes_route');
 
 Route::resource('search', SearchController::class)->only(['index', 'show']);

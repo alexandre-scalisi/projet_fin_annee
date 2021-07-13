@@ -2,10 +2,12 @@
 
     <div class="w-full rounded-lg bg-gray-300 p-4 mb-4">
         <form method="GET" id="form">
-
-            <input type="text" name="q" placeholder="Titre" class="block">
-            <div class="block">
-                <label for="minrating">min rating</label>
+            <x-form.container> 
+                <label for="q" class="block">Titre</label>
+                <input type="text" name="q" id="q">
+            </x-form.container>
+            <x-form.container>
+                <label for="minrating" class="block">Note min</label>
                 <select name="minrating" id="minrating" x-data="" x-init="
                 minrating = '{{ request()->query()['minrating'] ?? ''}}';
                 found = [...$el.options].some((e) => e.value === minrating);
@@ -16,8 +18,8 @@
                 <option value="{{ $num }}">{{ $num }}</option>
                 
                 @endforeach
-            </select>
-        </div>
+                </select>
+            </x-form.container>
         
         <div class="block">
             <label for="orderby">trier par</label>

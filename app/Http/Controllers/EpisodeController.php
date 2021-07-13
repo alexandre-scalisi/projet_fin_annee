@@ -49,6 +49,7 @@ class EpisodeController extends Controller
     {
        
         // TODO GERER LES EPISODES PAS BONS
+        
         $links = $episode->links();
         return view('episodes.show', compact('episode', 'links'));
     }

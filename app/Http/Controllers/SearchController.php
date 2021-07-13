@@ -232,7 +232,7 @@ class SearchController extends Controller
                     if($this->tab >= $year - $year_offset) {
                         
                         $query = $this->query->get()->filter(function ($a) {
-                            return date('Y', $a->release_date) == $this->tab;
+                            return date('Y', strtotime($a->release_date)) == $this->tab;
                         });
                         if(count($query) > 0)
                         {
@@ -245,7 +245,7 @@ class SearchController extends Controller
                     else if($this->checkRangeTab()) {
                         [$start, $end] = explode('-', $this->tab);
                         $query = $this->query->get()->filter(function ($a) use ($start, $end){
-                            return date('Y', $a->release_date) >= $start && date('Y', $a->release_date) <= $end;
+                            return date('Y', strtotime($a->release_date)) >= $start && date('Y', strtotime($a->release_date)) <= $end;
                         });
                         
                         if(count($query) > 0)
@@ -259,7 +259,7 @@ class SearchController extends Controller
                     
                     else if ($this->tab === "<= $last_tab_start") {
                         $query = $this->query->get()->filter(function ($a) use($last_tab_start) {
-                            return date('Y', $a->release_date) <= $last_tab_start;
+                            return date('Y', strtotime($a->release_date)) <= $last_tab_start;
                         });
                         
                         if(count($query) > 0)
