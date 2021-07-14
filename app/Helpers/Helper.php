@@ -59,7 +59,7 @@ function h_find_image($path) {
     if(Illuminate\Support\Str::startsWith($path, 'http')) {
         return $path;
     }
-    return asset('storage/images/'.$path);
+    return asset('public/storage/images/'.$path);
 }
 
 function h_isAdminRoute() {
