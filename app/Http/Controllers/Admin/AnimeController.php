@@ -32,6 +32,7 @@ class AnimeController extends BaseAdminController
 
     public function index()
     {
+        
         array_push($this->accepted_order_bys, 'release_date', 'created_at', 'vote', 'episodes');
         $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
         return parent::index();
@@ -166,35 +167,7 @@ class AnimeController extends BaseAdminController
     }
     
     
-    private function searchQ() {
-        $q = request('q');
-        $results = "";
-        $array_words = explode(' ', $q);
-        $new = collect($array_words)->reduce(function($a, $b) {
-            return $a . "%$b%";
-        });
-        
-
-        $first_letter = $q[0] ?? '';
-        $collections = Anime::where('title', 'LIKE', "%$new%")->get()->groupBy(function($a) use($first_letter){
-           
-            return ucfirst($a->title[0]) === ucfirst($first_letter);
-        });
-
-        $firstLetterCollection = $collections[1] ?? collect([]);
-        $restCollection = $collections[0] ?? collect([]);
-        if(empty($restCollection)) {
-            $result = [];
-            return;
-        }
-        $restCollection = $restCollection->sortBy('title');
-        
     
-        if(!empty($firstLetterCollection)) 
-            $firstLetterCollection = $firstLetterCollection->sortBy('title');
-
-        $results = $firstLetterCollection->merge($restCollection);
-    }
     
     
 }

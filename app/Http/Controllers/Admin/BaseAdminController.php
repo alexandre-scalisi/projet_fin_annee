@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseAdminController extends Controller
 {
@@ -31,8 +32,20 @@ abstract class BaseAdminController extends Controller
     }
 
     protected function index() {
-        $this->model = $this->model::withoutTrashed();
-        $this->arr['objects'] = $this->search();
+        $this->model = $this->model::withoutTrashed();   
+        // if(request('q') && !request('order_by')) {
+        //     $this->searchQ();
+        // }
+        // else 
+        $this->search();
+        if(request('q') && !request('order_by')) {
+            $this->searchQ();
+        } else {
+            $this->arr['objects'] =$this->orderBy();
+        }
+        // dd('test');
+
+        
 
         return view('admin.'.$this->lc_plural_model.'.index', $this->arr);
     }
@@ -40,9 +53,8 @@ abstract class BaseAdminController extends Controller
     protected function trashed() {
         array_push($this->accepted_order_bys, 'deleted_at');
         $this->model = $this->model::onlyTrashed();
-        $this->arr['objects'] = $this->search();
+        $this->arr['objects'] = $this->orderBy();
         $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
-        
         return view('admin.'.$this->lc_plural_model.'.trashed', $this->arr);
     }
     
@@ -107,8 +119,8 @@ abstract class BaseAdminController extends Controller
     
     
     
-    ////////////////////////  SEARCH METHODS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    protected function search() {
+    ////////////////////////  Order by METHODS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    protected function orderBy() {
         $order_by = lcfirst(request()->input('order_by', $this->default_order_by));
         $order_by = in_array( $order_by, $this->accepted_order_bys) ? $order_by : $this->default_order_by;
         
@@ -116,7 +128,7 @@ abstract class BaseAdminController extends Controller
         $special_order_bys = ["author", "email", "vote", "episodes"];
         
         if(in_array($order_by, $special_order_bys) && $this->model_name != 'User') {
-            return $this->specialSearch($order_by, $dir)->paginate($this->per_page);
+            return $this->specialOrderBy($order_by, $dir)->paginate($this->per_page);
         }
         
         
@@ -124,8 +136,8 @@ abstract class BaseAdminController extends Controller
     }
     
     
-    //helper for search function
-    private function specialSearch($order_by, $dir) {
+    //helper for Order by method
+    private function specialOrderBy($order_by, $dir) {
         
         if($order_by === "name" || $order_by === "email") {
             return $this->model->join('users', 'users.id', '=', "$this->lc_plural_model.user_id")
@@ -139,8 +151,63 @@ abstract class BaseAdminController extends Controller
             
         }
         else if($order_by == "episodes") {
+            
             return $this->model->withCount('episodes')->orderBy('episodes_count', $dir);
         }
+    }
+
+    protected function search() {
+        $q = request('q');
+
+        if($q === null)
+            return;
+        $array_words = explode(' ', $q);
+        $new = collect($array_words)->reduce(function($a, $b) {
+            return $a . "%$b%";
+        });
+        
+
+        // $first_letter = $q[0] ?? '';
+        
+        $this->model = $this->model->where($this->default_order_by, 'LIKE', "%$new%");
+    }
+
+    protected function searchQ() {
+        // $q = request('q');
+
+        // $array_words = explode(' ', $q);
+        // $new = collect($array_words)->reduce(function($a, $b) {
+        //     return $a . "%$b%";
+        // });
+        
+
+        $first_letter = request('q')[0] ?? '';
+        $collections = $this->model->get()->groupBy(function($a) use($first_letter){
+            return ucfirst($a[$this->default_order_by][0]) === ucfirst($first_letter);
+        });
+        // $collections = $this->model->where($this->default_order_by, 'LIKE', "%$new%")->get()->groupBy(function($a) use($first_letter){
+            
+            // return ucfirst($a[$this->default_order_by][0]) === ucfirst($first_letter);
+        // });
+        $firstLetterCollection = $collections[1] ?? collect([]);
+        $restCollection = $collections[0] ?? collect([]);
+        if(empty($restCollection)) {
+            return;
+        }
+        $restCollection = $restCollection->sortBy($this->default_order_by);
+        
+        if(!empty($firstLetterCollection)) 
+        $firstLetterCollection = $firstLetterCollection->sortBy($this->default_order_by);
+        $array = $firstLetterCollection->merge($restCollection);
+        $total = count($array);
+        $current_page = request()->input("page") ?? 1;
+        $starting_point = ($current_page * $this->per_page) - $this->per_page;
+        $array = $array->slice($starting_point, $this->per_page, true);
+        $this->arr['objects'] = new LengthAwarePaginator($array, $total, $this->per_page, $current_page, [
+            'path' => url()->current(),
+            'query' => request()->query(),
+        ]);
+        
     }
     
 }

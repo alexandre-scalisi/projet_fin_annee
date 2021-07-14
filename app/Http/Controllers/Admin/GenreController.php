@@ -25,6 +25,7 @@ class GenreController extends BaseAdminController
 
     public function index()
     {     
+        
         array_push($this->accepted_order_bys, 'release_date', 'created_at', 'vote', 'episodes');
         $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
         return parent::index();
@@ -92,5 +93,7 @@ class GenreController extends BaseAdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
+   
 
 }

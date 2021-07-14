@@ -1,11 +1,12 @@
+{{-- {{  dd(route('animes.index', array_merge(request()->all(), ['order_by' => 'osef'])))}} --}}
 <x-table.table-page :routes="$routes" :objects="$objects" :without-trashed-count="$withoutTrashedCount" :trashed-count="$trashedCount">
     <x-slot name="h1">Tous les animes</x-slot>
     <x-table.table>
         <x-slot name="tableHeader">
             <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
-            <x-table.th.order-by sort-by="episodes">Nombre épisodes</x-table.th.order-by>
-            <x-table.th.order-by sort-by="vote">Vote</x-table.th.order-by>
-            <x-table.th.order-by sort-by="release_date">Date de sortie </x-table.th.order-by>
+            <x-table.th.order-by sort-by="episodes" default="desc">Nombre épisodes</x-table.th.order-by>
+            <x-table.th.order-by sort-by="vote" default="desc">Vote</x-table.th.order-by>
+            <x-table.th.order-by sort-by="release_date" default="desc">Date de sortie </x-table.th.order-by>
         </x-slot>
         <x-slot name="tableBody">
             @foreach ($objects as $object)

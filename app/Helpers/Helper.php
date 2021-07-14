@@ -1,6 +1,4 @@
 <?php
-
-
 function h_calculateStars($anime_id) {
     $anime = App\Models\Anime::find($anime_id);
     $full_vote = $anime->votes->avg('vote') ?? 0;
@@ -18,15 +16,19 @@ function h_is_integer($var, $strict=true) {
     return is_numeric($var) && (int) $var == $var;
 }
 
-function h_sort_table($param, $default = 'asc') {
-    if(!in_array($param, request()->input())) {
-        return url()->current().'?order_by='.$param.'&dir='.$default;
-    }
-    else if (request()->input()['dir'] == "desc") {
-        return url()->current().'?order_by='.$param.'&dir=asc';
-    }
+function h_sort_table($order_by, $dir) {
+    $route = Route::currentRouteName();
+    $request_orderby = request('order_by');
+
+    if($request_orderby != $order_by)
+        return route($route, array_merge(request()->all(), compact('order_by', 'dir')));
     
-    return url()->current().'?order_by='.$param.'&dir=desc';
+    if(request('dir') && request('dir') === 'asc')
+        $dir = 'desc';
+    else if(request('dir') && request('dir') === 'desc')
+        $dir = 'asc';
+    
+    return route($route, array_merge(request()->all(), compact('order_by', 'dir')));
     
 }
 
