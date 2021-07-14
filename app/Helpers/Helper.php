@@ -69,3 +69,14 @@ function h_isAdminRoute() {
 function h_format_date_short($date) {
     return Carbon\Carbon::parse( $date)->format('d-m-y');
 }
+
+function h_paginate_collection($collection, $per_page) {
+    $total = $collection->count();
+    $current_page = request('page') ?? 1;
+    $starting_point = ($current_page * $per_page) - $per_page;
+    $array = $collection->slice($starting_point, $per_page, true);
+    return new Illuminate\Pagination\LengthAwarePaginator($array, $total, $per_page, $current_page, [
+        'path' => url()->current(),
+        'query' => request()->query(),
+    ]);
+}

@@ -173,20 +173,10 @@ class SearchController extends Controller
             $mapped[]=$anime;
             
         }    
-        $animes = Arr::flatten($mapped, 1);
+        $animes = collect(Arr::flatten($mapped, 1));
         
-        
-        $request = $this->request;
-        
-        $total = count($animes);
-        $per_page= 30;
-        $current_page = $request->input("page") ?? 1;
-        $starting_point = ($current_page * $per_page) - $per_page;
-        $array = array_slice($animes, $starting_point, $per_page, true);
-        $this->query = new LengthAwarePaginator($array, $total, $per_page, $current_page, [
-            'path' => $request->url(),
-            'query' => $request->query(),
-        ]);
+
+        $this->query = h_paginate_collection($animes, 30);
 
         return $this;
     }

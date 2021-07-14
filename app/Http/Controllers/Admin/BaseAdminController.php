@@ -33,19 +33,13 @@ abstract class BaseAdminController extends Controller
 
     protected function index() {
         $this->model = $this->model::withoutTrashed();   
-        // if(request('q') && !request('order_by')) {
-        //     $this->searchQ();
-        // }
-        // else 
+ 
         $this->search();
         if(request('q') && !request('order_by')) {
-            $this->searchQ();
+            $this->orderByQuery();
         } else {
             $this->arr['objects'] =$this->orderBy();
         }
-        // dd('test');
-
-        
 
         return view('admin.'.$this->lc_plural_model.'.index', $this->arr);
     }
@@ -165,30 +159,18 @@ abstract class BaseAdminController extends Controller
         $new = collect($array_words)->reduce(function($a, $b) {
             return $a . "%$b%";
         });
-        
 
-        // $first_letter = $q[0] ?? '';
         
         $this->model = $this->model->where($this->default_order_by, 'LIKE', "%$new%");
     }
 
-    protected function searchQ() {
-        // $q = request('q');
-
-        // $array_words = explode(' ', $q);
-        // $new = collect($array_words)->reduce(function($a, $b) {
-        //     return $a . "%$b%";
-        // });
-        
-
+    protected function orderByQuery() {
+     
         $first_letter = request('q')[0] ?? '';
         $collections = $this->model->get()->groupBy(function($a) use($first_letter){
             return ucfirst($a[$this->default_order_by][0]) === ucfirst($first_letter);
         });
-        // $collections = $this->model->where($this->default_order_by, 'LIKE', "%$new%")->get()->groupBy(function($a) use($first_letter){
-            
-            // return ucfirst($a[$this->default_order_by][0]) === ucfirst($first_letter);
-        // });
+        
         $firstLetterCollection = $collections[1] ?? collect([]);
         $restCollection = $collections[0] ?? collect([]);
         if(empty($restCollection)) {
@@ -199,14 +181,7 @@ abstract class BaseAdminController extends Controller
         if(!empty($firstLetterCollection)) 
         $firstLetterCollection = $firstLetterCollection->sortBy($this->default_order_by);
         $array = $firstLetterCollection->merge($restCollection);
-        $total = count($array);
-        $current_page = request()->input("page") ?? 1;
-        $starting_point = ($current_page * $this->per_page) - $this->per_page;
-        $array = $array->slice($starting_point, $this->per_page, true);
-        $this->arr['objects'] = new LengthAwarePaginator($array, $total, $this->per_page, $current_page, [
-            'path' => url()->current(),
-            'query' => request()->query(),
-        ]);
+        $this->arr['objects'] = h_paginate_collection($array, $this->per_page);
         
     }
     
