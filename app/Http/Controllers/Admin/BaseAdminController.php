@@ -47,7 +47,12 @@ abstract class BaseAdminController extends Controller
     protected function trashed() {
         array_push($this->accepted_order_bys, 'deleted_at');
         $this->model = $this->model::onlyTrashed();
-        $this->arr['objects'] = $this->orderBy();
+        $this->search();
+        if(request('q') && !request('order_by')) {
+            $this->orderByQuery();
+        } else {
+            $this->arr['objects'] = $this->orderBy();
+        }
         $this->arr['routes'] = $this->getRoutes(['forceDelete', 'restore']);
         return view('admin.'.$this->lc_plural_model.'.trashed', $this->arr);
     }
@@ -58,8 +63,9 @@ abstract class BaseAdminController extends Controller
         
         $deletes = request('delete');
         if(!$deletes)
-        return redirect()->back();
-        $this->model::where('id', $deletes)->each(function ($m) {
+            return redirect()->back();
+
+        $this->model::whereIn('id', $deletes)->each(function ($m) {
             $m->delete();
         });
         
@@ -86,7 +92,7 @@ abstract class BaseAdminController extends Controller
         if(!$restores)
         return redirect()->back();
         
-        $this->model::onlyTrashed()->where('id', $restores)->restore();
+        $this->model::onlyTrashed()->whereIn('id', $restores)->restore();
         
         return redirect()->back()->with('success', $this->model_name.'(s) restauré(s) avec succès');
     }

@@ -28,7 +28,7 @@ class EpisodeController extends BaseAdminController
     public function index()
     {
         array_push($this->accepted_order_bys, 'created_at');
-        $this->arr['routes'] = $this->getRoutes([], ['show', 'update', 'destroy'], 'animes' );
+        $this->arr['routes'] = $this->getRoutes([], ['show', 'edit', 'destroy'], 'animes' );
         return parent::index();
     }
 
@@ -59,10 +59,6 @@ class EpisodeController extends BaseAdminController
         $validatedAdn = [];
         $validatedCrunchyroll = [];
         $validatedWakanim = [];
-
-        $validatedTitle = $request->validate([
-            'title' => 'required|string|min:2|max:80|unique:episodes,title',
-        ]);
         
         if(request('adn')) {
             $validatedAdn = $request->validate([
@@ -80,7 +76,7 @@ class EpisodeController extends BaseAdminController
             ]);
         }
         
-        Episode::create(array_merge($validatedTitle, $validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['anime_id' => $anime->id]));
+        Episode::create(array_merge($validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['title' => $fullname, 'anime_id' => $anime->id]));
 
         
 

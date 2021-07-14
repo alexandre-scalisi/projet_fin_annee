@@ -1,0 +1,1 @@
+<a class="px-4 py-1 {{ $bgColor }} text-gray-100"><i class="{{ $icon }} {{ $iconColor }} mr-2"></i>{{ $slot }}</a>

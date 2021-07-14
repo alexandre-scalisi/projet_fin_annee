@@ -27,7 +27,7 @@ class GenreController extends BaseAdminController
     {     
         
         array_push($this->accepted_order_bys, 'release_date', 'created_at', 'vote', 'episodes');
-        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'edit', 'destroy']);
         return parent::index();
 
     }

@@ -34,7 +34,7 @@ class AnimeController extends BaseAdminController
     {
         
         array_push($this->accepted_order_bys, 'release_date', 'created_at', 'vote', 'episodes');
-        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'edit', 'destroy']);
         return parent::index();
     }
 
@@ -56,12 +56,7 @@ class AnimeController extends BaseAdminController
      */
     public function store(Request $request)
     {
-        $image_extension = $request->file('image')->extension();
-        $image_path = 'public/images';
-        $image_name =  uniqid('img_', true);
-        $image_fullname = $image_name.'.'.$image_extension;
-
-
+        
         $validatedAnime = $request->validate([
             'title' => 'required|string|min:2|max:80|unique:animes,title',
             'synopsis' => 'required|string|min:5|max:2000',
@@ -70,7 +65,11 @@ class AnimeController extends BaseAdminController
         ]);
         
         $validatedImage = $request->validate(['image' => 'required|image|mimes:jpg,jpeg,png|max:4000']);
-
+        $image_extension = $request->file('image')->extension();
+        $image_path = 'public/images';
+        $image_name =  uniqid('img_', true);
+        $image_fullname = $image_name.'.'.$image_extension;
+        
         $validatedGenres = $request->validate([
             'genre' => 'required|array',
             'genre.*' => 'required|string|exists:genres,id'

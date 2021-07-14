@@ -33,7 +33,7 @@ class UserController extends BaseAdminController
     public function index()
     {
         array_push($this->accepted_order_bys, 'name', 'role', 'created_at');
-        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'update', 'destroy']);
+        $this->arr['routes'] = $this->getRoutes(['show', 'create', 'edit', 'destroy']);
         return parent::index();
     }
 

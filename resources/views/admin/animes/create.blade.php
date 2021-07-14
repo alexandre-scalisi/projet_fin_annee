@@ -3,12 +3,12 @@
     
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf
-        <x-form.text name="title" text="Titre"/>
+        <x-form.basic-input name="title" text="Titre"/>
         
         <x-form.textarea name="synopsis" text="Synopsis"/>
         
         <x-form.date name="release_date" text="Date de sortie"/>
-        <x-form.text name="studio" text="studio" /> 
+        <x-form.basic-input name="studio" text="studio" /> 
         <x-form.container error="image">
             <div x-data="{ obj: window.edit() }" x-init="obj.init()">
                 <label for="image-input" class="block">Image (16/9 recommandé)</label>
