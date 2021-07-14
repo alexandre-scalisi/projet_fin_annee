@@ -15,7 +15,6 @@
                         <div>{{ count($anime->episodes) }} épisodes</div>
                         <div class="ml-auto" style="font-size: 0">                         
                             <x-stars :animeId="$anime->id" textSize="text-xl" color="text-yellow-300"/>
-                                <p class="text-lg">{{ $anime->votes->count() }} votes</p>
                         </div>
                     </div>
                 </p>
