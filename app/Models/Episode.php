@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 
 class Episode extends Model
 {
@@ -17,6 +18,17 @@ class Episode extends Model
         'wakanim',
         'anime_id'
     ];
+
+    public static function boot() {
+        parent::boot();
+ 
+        self::created(function($episode) {
+         $episode->anime->registeredUsers->each(function($user) use($episode){
+            Mail::to($user->email)->send(new \App\Mail\NewEpisodeReleasedNotification($user, $episode));
+         });
+        });
+ 
+    }
 
     public function anime() {
         return $this->belongsTo(Anime::class);

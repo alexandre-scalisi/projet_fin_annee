@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use Symfony\Contracts\EventDispatcher\Event;
 
 class AnimeController extends BaseAdminController
 {
@@ -45,6 +45,7 @@ class AnimeController extends BaseAdminController
      */
     public function create()
     {
+
         return view('admin.animes.create');
     }
 
@@ -100,6 +101,7 @@ class AnimeController extends BaseAdminController
     public function show($id)
     {
         $anime = Anime::find($id);
+        event('auth.getLogin', [$anime]);
         $episodes = $anime->episodes()->paginate(25);
         $strArr = explode(' ', $anime->synopsis);
         $truncated_synopsis = array_reduce($strArr, function($a, $b) { return strlen($a) < 500 ? $a . ' ' . $b : $a;} ) . ' ...';

@@ -52,5 +52,9 @@ class Anime extends Model
         return $this->hasMany(Vote::class);
     }
 
+    public function registeredUsers() {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
    
 }

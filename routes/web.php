@@ -5,7 +5,9 @@ use App\Http\Controllers\EpisodeController;
 
 use App\Http\Controllers\SearchController;
 use App\Http\Livewire\Comment;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------

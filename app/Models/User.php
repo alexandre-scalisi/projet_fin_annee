@@ -81,4 +81,13 @@ class User extends Authenticatable
         $this->episodes->restore();
         $this->restore();
     }
+
+    public function genres() {
+        return $this->belongsToMany(Genre::class)->withTimestamps();
+    }
+
+    public function followedAnimes() {
+        return $this->belongsToMany(User::class)->withTimestamps();
+        //withTimestamps for created_at when using sync
+    }
 }
