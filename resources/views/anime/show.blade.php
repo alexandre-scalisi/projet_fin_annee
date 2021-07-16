@@ -27,16 +27,15 @@
                     {{ implode(', ', $anime->genres->pluck('name')->toArray()) }}</li>
                 <li class="anime__info inline-block mr-12"><span class="anime__info_big">Episodes :</span>
                     {{ count($anime->episodes) }}</li>
-                @livewire('follow-button', compact('anime'))
                 @livewire('stars', compact('anime'))
             </ul>
             
-            <div class="mt-6 flex items-center">
+            <div class="mt-6 flex items-center flex-wrap gap-y-4">
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $anime->episodes->first()->id] ) }}"
                     class="anime__btn anime__btn_first">Premier EP</a>
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
-                    class="anime__btn">Dernier EP</a>                    
-                   
+                    class="anime__btn mr-auto">Dernier EP</a>                    
+                 @livewire('follow-button', compact('anime'))
                 <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
             </div>
         </div>

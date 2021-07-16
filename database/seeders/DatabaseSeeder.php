@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
     public function __construct()
     {
-        $this->anime_json=$this->getJson('anime');
+        $this->anime_json=$this->getJson('animes');
         $this->genres=$this->getJson('genres');
     }
 

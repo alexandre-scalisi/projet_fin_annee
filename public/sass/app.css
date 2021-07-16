@@ -9,8 +9,6 @@
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
-  --tw-text-opacity: 1;
-  color: rgba(156, 163, 175, var(--tw-text-opacity));
   width: 100%;
   height: 40rem;
 }
@@ -146,7 +144,6 @@
 }
 
 .anime__comment-link {
-  margin-left: auto;
   --tw-text-opacity: 1;
   color: rgba(243, 244, 246, var(--tw-text-opacity));
 }

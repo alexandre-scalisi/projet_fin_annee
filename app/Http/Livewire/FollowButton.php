@@ -20,14 +20,18 @@ class FollowButton extends Component
         if(in_array(auth()->user()->id, $this->anime->registeredUsers->pluck('id')->toArray())) {
 
             $this->anime->registeredUsers()->detach(auth()->user());
+            $this->text = 'Suivre';
         }
-        else
+        else {
             $this->anime->registeredUsers()->attach(auth()->user());
+            $this->text = 'Ne plus suivre';
+        }
+        
     }
 
     public function render()
     {
-        $this->text = in_array(auth()->user()->id, $this->anime->registeredUsers->pluck('id')->toArray()) ? 'Ne plus suivre' : 'Suivre';
+        
         return view('livewire.follow-button');
     }
 }
