@@ -1,7 +1,7 @@
 <div class="mb-10"></div>
 <div class="h-10 w-full bg-gray-800 flex text-gray-100 px-4 fixed top-0" style="z-index: 9999">
     <div class="table">
-    <a href="{{ h_isAdminRoute() ? route('dashboard') : route('admin.home') }}" class="table-cell align-middle hover:text-blue-400">{{ h_isAdminRoute() ? 'Front office' : 'Back office'}}</a>
+    <a href="{{ h_isAdminRoute() ? route('home') : route('admin.home') }}" class="table-cell align-middle hover:text-blue-400">{{ h_isAdminRoute() ? 'Front office' : 'Back office'}}</a>
     </div>
     <div class="flex space-x-4 ml-10">
         <div class="relative table mr-0 collapse" x-data="{show: false}" @mouseenter="show=true" @mouseleave="show=false">

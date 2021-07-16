@@ -23,6 +23,13 @@ class AnimeController extends Controller
         return view('anime.index', compact('animes'));
     }
 
+
+    public function home() {
+
+        $animes = Anime::all();
+        return view('anime.home', compact('animes'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
