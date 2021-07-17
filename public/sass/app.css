@@ -1,5 +1,39 @@
 @charset "UTF-8";
 
+.slider {
+  display: flex;
+  min-height: 100px;
+  position: relative;
+  transition: transform 1s;
+}
+
+.slider > img {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 20.4444444444%;
+  margin-right: 2%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .slider > img {
+    width: 26.8571428571%;
+  }
+}
+
+@media (max-width: 640px) {
+  .slider > img {
+    width: 38.4%;
+  }
+}
+
+@media (max-width: 420px) {
+  .slider > img {
+    width: 65.3333333333%;
+  }
+}
+
 .form-container {
   --tw-bg-opacity: 1;
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
