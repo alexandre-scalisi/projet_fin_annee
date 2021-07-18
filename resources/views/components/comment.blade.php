@@ -1,6 +1,6 @@
 <div class="flex m-4" style="word-break: break-word">
 
-    <img src="{{ Auth::user()->profile_photo_url }}" class="w-12 h-12 rounded-full border-2 {{ $item->author->is_logged_in_user() ? 'border-red-400' : 'border-blue-500'}}"">
+    <img src="{{ $item->author->profile_photo_url }}" class="w-12 h-12 rounded-full border-2 {{ $item->author->is_logged_in_user() ? 'border-red-400' : 'border-blue-500'}}"">
     <div class="ml-4 text-gray-50">
         <div class="mb-2">
             <h1 class="comment__author {{ $item->author->is_logged_in_user() ? 'text-red-400' : 'text-blue-500' }}"> {{ $is_different() ? $item->author->name : 'Moi' }} </h1>

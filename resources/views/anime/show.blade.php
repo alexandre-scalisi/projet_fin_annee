@@ -34,8 +34,10 @@
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $anime->episodes->first()->id] ) }}"
                     class="anime__btn anime__btn_first">Premier EP</a>
                 <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
-                    class="anime__btn mr-auto">Dernier EP</a>                    
+                    class="anime__btn mr-auto">Dernier EP</a>    
+                @auth                
                  @livewire('follow-button', compact('anime'))
+                @endauth
                 <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
             </div>
         </div>
