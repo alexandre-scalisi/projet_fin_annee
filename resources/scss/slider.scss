@@ -1,16 +1,15 @@
 $space: 2%;
 .slider {
     display: flex;
-    min-height: 100px;
     position: relative;
     transition: transform 1s;
 
-    & > img{
+    &__anime{
+        overflow: hidden;
         flex-shrink: 0;
         display: inline-block;
         width: (100% - (4 * $space)) / 4.5;
         margin-right: $space;
-        object-fit: cover;
 
         @media(max-width: 1024px) {
             width: (100% - (3 * $space)) / 3.5;
@@ -21,10 +20,20 @@ $space: 2%;
         @media(max-width: 420px) {
             width: (100% - $space) / 1.5;
         }
+
+        img {
+            transition: all .2s;
+        }
+
+
+        &:hover {
+            img {
+                filter: brightness(50%);
+                transform: scale(120%);
+            }
+        }
     }
-
 }
-
 
 
 

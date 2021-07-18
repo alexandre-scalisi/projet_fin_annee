@@ -10,13 +10,13 @@
             <i class="fa fa-arrow-left absolute top-1/2 transform -translate-y-1/2 text-white"></i>
         </button>
         <div class="slider">
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
-            <img src="{{ $animes->first()->image }}"></img>
+            @foreach ($new_animes as $new_anime)
+                <a href="{{ route('animes.show', $new_anime->id) }}"class="slider__anime" style="max-height: 150px">
+                    <img class="object-cover" style="height: 100px; max-height: 100px" src="{{ h_find_image($new_anime->image) }}"></img>
+                    <p class="relative z-50 bg-gray-100">{{ $new_anime->title }}</p>
+                </a>
+
+            @endforeach
         </div>
         {{-- <img class="w-1/4 flex-shrink-0 h-32" style="transform: scale(110%)" src="{{ $animes->first()->image }}"></img> --}}
         <button id="right-btn" @click="slider.rightClick()" class="h-full w-10 bg-black absolute flex items-center justify-center bg-opacity-20 top-0 right-0 z-10">

@@ -3968,7 +3968,7 @@ window.slider = function () {
     currentPos: 0,
     space: 2,
     slider: document.querySelector('.slider'),
-    length: document.querySelectorAll('.slider > img').length,
+    length: document.querySelectorAll('.slider__anime').length,
     init: function init() {
       if (window.innerWidth <= 420) {
         this.visible = 1;

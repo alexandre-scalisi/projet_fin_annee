@@ -27,7 +27,8 @@ class AnimeController extends Controller
     public function home() {
 
         $animes = Anime::all();
-        return view('anime.home', compact('animes'));
+        $new_animes = Anime::latest()->take(10)->get();
+        return view('anime.home', compact('animes', 'new_animes'));
     }
 
     /**

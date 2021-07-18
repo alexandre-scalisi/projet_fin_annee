@@ -2,36 +2,43 @@
 
 .slider {
   display: flex;
-  min-height: 100px;
   position: relative;
   transition: transform 1s;
 }
 
-.slider > img {
+.slider__anime {
+  overflow: hidden;
   flex-shrink: 0;
   display: inline-block;
   width: 20.4444444444%;
   margin-right: 2%;
-  -o-object-fit: cover;
-     object-fit: cover;
 }
 
 @media (max-width: 1024px) {
-  .slider > img {
+  .slider__anime {
     width: 26.8571428571%;
   }
 }
 
 @media (max-width: 640px) {
-  .slider > img {
+  .slider__anime {
     width: 38.4%;
   }
 }
 
 @media (max-width: 420px) {
-  .slider > img {
+  .slider__anime {
     width: 65.3333333333%;
   }
+}
+
+.slider__anime img {
+  transition: all 0.2s;
+}
+
+.slider__anime:hover img {
+  filter: brightness(50%);
+  transform: scale(120%);
 }
 
 .form-container {

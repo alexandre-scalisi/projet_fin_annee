@@ -9,7 +9,7 @@ window.slider = () => {
         currentPos: 0,
         space: 2,
         slider: document.querySelector('.slider'),
-        length: document.querySelectorAll('.slider > img').length,
+        length: document.querySelectorAll('.slider__anime').length,
 
 
         init() {
