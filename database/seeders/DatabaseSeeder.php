@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call([
             GenreSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
             ]);
 
         \App\Models\User::factory(50)->create();
@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
             $this->callWith(AnimeGenreSeeder::class, compact('anime_genres', 'anime', 'genres'));
             $this->callWith(EpisodeSeeder::class, compact('episodes', 'anime'));
         }
+
+        $this->call(VoteSeeder::class);
     }
 
     public function getJson($path) {
