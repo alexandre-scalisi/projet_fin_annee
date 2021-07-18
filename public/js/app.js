@@ -3804,6 +3804,8 @@ __webpack_require__(/*! ./genreModal */ "./resources/js/genreModal.js");
 
 __webpack_require__(/*! ./edit */ "./resources/js/edit.js");
 
+__webpack_require__(/*! ./slider */ "./resources/js/slider.js");
+
 __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
 var Turbolinks = __webpack_require__(/*! turbolinks */ "./node_modules/turbolinks/dist/turbolinks.js");
@@ -3943,6 +3945,83 @@ window.genreModal = function () {
       this.tooltipText.innerText = labels.reduce(function (a, b) {
         return "".concat(a, ", ").concat(b);
       });
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/slider.js":
+/*!********************************!*\
+  !*** ./resources/js/slider.js ***!
+  \********************************/
+/***/ (() => {
+
+window.slider = function () {
+  // 
+  return {
+    leftButton: document.querySelector('#left-btn'),
+    rightButton: document.querySelector('#right-btn'),
+    visible: null,
+    width: null,
+    lastPos: null,
+    currentPos: 0,
+    space: 2,
+    slider: document.querySelector('.slider'),
+    length: document.querySelectorAll('.slider > img').length,
+    init: function init() {
+      if (window.innerWidth <= 420) {
+        this.visible = 1;
+      } else if (window.innerWidth <= 640) {
+        this.visible = 2;
+      } else if (window.innerWidth <= 1024) {
+        this.visible = 3;
+      } else {
+        this.visible = 4;
+      }
+
+      this.lastPos = this.length - this.visible;
+      this.width = (100 - this.visible * this.space) / (this.visible + .5);
+      this.position();
+    },
+    position: function position() {
+      var translate;
+
+      if (this.currentPos != this.lastPos) {
+        this.rightButton.classList.remove('hidden');
+      }
+
+      if (this.currentPos != 0) {
+        this.leftButton.classList.remove('hidden');
+      }
+
+      if (this.currentPos === 0) {
+        translate = 0;
+        this.leftButton.classList.add('hidden');
+      } else if (this.currentPos >= this.lastPos) {
+        this.currentPos = this.lastPos;
+        translate = -this.lastPos * this.width - this.lastPos * this.space + this.width / 2 + this.space;
+        this.rightButton.classList.add('hidden');
+      } else {
+        translate = -this.currentPos * this.width - this.currentPos * this.space;
+      }
+
+      this.slider.style.transform = "translateX(".concat(translate, "%)");
+    },
+    rightClick: function rightClick() {
+      this.currentPos++;
+      this.position();
+    },
+    leftClick: function leftClick() {
+      this.currentPos--;
+      this.position();
+    },
+    initResize: function initResize() {
+      var _this = this;
+
+      window.onresize = function () {
+        return _this.init();
+      };
     }
   };
 };
