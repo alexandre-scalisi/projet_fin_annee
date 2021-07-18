@@ -1,12 +1,18 @@
 @charset "UTF-8";
 
-.slider {
+.slider1,
+.slider2,
+.slider3,
+.slider4 {
   display: flex;
   position: relative;
   transition: transform 1s;
 }
 
-.slider__anime {
+.slider1__anime,
+.slider2__anime,
+.slider3__anime,
+.slider4__anime {
   overflow: hidden;
   flex-shrink: 0;
   display: inline-block;
@@ -15,28 +21,43 @@
 }
 
 @media (max-width: 1024px) {
-  .slider__anime {
+  .slider1__anime,
+.slider2__anime,
+.slider3__anime,
+.slider4__anime {
     width: 26.8571428571%;
   }
 }
 
 @media (max-width: 640px) {
-  .slider__anime {
+  .slider1__anime,
+.slider2__anime,
+.slider3__anime,
+.slider4__anime {
     width: 38.4%;
   }
 }
 
 @media (max-width: 420px) {
-  .slider__anime {
+  .slider1__anime,
+.slider2__anime,
+.slider3__anime,
+.slider4__anime {
     width: 65.3333333333%;
   }
 }
 
-.slider__anime img {
+.slider1__anime img,
+.slider2__anime img,
+.slider3__anime img,
+.slider4__anime img {
   transition: all 0.2s;
 }
 
-.slider__anime:hover img {
+.slider1__anime:hover img,
+.slider2__anime:hover img,
+.slider3__anime:hover img,
+.slider4__anime:hover img {
   filter: brightness(50%);
   transform: scale(120%);
 }

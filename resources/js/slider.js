@@ -1,15 +1,15 @@
-window.slider = () => {
-    // 
+window.slider = (slide) => {
+
     return {
-        leftButton: document.querySelector('#left-btn'),
-        rightButton: document.querySelector('#right-btn'),
+        leftButton: document.querySelector('.' + slide + '__left-btn'),
+        rightButton: document.querySelector('.' + slide + '__right-btn'),
         visible: null,
         width: null,
         lastPos: null,
         currentPos: 0,
         space: 2,
-        slider: document.querySelector('.slider'),
-        length: document.querySelectorAll('.slider__anime').length,
+        slider: document.querySelector('.' + slide),
+        length: document.querySelectorAll('.' + slide + '__anime').length,
 
 
         init() {
@@ -64,7 +64,9 @@ window.slider = () => {
         },
 
         initResize() {
-            window.onresize= () => this.init();
+            const curObj = this;
+            console.log(curObj)
+            window.addEventListener('resize', curObj.init.bind(curObj));
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
@@ -28,7 +29,12 @@ class AnimeController extends Controller
 
         $animes = Anime::all();
         $new_animes = Anime::latest()->take(10)->get();
-        return view('anime.home', compact('animes', 'new_animes'));
+        $action_animes = Genre::where('name', 'action')->first()->animes()->get()->random(10);
+        $top_rated_animes = Anime::withAvg('votes', 'vote')
+        ->orderBy('votes_avg_vote', 'desc')->take(10)->get();
+        $random_animes = Anime::all()->random(10);
+
+        return view('anime.home', compact('animes', 'new_animes', 'action_animes', 'top_rated_animes', 'random_animes'));
     }
 
     /**

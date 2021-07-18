@@ -3957,18 +3957,17 @@ window.genreModal = function () {
   \********************************/
 /***/ (() => {
 
-window.slider = function () {
-  // 
+window.slider = function (slide) {
   return {
-    leftButton: document.querySelector('#left-btn'),
-    rightButton: document.querySelector('#right-btn'),
+    leftButton: document.querySelector('.' + slide + '__left-btn'),
+    rightButton: document.querySelector('.' + slide + '__right-btn'),
     visible: null,
     width: null,
     lastPos: null,
     currentPos: 0,
     space: 2,
-    slider: document.querySelector('.slider'),
-    length: document.querySelectorAll('.slider__anime').length,
+    slider: document.querySelector('.' + slide),
+    length: document.querySelectorAll('.' + slide + '__anime').length,
     init: function init() {
       if (window.innerWidth <= 420) {
         this.visible = 1;
@@ -4017,11 +4016,9 @@ window.slider = function () {
       this.position();
     },
     initResize: function initResize() {
-      var _this = this;
-
-      window.onresize = function () {
-        return _this.init();
-      };
+      var curObj = this;
+      console.log(curObj);
+      window.addEventListener('resize', curObj.init.bind(curObj));
     }
   };
 };
