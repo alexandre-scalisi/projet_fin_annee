@@ -29,6 +29,7 @@ class AnimeController extends Controller
 
         $animes = Anime::all();
         $new_animes = Anime::latest()->take(10)->get();
+        dd(Genre::where('name', 'action'));
         $action_animes = Genre::where('name', 'action')->first()->animes()->get()->random(10);
         $top_rated_animes = Anime::withAvg('votes', 'vote')
         ->orderBy('votes_avg_vote', 'desc')->take(10)->get();
