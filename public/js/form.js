@@ -10,7 +10,8 @@ window.app = function () {
       form.scrollTop > 0 ? el.classList.remove('hidden') : el.classList.add('hidden');
     },
     test2: function test2(el) {
-      form.scrollTop !== form.scrollTopMax ? el.classList.remove('hidden') : el.classList.add('hidden');
+      console.log(form);
+      el.scrollTop !== el.scrollHeight - el.clientHeight ? el.classList.remove('hidden') : el.classList.add('hidden');
     },
     scrollFunc: function scrollFunc(ev) {
       if (ev.target.scrollTop > 0) {

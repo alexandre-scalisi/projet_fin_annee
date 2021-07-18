@@ -7,8 +7,8 @@ window.app = () => {
         },
 
         test2(el) {
-
-            form.scrollTop !== form.scrollTopMax ? el.classList.remove('hidden') : el.classList.add('hidden')
+            console.log(form)
+            el.scrollTop !== (el.scrollHeight - el.clientHeight) ? el.classList.remove('hidden') : el.classList.add('hidden')
         },
 
         scrollFunc(ev) {
