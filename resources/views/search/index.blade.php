@@ -1,6 +1,6 @@
 <x-app-layout>
-
-    <div class="w-full rounded-lg bg-gray-300 p-4 mb-4">
+<div class="-mx-4 sm:mx-0">
+    <div class="w-full sm:rounded-lg bg-gray-300 p-4 mb-4">
         <form method="GET" id="form">
             <x-form.container> 
                 <label for="q" class="block">Titre</label>
@@ -45,7 +45,7 @@
 
 
     </div>
-    <div class="w-full rounded-lg bg-gray-400 p-4">
+    <div class="w-full sm:rounded-lg bg-gray-400 p-4">
 
         {{-- BUTTONS --}}
         <div class="flex gap-x-2 flex-wrap" x-data="">
@@ -62,9 +62,9 @@
         <div class="bg-indigo-700 text-center text-xl text-gray-200 border-indigo-300 border-b-8 mb-1">{{ $anime }} </div>
         @else
             <a href="{{ route('animes.show', $anime['id'] ) }}">
-                <div class="list-none flex bg-indigo-100 mb-2 rounded-sm items-center space-x-4">
-                    <img src="{{ $anime->image }}" class="w-52 h-20" />
-                    <div>
+                <div class="list-none block sm:flex bg-indigo-100 mb-2 rounded-sm items-center gap-x-4">
+                    <img src="{{ $anime->image }}" class="block w-full sm:w-52 h-20 object-cover" />
+                    <div class="px-2">
                         <p class="text-xl font-weight-bolder">{{ $anime['title'] }}</p>
                         <p class="mb-1 text-sm">
                             {{ implode(', ', $anime->genres->map(function($g) {return $g->name;})->toArray())}}</p>
@@ -85,5 +85,5 @@
         {{ $query->appends(request()->query())->links() }}
         </div>
     </div>
-
+</div>
 </x-app-layout>
