@@ -6,7 +6,7 @@
             :class="{'w-80' : '{{ $search}}' != '' && show === true }" @click="show=true" wire:model="search"
             wire:input.key="test" @focusout="focus=false" @input.focus="focus=true">
     </form>
-
+    
     @if($results && !empty($search))
     <ul @click.away="show=false" x-show="show"
         class="absolute bottom-0 transform translate-y-full w-full rounded-b-2xl overflow-hidden z-50 bg-white">

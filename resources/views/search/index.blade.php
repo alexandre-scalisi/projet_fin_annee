@@ -20,9 +20,8 @@
                 @endforeach
                 </select>
             </x-form.container>
-        
-        <div class="block">
-            <label for="orderby">trier par</label>
+        <x-form.container>
+            <label for="orderby" class="block">trier par</label>
             <select name="order_by" id="orderby" x-data="" x-init="
             order_by = '{{ request()->query()['order_by'] ?? ''}}';
             found = [...$el.options].some((e) => e.value === order_by);
@@ -38,10 +37,10 @@
         <input type="checkbox" name="d" id="direction"
         {{ isset(request()->query()['d']) && request()->query()['d'] === 'on'  ? 'checked' : '' }}>
         <label for="direction">inverser direction</label>
+        </x-form-container>
         <x-genre-modal />
-    </div>
     
-            <button class="bg-blue-400 text-base mr-3">Rechercher</button>
+            <button class="bg-blue-400 text-base mr-3 px-2 py-1">Rechercher</button>
         </form>
 
 
@@ -49,10 +48,10 @@
     <div class="w-full rounded-lg bg-gray-400 p-4">
 
         {{-- BUTTONS --}}
-        <div class="flex space-x-2 flex-wrap" x-data="">
+        <div class="flex gap-x-2 flex-wrap" x-data="">
             @foreach($tabButtons as $l)
             <button type="button" value="{{ $l }}" class="bg-blue-500 px-2 text-gray-100 mb-2" onclick="document.getElementById('tab').value = this.value;
-            document.getElementById('form').submit()">{{ $l }}</button>
+            document.getElementById('form').submit()">{{ ucfirst($l) }}</button>
             @endforeach
 
         </div>

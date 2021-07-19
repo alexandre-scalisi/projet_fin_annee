@@ -107,5 +107,10 @@ class AnimeController extends Controller
         //
     }
 
+    public function action() {
+        $animes = Genre::where('name', 'Action')->first()->animes()->paginate(12);
+        return view('anime.index', compact('animes'));
+    }
+
 
 }

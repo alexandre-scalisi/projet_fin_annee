@@ -16,6 +16,16 @@
                         {{ __('Animes') }}
                     </x-jet-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('animes.action') }}" :active="request()->routeIs('animes.action')">
+                        {{ __('Action') }}
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('search.index') }}" :active="request()->routeIs('search.index')">
+                        {{ __('Rech. Avancée') }}
+                    </x-jet-nav-link>
+                </div>
             </div>
             <div class="ml-auto">
             @livewire('search')
