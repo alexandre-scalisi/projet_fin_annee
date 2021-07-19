@@ -67,7 +67,6 @@
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
   display: flex;
   flex-direction: column;
-  max-width: 56rem;
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
@@ -280,18 +279,9 @@
 .anime-card {
   --tw-bg-opacity: 1;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-  border-radius: 0.5rem;
   overflow: hidden;
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.anime-card:hover{
-  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.anime-card{
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -300,19 +290,27 @@
   --tw-scale-x: 1;
   --tw-scale-y: 1;
   transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.anime-card:hover{
-  --tw-scale-x: 1.05;
-  --tw-scale-y: 1.05;
-  --tw-translate-y: -0.5rem;
-}
-
-.anime-card{
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-duration: 500ms;
+}
+
+@media (min-width: 640px){
+  .anime-card{
+    border-radius: 0.5rem;
+  }
+
+  .anime-card:hover{
+    --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-scale-x: 1.05;
+    --tw-scale-y: 1.05;
+    --tw-translate-y: -0.5rem;
+  }
+}
+
+.anime-card{
   min-height: 6rem;
 }
 
@@ -338,7 +336,7 @@
 }
 
 .anime-card__image {
-  height: 14rem;
+  height: 8rem;
   -o-object-fit: cover;
      object-fit: cover;
   --tw-translate-x: 0;
@@ -375,6 +373,12 @@
 
 .anime-card__image:hover{
   --tw-brightness: brightness(.5);
+}
+
+@media (min-width: 640px){
+  .anime-card__image{
+    height: 11rem;
+  }
 }
 
 .anime-card__title {

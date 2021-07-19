@@ -11,17 +11,13 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 md:-my-px md:ml-10 md:flex">
+                <div class="hidden space-x-6 md:-my-px md:ml-4 md:flex">
                     <x-jet-nav-link href="{{ route('animes.index') }}" :active="request()->routeIs('animes.index')">
                         {{ __('Animes') }}
                     </x-jet-nav-link>
-                </div>
-                <div class="hidden space-x-8 md:-my-px md:ml-10 md:flex">
                     <x-jet-nav-link href="{{ route('animes.action') }}" :active="request()->routeIs('animes.action')">
                         {{ __('Action') }}
                     </x-jet-nav-link>
-                </div>
-                <div class="hidden space-x-8 md:-my-px md:ml-10 md:flex">
                     <x-jet-nav-link href="{{ route('search.index') }}" :active="request()->routeIs('search.index')">
                         {{ __('Rech. Avancée') }}
                     </x-jet-nav-link>
@@ -32,12 +28,15 @@
             </div>
 
             @guest
-            <a href="{{ route('register') }}" class="mx-4">Inscription</a>    
+        <div class="hidden md:flex flex-wrap gap-x-4 ml-4">
+            <a href="{{ route('register') }}">Inscription</a>    
             <a href="{{ route('login') }}">Connexion</a>    
+        </div>
             @endguest
 
             <div class="hidden md:flex md:items-center md:ml-6">
                 <!-- Teams Dropdown -->
+                @auth
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
                         <x-jet-dropdown align="right" width="60">
@@ -86,6 +85,7 @@
                         </x-jet-dropdown>
                     </div>
                 @endif
+                @endauth
                 @auth
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
@@ -139,8 +139,8 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                @endauth
             </div>
-            @endauth
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center md:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
@@ -173,12 +173,15 @@
         </div>
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
+            
             <div class="flex items-center px-4">
+                @auth
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="flex-shrink-0 mr-3">
                         <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                     </div>
                 @endif
+                @endauth
                 @auth
                 <div>
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -189,6 +192,7 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
+                @auth
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profil') }}
                 </x-jet-responsive-nav-link>
@@ -198,8 +202,9 @@
                         {{ __('API Tokens') }}
                     </x-jet-responsive-nav-link>
                 @endif
-
+                @endauth
                 <!-- Authentication -->
+                @auth
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
@@ -209,6 +214,16 @@
                         {{ __('Se déconnecter') }}
                     </x-jet-responsive-nav-link>
                 </form>
+                @endauth
+                @guest
+                
+                    <x-jet-responsive-nav-link href="{{ route('register') }}">
+                        {{ __('S\'enregistrer') }}
+                    </x-jet-responsive-nav-link>  
+                    <x-jet-responsive-nav-link href="{{ route('login') }}">
+                        {{ __('Se connecter') }}
+                    </x-jet-responsive-nav-link>  
+                @endguest
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="border-t border-gray-200"></div>

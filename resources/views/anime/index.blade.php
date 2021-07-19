@@ -1,4 +1,5 @@
 <x-app-layout>
+<div class="-mx-4 sm:mx-0">
     <div class="anime-card__container">
         @foreach ($animes as $anime)
         <div class="anime-card">
@@ -8,11 +9,9 @@
             <div class="px-4 py-3 g-1">
                 <a href="{{ route('animes.show', $anime->id) }}" class="anime-card__title">{{ $anime->title }}</a>
                 <p class="anime-card__date">
-                    <div class="flex">
-                        <div>{{ Carbon\Carbon::parse( $anime->release_date)->format('Y')}} -
-                        </div>
-                        <div>{{ count($anime->episodes) }} épisodes</div>
-                        <div class="ml-auto" style="font-size: 0">                         
+                    <div class="flex flex-wrap gap-y-2 gap-x-4">
+                        <p>{{ Carbon\Carbon::parse( $anime->release_date)->format('Y')}} - {{ count($anime->episodes) }} épisodes </p>
+                        <div class="sm:ml-auto" style="font-size: 0">                         
                             <x-stars :animeId="$anime->id" textSize="text-xl" color="text-yellow-300"/>
                         </div>
                     </div>
@@ -21,5 +20,8 @@
         </div>
         @endforeach
     </div>
+    <div class="mx-2">
     {{ $animes->links() }}
+    </div>
+</div>
 </x-app-layout>

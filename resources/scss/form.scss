@@ -1,5 +1,5 @@
 .form-container {
-    @apply flex flex-col w-full max-w-4xl overflow-y-scroll bg-gray-800 relative overflow-x-hidden;
+    @apply flex flex-col w-full overflow-y-scroll bg-gray-800 relative overflow-x-hidden;
     height: 40rem;
 
     &__bg {

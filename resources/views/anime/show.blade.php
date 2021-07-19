@@ -1,5 +1,4 @@
 <x-app-layout>
-<div class="max-w-4xl">
 @php
     $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
 
@@ -72,5 +71,5 @@
     </div>
     <!-- TODO gerer la pagination -->
     @livewire('form-container', ['type_id' => $anime->id, 'type' => 'Anime'])
-</div>
+
 </x-app-layout>

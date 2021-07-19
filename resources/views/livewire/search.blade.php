@@ -2,7 +2,7 @@
     <form method="GET" action="{{route('search.index')}}" class="bg-gray-400 rounded-full flex items-center relative px-2"
         :class="{'rounded-b-none rounded-t-2xl' : '{{ $search}}' != '' && show === true }">
         <button class="fa fa-search" aria-hidden="true" type="submit"></button>
-        <input type="search" name="q" class="bg-transparent border-none focus:ring-0"
+        <input type="search" name="q" class="bg-transparent border-none focus:ring-0 w-36"
             :class="{'w-80' : '{{ $search}}' != '' && show === true }" @click="show=true" wire:model="search"
             wire:input.key="test" @focusout="focus=false" @input.focus="focus=true">
     </form>

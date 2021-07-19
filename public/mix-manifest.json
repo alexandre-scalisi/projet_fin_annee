@@ -3,6 +3,7 @@
     "/js/form.js": "/js/form.js",
     "/js/form-livewire.js": "/js/form-livewire.js",
     "/css/app.css": "/css/app.css",
+    "/sass/app.css": "/sass/app.css",
     "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot",
     "/webfonts/fa-brands-400.svg": "/webfonts/fa-brands-400.svg",
     "/webfonts/fa-brands-400.ttf": "/webfonts/fa-brands-400.ttf",
@@ -17,6 +18,5 @@
     "/webfonts/fa-solid-900.svg": "/webfonts/fa-solid-900.svg",
     "/webfonts/fa-solid-900.ttf": "/webfonts/fa-solid-900.ttf",
     "/webfonts/fa-solid-900.woff": "/webfonts/fa-solid-900.woff",
-    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2",
-    "/sass/app.css": "/sass/app.css"
+    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2"
 }
