@@ -1,8 +1,8 @@
 .anime-header {
-    @apply flex flex-wrap text-gray-100 bg-gray-800 rounded-md overflow-hidden;
+    @apply flex flex-wrap text-gray-100 bg-gray-800 sm:rounded-md overflow-hidden;
 
     &__content-container {
-        @apply px-6 py-4 w-full;
+        @apply p-3 sm:px-6 sm:py-4 w-full;
     }
 
 }
@@ -20,7 +20,7 @@
     }
 
     &__title {
-        @apply text-4xl mb-4;
+        @apply text-2xl sm:text-4xl mb-4;
     }
 
     &__info {
@@ -28,15 +28,15 @@
     }
 
     &__info_big {
-        @apply text-xl mr-2 text-gray-100;
+        @apply sm:text-lg mr-2 text-gray-100;
         font-weight: bolder;
     }
 
     &__btn {
-        @apply text-gray-100 border border-yellow-400 rounded-xl px-4 py-2;
+        @apply text-gray-100 border border-yellow-400 rounded-xl px-2 py-1 sm:px-4 sm:py-2;
 
         &_first {
-            @apply mr-3;
+            
         }
     }
 
@@ -46,7 +46,7 @@
 }
 
 .synopsis {
-    @apply bg-gray-200 px-8 py-4 mt-3 rounded-md;
+    @apply bg-gray-200 px-8 py-4 mt-3 sm:rounded-md;
 
     &__title {
         @apply text-3xl mb-4;
@@ -62,7 +62,7 @@
 }
 
 .anime-episodes {
-    @apply bg-white p-8 mt-3 rounded-md;
+    @apply bg-white p-8 mt-3 sm:rounded-md;
 
     &__title {
         @apply text-3xl mb-4;
