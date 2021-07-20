@@ -19,7 +19,7 @@
                         {{ __('Action') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('search.index') }}" :active="request()->routeIs('search.index')">
-                        {{ __('Rech. Avancée') }}
+                        {{ __('Rech. avancée') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                 {{ __('Action') }}
             </x-jet-nav-link>
             <x-jet-nav-link href="{{ route('search.index') }}" :active="request()->routeIs('search.index')">
-                {{ __('Rech. Avancée') }}
+                {{ __('Rech. avancée') }}
             </x-jet-nav-link>
             
         </div>

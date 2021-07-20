@@ -1,5 +1,6 @@
 <x-app-layout>
-<div class="-mx-4 sm:mx-0">
+    <div class="-mx-4 sm:mx-0">
+    <h1 class="text-2xl font-bold border-b-4 border-indigo-700 mb-8 mx-2 sm:mx-0">{{ $type }}</h1>
     <div class="anime-card__container">
         @foreach ($animes as $anime)
         <div class="anime-card">
