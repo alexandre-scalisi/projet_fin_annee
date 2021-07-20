@@ -30,15 +30,17 @@
                     @livewire('stars', compact('anime'))
                 </ul>
 
-                <div class="mt-6 flex items-center flex-wrap gap-y-4">
+                <div class="mt-6 flex items-center flex-wrap gap-y-4 gap-x-2">
                     <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $anime->episodes->first()->id] ) }}"
                         class="anime__btn anime__btn_first">Premier EP</a>
                     <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
                         class="anime__btn mr-auto">Dernier EP</a>
-                    @auth
-                    @livewire('follow-button', compact('anime'))
-                    @endauth
-                    <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
+                    <div class="flex flex-wrap gap-x-2 gap-y-4">
+                        @auth
+                            @livewire('follow-button', compact('anime'))
+                        @endauth
+                        <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
+                    </div>
                 </div>
             </div>
 
@@ -70,7 +72,7 @@
                 {{ $episodes->links() }}
             </div>
         </div>
-        <!-- TODO gerer la pagination -->
+
         @livewire('form-container', ['type_id' => $anime->id, 'type' => 'Anime'])
     </div>
 </x-app-layout>

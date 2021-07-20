@@ -46,7 +46,8 @@ function h_sortArrow($col) {
 }
 
 function h_truncate ($str, $max_length) {
-
+    if(strlen($str) < $max_length)
+        return $str;
     $strArr = explode(' ', $str);
     if(count($strArr)< 2) 
         return $str;

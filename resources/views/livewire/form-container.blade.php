@@ -1,15 +1,9 @@
-{{-- TODO Refactoriser dans fichier css et js --}}
-{{-- @push('head-scripts')
-    <script src="{{ mix('js/form.js') }}"></script>
-    
-@endpush --}}
-{{-- TODO reparer background form-container --}}
 <div x-data="">
-    <h1>Postez votre commentaire:</h1>
+    <h1 class="mt-4">Postez votre commentaire:</h1>
     @guest
-        <div>
+        <div class="mb-4">
             <p>Vous devez être connecté pour pouvoir poster un commentaire</p>
-            <a>Connectez vous</a>
+            <a href="{{ route('login') }}" class="text-blue-600 font-bold text-lg">Connectez vous</a>
 
         </div>
     @endguest
@@ -21,21 +15,21 @@
         <div class="form-container__bg form-container__bg_top hidden" x-data="" x-init="app().test($el)" id="bg-top" wire:ignore></div>
 
         @forelse ($comments as $comment)
-        <div x-data="{show: false}" class="w-96 clearfix">
+        <div x-data="{show: false}" class="w-full clearfix" style="max-width: 24rem">
             <x-comment :item='$comment' bg-color="bg-indigo-400" />
-            <div x-show="show" class="pr-4" style="padding-left: 4.7rem">
+            <div x-show="show" class="pr-4 form-padding-left">
                 @livewire('form', ['commentable_id' => $comment->id, 'commentable_type' => 'App\Models\Comment'],
                 key($comment->id))
             </div>
         </div>
 
-        <div class="ml-auto w-96" id="{{ $comment->id }}">
+        <div class="ml-auto w-full pl-6" style="max-width: 24rem" id="{{ $comment->id }}">
 
             @forelse ($comment->comments()->take($replies[$comment->id]['current_amount'])->get() as $item)
 
             <div x-data="{show: false}">
                 <x-comment :item='$item' reply="true" bg-color="bg-blue-300" />
-                <div x-show="show" class="pr-4" style="padding-left: 4.7rem">
+                <div x-show="show" class="pr-4 form-padding-left">
                     @livewire('form', ['commentable_id' => $comment->id, 'commentable_type' => 'App\Models\Comment',
                     'parent_id' => $item->id],
                     key($item->id))
