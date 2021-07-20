@@ -1,0 +1,1 @@
+<a href="#form" class="anime__comment-link">{{ $comment_count }} commentaires</a>

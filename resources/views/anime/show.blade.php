@@ -39,7 +39,7 @@
                         @auth
                             @livewire('follow-button', compact('anime'))
                         @endauth
-                        <a href="#form" class="anime__comment-link">{{ $anime->comments->count() }} commentaires</a>
+                        @livewire('comment-count', ['model' => $anime])
                     </div>
                 </div>
             </div>

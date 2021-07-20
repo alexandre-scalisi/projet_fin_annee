@@ -73,6 +73,7 @@ class FormContainer extends Component
             ];
         }
 
+        $this->emit('form_loaded');
         return view('livewire.form-container');
     }
 }

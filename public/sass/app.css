@@ -91,21 +91,6 @@
   background: linear-gradient(to top, black, rgba(0, 0, 0, 0));
 }
 
-.comment {
-  border-radius: 0.5rem;
-  border-width: 1px;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  overflow-wrap: break-word;
-  width: 20rem;
-}
-
 .comment__author {
   display: inline-block;
   font-weight: 700;

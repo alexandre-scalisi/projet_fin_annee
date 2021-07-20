@@ -7,7 +7,6 @@ window.app = () => {
         },
 
         test2(el) {
-            console.log(form)
             el.scrollTop !== (el.scrollHeight - el.clientHeight) ? el.classList.remove('hidden') : el.classList.add('hidden')
         },
 
@@ -18,7 +17,6 @@ window.app = () => {
                 document.getElementById('bg-top').classList.remove('hidden')
             } else {
                 document.getElementById('bg-top').classList.add('hidden')
-                console.log('test')
             }
             if (ev.target.scrollTop !== ev.target.scrollTopMax) {
                 document.getElementById('bg-bottom').classList.remove('hidden')

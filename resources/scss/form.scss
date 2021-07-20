@@ -21,7 +21,6 @@
 }
 
 .comment {
-    @apply px-5 py-4 border rounded-lg my-4 w-80 mx-2 break-words;
 
     &__author {
         @apply inline-block text-lg font-bold mr-2;

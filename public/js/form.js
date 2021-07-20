@@ -10,7 +10,6 @@ window.app = function () {
       form.scrollTop > 0 ? el.classList.remove('hidden') : el.classList.add('hidden');
     },
     test2: function test2(el) {
-      console.log(form);
       el.scrollTop !== el.scrollHeight - el.clientHeight ? el.classList.remove('hidden') : el.classList.add('hidden');
     },
     scrollFunc: function scrollFunc(ev) {
@@ -18,7 +17,6 @@ window.app = function () {
         document.getElementById('bg-top').classList.remove('hidden');
       } else {
         document.getElementById('bg-top').classList.add('hidden');
-        console.log('test');
       }
 
       if (ev.target.scrollTop !== ev.target.scrollTopMax) {

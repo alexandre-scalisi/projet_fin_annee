@@ -1,5 +1,5 @@
 <div x-data="">
-    <h1 class="mt-4">Postez votre commentaire:</h1>
+    <h1 class=" ml-2 sm:ml-0 mt-4 mb-1">Postez votre commentaire:</h1>
     @guest
         <div class="mb-4">
             <p>Vous devez être connecté pour pouvoir poster un commentaire</p>
@@ -45,15 +45,15 @@
             @endphp
 
             @if($responses['current_amount'] < $responses['count']) <button
-                wire:click="$emit('load_more_replies', {{$comment->id}})">afficher plus</button>
+                wire:click="$emit('load_more_replies', {{$comment->id}})" class="text-blue-400 ml-2">Afficher plus</button>
                 @elseif($responses['count'] > $init_replies_amount && $responses['current_amount'] >=
                 $responses['count'])
-                <button wire:click="$emit('reset_replies_quantity', {{ $comment->id }})">afficher moins</button>
+                <button wire:click="$emit('reset_replies_quantity', {{ $comment->id }})" class="text-blue-400 ml-2">Afficher moins</button>
             @endif
 
         </div>
         @empty
-        Pas encore de commentaires
+        <p class="text-gray-300 m-2">Soyez le premier à commenter</p>
         @endforelse
 
         <div class="form-container__bg form-container__bg_bottom hidden" x-data="" x-init="app().test2($el)" id="bg-bottom" wire:ignore></div>

@@ -1,4 +1,4 @@
-<div class="flex m-2 sm:m-4" style="word-break: break-word">
+<div class="flex m-2 sm:m-4 comment" style="word-break: break-word">
 
     <img src="{{ $item->author->profile_photo_url }}" class="hidden sm:block w-12 h-12 rounded-full border-2 {{ $item->author->is_logged_in_user() ? 'border-red-400' : 'border-blue-500'}}"">
     <div class="ml-4 text-gray-50">

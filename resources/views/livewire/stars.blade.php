@@ -34,10 +34,10 @@
 
             @endfor
             </span>
-            <p class="inline-block ml-2 text-xl">Votre note : {{ $user_vote }} / 5</p>
+            <p class="text-xl -mt-0.5">Votre note : {{ $user_vote }} / 5</p>
         </div>
         @else
-        <div x-data="{val: 0}">
+        <div x-data="{val: 0}" class="flex flex-wrap gap-x-3 gap-y-2">
             <span x-on:mouseout="val = 0">
             @for($j = 1; $j <= 5; $j++) 
                 <button type="button" wire:click='vote({{ $j }})' x-on:mouseenter="val={{ $j }}"
@@ -45,7 +45,7 @@
 
             @endfor
             </span>
-            <p class="inline-block ml-2 text-xl">Pas de vote</p>
+            <p class="text-xl -mt-0.5">Pas de vote</p>
         </div>
         @endif
     </div>
