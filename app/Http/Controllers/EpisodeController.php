@@ -49,9 +49,14 @@ class EpisodeController extends Controller
     {
        
         // TODO GERER LES EPISODES PAS BONS
-        
+        $episodes = Episode::whereHas('anime', function ($q) use($anime){
+            return($q->where('anime_id', $anime->id));
+        })->get();
+        $index = $episodes->search($episodes->where('title', $episode->title)->first());
+        $prev = $index > 0 ? $episodes[$index - 1]->id : null;
+        $next = $index < $episodes->count() - 1 ? $episodes[$index + 1]->id : null;
         $links = $episode->links();
-        return view('episodes.show', compact('episode', 'links'));
+        return view('episodes.show', compact('episode', 'links', 'episodes', 'prev', 'next'));
     }
 
     /**

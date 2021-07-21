@@ -8,12 +8,12 @@
             <x-form.number name="season_number" text="Numéro de la saison (vide si pas de saison)" max="100"/>
         </div>
         
-        <x-form.basic-input name="adn" text="ADN"/>
+        <x-form.basic-input name="adn" text="ADN" value="https://animedigitalnetwork.fr/video|"/>
 
-        <x-form.basic-input name="crunchyroll" text="Crunchyroll"/>
+        <x-form.basic-input name="crunchyroll" text="Crunchyroll" value="https://www.crunchyroll.com/affiliate_iframeplayer|"/>
         
-        <x-form.basic-input name="wakanim" text="Wakanim"/>
-
+        <x-form.basic-input name="wakanim" text="Wakanim" value="https://www.wakanim.tv/fr/v2/catalogue/embeddedplayer|"/>
+        
 
         <button class="bg-black px-3 py-2 text-white">Envoyer</button>
     </form>
