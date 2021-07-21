@@ -1,7 +1,7 @@
 <x-layouts.admin>
     
     <h1 class="text-2xl border-b-4 border-gray-800">{{ $h1 }}</h1>
-    <div class="flex items-center justify-between my-5">
+    <div class="flex flex-wrap items-center justify-between my-5 gap-3">
         <div class="bg-gray-800 text-gray-200" >
         @if(array_key_exists('create', $routes))
             <a href="{{ route($routes['create']) }}" class="px-3 py-2 h-full block">Nouveau</a>
