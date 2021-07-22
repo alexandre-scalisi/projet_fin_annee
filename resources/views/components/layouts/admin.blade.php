@@ -33,7 +33,7 @@
                 <main class="max-w-7xl w-full mx-auto md:py-6 px-4 sm:px-6 lg:px-8">
                     
                     @if (Session::has('success'))
-                        <div class="rounded-md bg-green-500 w-full h-12 px-2 mb-4 flex items-center space-x-4" x-show="show" x-data="{ show:true }" >
+                        <div class="rounded-md bg-green-500 w-full px-2 mb-4 flex items-center space-x-4" style="min-height: 3rem" x-show="show" x-data="{ show:true }" >
                             <i class="fa fa-check text-white"></i>
                             <p class="text-lg text-green-50">{{ Session::get('success') }}</p>
                             <button @click.prevent="show=false" class="text-green-50 text-2xl" style="margin-left: auto">&times;</button>

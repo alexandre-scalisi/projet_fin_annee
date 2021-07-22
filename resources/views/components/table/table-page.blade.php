@@ -7,7 +7,7 @@
             <a href="{{ route($routes['create']) }}" class="px-3 py-2 h-full block">Nouveau</a>
         @endif
         </div>
-        <form class="ml-auto max-w-full" method="GET">        
+        <form class="md:ml-auto max-w-full" method="GET">        
             <input type="search" name="q" id="q" placeholder="Rechercher" class="max-w-full">
         </form>
     </div>
@@ -17,7 +17,7 @@
     </div>
 
     {{ $slot }}
-    <form action="{{ route( $routes['destroy'] ?? $routes['forceDelete'], [-1, -1]) }}" method="POST" class="inline-block mt-3 mr-2">
+    <form action="{{ route( $routes['destroy'] ?? $routes['forceDelete'], [-1, -1]) }}" method="POST" class="inline-block my-3 mr-2">
         @csrf
         @method('DELETE')
         @foreach ($objects as $object)

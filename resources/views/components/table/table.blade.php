@@ -51,6 +51,13 @@
 
 </style>
 <table class="table-auto w-full mb-4">
+    <th class="md:hidden px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
+        <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
+        @click="isChecked = $event.target.checked === true ? true : false;
+                           [...allCheckboxes].forEach(c => c.checked = isChecked);
+        ">   
+        Tout cocher
+    </th>
     <thead class="bg-blue-400">
         <tr class="text-left">
 
