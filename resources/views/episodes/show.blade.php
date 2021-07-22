@@ -25,16 +25,16 @@
             </select>
         </div>
         <div style="width: 100%; height: 53vw; max-height: 700px" class="relative bg-white">
-            <div class="absolute top-1/2 left-1/2 flex items-center flex-col gap-y-2">
+            <div class="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center flex-col gap-y-2">
                 <p class="fa fa-3x fa-spinner animate-spin"></p>
                 <p>Veuillez patientez</p>
             </div>
-            {{-- <iframe x-bind:src="selec" class="w-full h-full relative z-50" scrolling="no" frameborder="0"
+            <iframe x-bind:src="selec" class="w-full h-full relative z-50" scrolling="no" frameborder="0"
                 allowfullscreen="true" webkitallowfullscreen="true" allowScriptAccess="always"
-                mozallowfullscreen="true"></iframe> --}}
+                mozallowfullscreen="true"></iframe>
             @endif
         </div>
-        <div class="flex my-2">
+        <div class="flex flex-wrap my-2">
             @if($prev)
             <a href="{{ route('animes.episodes.show', ['anime' => $episode->anime->id, 'episode' => $prev]) }}"
                 class="bg-blue-700 px-4 py-1 rounded-full text-blue-50">Précedent</a>
