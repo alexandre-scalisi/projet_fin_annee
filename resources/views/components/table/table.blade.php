@@ -1,4 +1,4 @@
-<table class="table-auto w-full px-4 mb-4">
+<table class="table-fixed w-full px-4 mb-4 block overflow-x-scroll">
     <thead class="bg-blue-400">
         <tr class="text-left">
            
