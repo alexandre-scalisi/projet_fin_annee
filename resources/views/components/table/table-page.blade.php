@@ -7,8 +7,8 @@
             <a href="{{ route($routes['create']) }}" class="px-3 py-2 h-full block">Nouveau</a>
         @endif
         </div>
-        <form class="ml-auto" method="GET">        
-            {{-- <input type="search" name="q" id="q" placeholder="Rechercher" class="max-w-full"> --}}
+        <form class="ml-auto max-w-full" method="GET">        
+            <input type="search" name="q" id="q" placeholder="Rechercher" class="max-w-full">
         </form>
     </div>
     <div class="flex py-2">

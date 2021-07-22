@@ -104,7 +104,7 @@ class EpisodeController extends BaseAdminController
      */
     public function edit($id)
     {
-        //
+        return view('admin.episodes.edit');
     }
 
     /**
