@@ -8,7 +8,7 @@
         @endif
         </div>
         <form class="ml-auto" method="GET">        
-            <input type="search" name="q" id="q" placeholder="Rechercher">
+            {{-- <input type="search" name="q" id="q" placeholder="Rechercher" class="max-w-full"> --}}
         </form>
     </div>
     <div class="flex py-2">
