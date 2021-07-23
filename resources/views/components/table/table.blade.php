@@ -32,6 +32,11 @@
             border-bottom: white 1px solid;
         }
         
+        .table-auto tr:nth-child(odd) {
+            border: #DBEAFE 1px solid;
+        }
+     
+        
 
         .table-auto td:not(:first-child)::before {
             content: attr(data-th) ": ";
@@ -51,13 +56,14 @@
 
 </style>
 <table class="table-auto w-full mb-4">
-    <th class="md:hidden px-3 relative" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
+
+    <div class="md:hidden px-3 relative mb-4" x-data="{tooltip: false, allCheckboxes: document.querySelectorAll('[class^=\'check-\']')}">
         <input type="checkbox" @mouseenter="tooltip=true" @mouseleave="tooltip=false" 
         @click="isChecked = $event.target.checked === true ? true : false;
                            [...allCheckboxes].forEach(c => c.checked = isChecked);
         ">   
         Tout cocher
-    </th>
+    </div>
     <thead class="bg-blue-400">
         <tr class="text-left">
 

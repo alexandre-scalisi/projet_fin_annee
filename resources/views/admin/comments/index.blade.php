@@ -12,11 +12,11 @@
             <tr class="even:bg-blue-100">
             
                 <x-table.td.checkbox :object="$object"/>
-                <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->author->email }} </x-table.td.link> 
-                <x-table.td.td>{{ $object->author->name }}</x-table.td.td>
-                <x-table.td.td>{{ $object->body }}</x-table.td.td>
-                <x-table.td.date :date="$object->created_at"/>
-                <x-table.actions.td>
+                <x-table.td.link :show="$routes['show']" :ids="$object->id" th="Email">{{ $object->author->email }} </x-table.td.link> 
+                <x-table.td.td th="Auteur">{{ $object->author->name }}</x-table.td.td>
+                <x-table.td.td th="Contenu">{{ $object->body }}</x-table.td.td>
+                <x-table.td.date :date="$object->created_at" th="Date de création"/>
+                    <x-table.actions.td>
                     <x-table.actions.show :show="$routes['show']" :ids="[$object->id]" />
                     <x-table.actions.destroy :destroy="$routes['destroy']" :ids="[$object->id]" type="commentaire" :value="$object->id" />
                 </x-table.actions.td>

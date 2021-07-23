@@ -18,8 +18,8 @@ class CreateCommentsTable extends Migration
             $table->text('body');
             $table->string('commentable_type');
             $table->integer('commentable_id');
-            $table->integer('user_id');
-            $table->integer('parent_id')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('parent_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,11 +10,11 @@
             @foreach ($objects as $object)
             <tr class="even:bg-blue-100">
                 <x-table.td.checkbox :object="$object"/>
-                <x-table.td.link :show="$routes['show']" :ids="$object->id">{{ $object->email }} </x-table.td.link> 
-                <x-table.td.td>{{ $object->name }}</x-table.td.td> 
-                <x-table.td.td>{{ $object->role }}</x-table.td.td> 
-                <x-table.td.date :date="$object->created_at"/>
-                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime"></x-table.actions.index-actions>
+                <x-table.td.link :show="$routes['show']" :ids="$object->id" th="Email">{{ $object->email }} </x-table.td.link> 
+                <x-table.td.td th="Nom">{{ $object->name }}</x-table.td.td> 
+                <x-table.td.td th="Role">{{ $object->role }}</x-table.td.td> 
+                <x-table.td.date :date="$object->created_at" th="Date de création"/>
+                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime" />
             </tr>
             @endforeach
         </x-slot>

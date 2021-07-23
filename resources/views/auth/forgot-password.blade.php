@@ -26,7 +26,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-jet-button>
-                    {{ __('Email Password Reset Link') }}
+                    Lien pour réinitialiser le mot de passe
                 </x-jet-button>
             </div>
         </form>
