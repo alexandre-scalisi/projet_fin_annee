@@ -22,9 +22,9 @@
         </x-form.container>
         <x-form.container>
             <x-genre-modal />
-            @error('genre.*')
+            {{-- @error('genre.*')
             {{ $message }}
-            @enderror
+            @enderror --}}
             @error('genre')
             {{ $message }}
             @enderror
