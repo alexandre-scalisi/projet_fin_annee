@@ -39,7 +39,7 @@ class GenreController extends BaseAdminController
      */
     public function create()
     {
-        //
+        return view('admin.genres.create');
     }
 
     /**
@@ -50,7 +50,12 @@ class GenreController extends BaseAdminController
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|min:2|max:80|unique:genres,name'
+        ]);
+
+        $genre = Genre::create($validated);
+        return redirect()->back()->with('success', 'Genre ajouté avec succès');
     }
 
     /**
@@ -61,7 +66,9 @@ class GenreController extends BaseAdminController
      */
     public function show($id)
     {
-        //
+        $genre = Genre::find($id);
+        $animes = $genre->animes()->paginate(15);
+        return view('admin.genres.show', compact('genre', 'animes'));
     }
 
     /**
@@ -72,7 +79,9 @@ class GenreController extends BaseAdminController
      */
     public function edit($id)
     {
-        //
+        $genre = Genre::find($id);
+
+        return view('admin.genres.edit', compact('genre'));
     }
 
     /**
@@ -84,15 +93,18 @@ class GenreController extends BaseAdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        $genre = Genre::find($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|min:2|max:80|unique:genres,name,'.$id,
+        ]);
+
+        $genre->update($validated);
+
+        return redirect()->back()->with('success', 'Genre modifié avec succès');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     
    
 

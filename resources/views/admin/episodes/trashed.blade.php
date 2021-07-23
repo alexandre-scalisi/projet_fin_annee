@@ -9,8 +9,8 @@
             @forelse ($objects as $object)
             <tr class="even:bg-blue-100">
                 <x-table.td.checkbox :object="$object"/>
-                <x-table.td.td>{{ $object->title }} </x-table.td.td> 
-                <x-table.td.date :date="$object->deleted_at"/>
+                <x-table.td.td th="Titre">{{ $object->title }} </x-table.td.td> 
+                <x-table.td.date th="Date de suppression" :date="$object->deleted_at"/>
                 <x-table.actions.trash-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime" />           
             </tr>    
             @empty

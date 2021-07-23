@@ -1,5 +1,5 @@
 <x-app-layout>
-    <h1 class="text-2xl font-bold border-b-4 border-indigo-700"> Accueil</h1>
+    <x-title>Accueil</x-title>
     <p class="mt-4 mb-8 text-xl">
         Bienvenue
     @auth

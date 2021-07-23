@@ -159,8 +159,7 @@ class AnimeController extends BaseAdminController
              'genre.*' => 'required|string|exists:genres,id'
             ]);
       
-            $anime = Anime::find($id);
-            $anime->update($validatedAnime);
+        $anime->update($validatedAnime);
             
         $anime->genres()->sync(Arr::first($validatedGenres));
 

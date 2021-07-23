@@ -33,9 +33,7 @@ function h_sort_table($order_by, $dir) {
 }
 
 function h_sortArrow($col) {
-    // recuperer la requete
-    // recuper orderby
-    //recuperer direction
+    
     $order_by = request('order_by');
     if($order_by !==$col)
     return '';
@@ -60,7 +58,7 @@ function h_find_image($path) {
     if(Illuminate\Support\Str::startsWith($path, 'http')) {
         return $path;
     }
-    return asset('public/storage/images/'.$path);
+    return asset('storage/images/'.$path);
 }
 
 function h_isAdminRoute() {

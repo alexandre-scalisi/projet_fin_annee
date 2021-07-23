@@ -1,14 +1,14 @@
 <x-layouts.admin>
-    <h1>Ajouter Anime</h1>
+    <x-title borderColor="border-gray-800">Créer Anime</x-title>
     
     <form method="POST" action={{ route('admin.animes.store') }} enctype="multipart/form-data">
         @csrf
-        <x-form.basic-input name="title" text="Titre"/>
+        <x-form.basic-input name="title" text="Titre" :value="old('title')"/>
         
-        <x-form.textarea name="synopsis" text="Synopsis"/>
+        <x-form.textarea name="synopsis" text="Synopsis"> {{ old('title') }}</x-form.textarea>
         
-        <x-form.date name="release_date" text="Date de sortie"/>
-        <x-form.basic-input name="studio" text="studio" /> 
+        <x-form.date name="release_date" text="Date de sortie" :value="old('release_date')"/>
+        <x-form.basic-input name="studio" text="Studio" :value="old('studio')"/> 
         <x-form.container error="image">
             <div x-data="{ obj: window.edit() }" x-init="obj.init()">
                 <label for="image-input" class="block">Image (16/9 recommandé)</label>
@@ -22,9 +22,9 @@
         </x-form.container>
         <x-form.container>
             <x-genre-modal />
-            {{-- @error('genre.*')
+            @error('genre.*')
             {{ $message }}
-            @enderror --}}
+            @enderror
             @error('genre')
             {{ $message }}
             @enderror

@@ -6,10 +6,10 @@
             <x-table.th.order-by sort-by="title" default="desc">Titre </x-table.th.order-by>
             <x-table.th.order-by sort-by="episodes" default="desc">Nombre épisodes</x-table.th.order-by>
             <x-table.th.order-by sort-by="vote" default="desc">Vote</x-table.th.order-by>
-            <x-table.th.order-by sort-by="release_date" default="desc">Date de sortie </x-table.th.order-by>
+            <x-table.th.order-by sort-by="release_date" default="desc" center="true">Date de sortie </x-table.th.order-by>
         </x-slot>
         <x-slot name="tableBody">
-            @foreach ($objects as $object)
+            @forelse ($objects as $object)
             <tr class="even:bg-blue-100">
                 <x-table.td.checkbox :object="$object"/>
                 <x-table.td.link :show="$routes['show']" :ids="$object->id" th="Titre">{{ $object->title }} </x-table.td.link> 
@@ -25,7 +25,11 @@
                     </a>
                 </x-table.actions.index-actions>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td>Pas de resultats</td>
+            </tr>
+            @endforelse
         </x-slot>
     </x-table.table>
 </x-table.table-page>

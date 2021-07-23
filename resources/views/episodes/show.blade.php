@@ -2,12 +2,10 @@
 
 
     <h1 class="text-2xl font-bold border-b-4 border-indigo-700 mb-4">{{ $episode->title }}</h1>
-
-    <a href="{{ route('animes.show', $episode->anime->id) }}"
-        class="bg-blue-500 px-3 py-1 mb-4 inline-block text-blue-50">Retour</a>
+    <x-buttons.button link="{{ route('animes.show', $episode->anime->id) }}" icon="fa fa-arrow-left" icon-color="text-blue-400" bg-color="bg-blue-600">Retour</x-buttons.button>
     @if(!empty($links))
     @if(key_exists('adn', $links)) @php $links['adn'] = str_replace('video', 'embedded', $links['adn']) @endphp @endif
-    <div x-data="{selec: '{{ reset($links) }}' }">
+    <div x-data="{selec: '{{ reset($links) }}' }" class="mt-4">
         <div class="flex flex-wrap gap-x-12 gap-y-3">
             <select x-model="selec" class="max-w-full">
                 @foreach($links as $l => $link)

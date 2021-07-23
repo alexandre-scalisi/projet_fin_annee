@@ -34,7 +34,6 @@ class CommentController extends BaseAdminController
     public function show($id) {}
 
 
-    public function destroy(){}
 
 
     public function forceDelete(){}

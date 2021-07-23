@@ -91,9 +91,9 @@ class EpisodeController extends BaseAdminController
      */
     public function show(Anime $anime, Episode $episode)
     {
+        $episodes = Episode::all()->sortBy('title', SORT_NATURAL, false);
         
-        $links = $episode->links();
-        return view('episodes.show', compact('episode', 'links'));
+        return view('admin.episodes.show', compact('episodes'));
     }
 
     /**

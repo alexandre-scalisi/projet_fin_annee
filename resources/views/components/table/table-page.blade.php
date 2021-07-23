@@ -26,7 +26,7 @@
         <button class="text-red-600 border border-red-600 px-4 py-1 rounded-full">Supprimer les éléments sélectionnés</button>
     </form>
     @isset($routes['restore'])
-    <form action="{{ route($routes['restore'])}}" method="POST" class="inline-block">
+    <form action="{{ route($routes['restore'])}}" method="POST" class="inline-block mb-3">
         @csrf
         @foreach ($objects as $object)
             <input type="checkbox" name="restore[]" value="{{ $object->id }}" class="check-{{ $object->id }} hidden">

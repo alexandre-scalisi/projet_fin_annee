@@ -1,0 +1,1 @@
+<a href="#" @click.prevent="modal=true" class="px-4 py-1 bg-red-600 text-gray-100 rounded-md"><i class="fa fa-trash text-red-400 mr-2"></i>{{ $slot }}</a>

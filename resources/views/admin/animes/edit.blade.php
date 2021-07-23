@@ -1,5 +1,5 @@
 <x-layouts.admin>
-    <h1> Anime update </h1>
+    <x-title border-color="border-gray-800">Modifier anime</x-title>
     <form method="POST" action="{{ route('admin.animes.update', $anime->id) }}" enctype="multipart/form-data" x-data="" x-init="window.edit">
         @csrf
         @method('PUT')

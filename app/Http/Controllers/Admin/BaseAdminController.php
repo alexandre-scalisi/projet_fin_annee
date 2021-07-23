@@ -130,7 +130,9 @@ abstract class BaseAdminController extends Controller
         if(in_array($order_by, $special_order_bys) && $this->model_name != 'User') {
             return $this->specialOrderBy($order_by, $dir)->paginate($this->per_page);
         }
-        
+        if($order_by == 'title') {
+            return h_paginate_collection($this->model->get()->sortBy('title', SORT_NATURAL, $dir == 'desc' ? true : false), $this->per_page);
+        }
         
         return $this->model->orderBy($order_by, $dir)->paginate($this->per_page);
     }
