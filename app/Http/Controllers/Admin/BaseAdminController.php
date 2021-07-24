@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Route;
 
 abstract class BaseAdminController extends Controller
 {
@@ -68,6 +69,10 @@ abstract class BaseAdminController extends Controller
         $this->model::whereIn('id', $deletes)->each(function ($m) {
             $m->delete();
         });
+
+        $previous_url_exploded = explode('/', url()->previous());
+        if($previous_url_exploded[count($previous_url_exploded) - 1] !== "trashed")
+            return redirect(route('admin.'.$this->lc_plural_model.'.index'));
         
         return redirect()->back()->with('success', $this->model_name.'(s) supprimé(s) avec succès');
     }
@@ -187,7 +192,7 @@ abstract class BaseAdminController extends Controller
         $restCollection = $restCollection->sortBy($this->default_order_by);
         
         if(!empty($firstLetterCollection)) 
-        $firstLetterCollection = $firstLetterCollection->sortBy($this->default_order_by);
+        $firstLetterCollection = $firstLetterCollection->sortBy($this->default_order_by, SORT_NATURAL, false);
         $array = $firstLetterCollection->merge($restCollection);
         $this->arr['objects'] = h_paginate_collection($array, $this->per_page);
         
