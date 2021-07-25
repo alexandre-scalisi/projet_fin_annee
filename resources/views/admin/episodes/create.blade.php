@@ -1,5 +1,5 @@
 <x-layouts.admin>
-    <x-title borderColor="border-gray-800">Ajouter épisode</x-title>
+    <x-title borderColor="border-gray-800">Ajouter épisode à {{ App\Models\Anime::find($anime_id)->title }}</x-title>
     
     <form method="POST" action={{ route('admin.animes.episodes.store', $anime_id) }}>
         @csrf

@@ -28,7 +28,7 @@
             @endif
         @endauth
         <x-jet-banner />
-        <div class="min-h-screen bg-gray-100">
+        <div class="bg-gray-100">
             @livewire('navigation-menu')
             
             <!-- Page Heading -->
@@ -44,8 +44,8 @@
             <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-16">
                 {{ $slot }}
             </main>
+            <x-layouts.footer />
         </div>
-
         @stack('modals')
 
         @livewireScripts

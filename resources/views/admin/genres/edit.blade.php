@@ -1,5 +1,5 @@
 <x-layouts.admin>
-    <x-title border-color="border-gray-800">Modifier genre</x-title>
+    <x-title border-color="border-gray-800">Modifier genre {{ $genre->name }}</x-title>
     <form method="POST" action="{{ route('admin.genres.update', $genre->id) }}">
         @csrf
         @method('PUT')

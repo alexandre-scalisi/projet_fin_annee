@@ -1,5 +1,5 @@
 <x-layouts.admin>
-    <x-title class="mb-4">Modifier utilisateur</x-title>
+    <x-title class="mb-4">Modifier utilisateur {{ $user->name }}</x-title>
     
     <form method="POST" action={{ route('admin.users.update', $user->id) }} enctype="multipart/form-data" x-data="" x-init="window.edit">
         @csrf

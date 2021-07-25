@@ -79,3 +79,34 @@ function h_paginate_collection($collection, $per_page) {
         'query' => request()->query(),
     ]);
 }
+
+function h_adminRouteNavigationMenu() {
+    $links = [];
+    $route = Route::currentRouteName();
+
+    switch($route) {
+        case 'home':
+            $links[] = ['link' => route('admin.animes.create'), 'text' => 'Créer anime'];
+                break;
+        case 'animes.index':
+            $links[] = ['link' => route('admin.animes.create'), 'text' => 'Créer anime'];
+            break;
+        case 'animes.action':
+            $links[] = ['link' => route('admin.animes.create'), 'text' => 'Créer anime'];
+            break;
+        case 'animes.show':
+            $links[] = ['link' => route('admin.animes.create'), 'text' => 'Créer anime'];
+            $links[] = ['link' => route('admin.animes.show', request('anime')->id), 'text' => 'Voir anime'];
+            $links[] = ['link' => route('admin.animes.edit', request('anime')->id), 'text' => 'Editer anime'];
+            $links[] = ['link' => route('admin.animes.episodes.create', request('anime')->id), 'text' => 'Ajouter épisode'];
+            break;
+        case 'animes.episodes.show':
+            $links[] = ['link' => route('admin.animes.episodes.create', request('anime')->id), 'text' => 'Ajouter épisode'];
+            $links[] = ['link' => route('admin.animes.episodes.edit', [request('anime')->id, request('episode')->id]), 'text' => 'Editer épisode'];
+            $links[] = ['link' => route('admin.animes.episodes.show', [request('anime')->id, request('episode')->id]), 'text' => 'Voir épisode'];
+            $links[] = ['link' => route('admin.animes.show', request('anime')->id), 'text' => 'Voir anime'];
+            break;
+            
+    }
+    return $links;
+}
