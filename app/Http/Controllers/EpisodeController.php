@@ -52,9 +52,14 @@ class EpisodeController extends Controller
         $episodes = Episode::whereHas('anime', function ($q) use($anime){
             return($q->where('anime_id', $anime->id));
         })->get();
-        $index = $episodes->search($episodes->where('title', $episode->title)->first());
-        $prev = $index > 0 ? $episodes[$index - 1]->id : null;
-        $next = $index < $episodes->count() - 1 ? $episodes[$index + 1]->id : null;
+        $episodes = $episodes->sortBy('title', SORT_NATURAL, false);
+        $sortedEpisodes = collect([]);
+        foreach($episodes as $ep) {
+            $sortedEpisodes->push($ep);
+        }
+        $index = $sortedEpisodes->search($sortedEpisodes->where('title', $episode->title)->first());
+        $prev = $index > 0 ? $sortedEpisodes[$index - 1]->id : null;
+        $next = $index < $sortedEpisodes->count() - 1 ? $sortedEpisodes[$index + 1]->id : null;
         $links = $episode->links();
         return view('episodes.show', compact('episode', 'links', 'episodes', 'prev', 'next'));
     }

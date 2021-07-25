@@ -1,10 +1,11 @@
 <div class="flex m-2 sm:m-4 comment" style="word-break: break-word">
 
     <img src="{{ $item->author->profile_photo_url }}" class="hidden sm:block w-12 h-12 rounded-full border-2 {{ $item->author->is_logged_in_user() ? 'border-red-400' : 'border-blue-500'}}"">
-    <div class="ml-4 text-gray-50">
+    <div class="ml-4 text-gray-50 w-full">
         <div class="mb-2">
             <h1 class="comment__author {{ $item->author->is_logged_in_user() ? 'text-red-400' : 'text-blue-500' }}"> {{ $is_different() ? $item->author->name : 'Moi' }} </h1>
             <span class="comment__date"> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} </span>
+            <button wire:click="deleteComment" class="float-right text-red-500 text-3xl">&times;</button>
         </div>
         <p class="mb-2">{{ $item->body }}</p>
 

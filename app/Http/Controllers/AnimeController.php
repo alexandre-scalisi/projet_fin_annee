@@ -68,7 +68,7 @@ class AnimeController extends Controller
     public function show(Anime $anime)
     {   
         // TODO refactoriser le code
-        $episodes = $anime->episodes()->paginate(25);
+        $episodes = h_paginate_collection($anime->episodes->sortBy('title', SORT_NATURAL, false), 25);
 
         $truncated_synopsis = h_truncate($anime->synopsis, 500);
 
