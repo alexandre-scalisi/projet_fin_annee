@@ -18,13 +18,16 @@ class FormContainer extends Component
     public $replies;
     public $type;
     public $type_id;
-    public $listeners = ['scrollTop', 'reply_added', 'load_more_comments', 'load_more_replies', 'scrollToComment', 'reset_replies_quantity'];
+    public $listeners = ['scrollTop', 'reply_added', 'load_more_comments', 
+            'load_more_replies', 'scrollToComment', 'reset_replies_quantity', 'commentDeleted'];
 
     public function mount() {
         $this->initial_comment_quantity = 10;
         $this->init_replies_amount = 3;
         $this->comment_quantity = $this->initial_comment_quantity;
     }
+
+    public function commentDeleted(){}
     
     public function scrollToComment($id) {}
 
@@ -33,7 +36,6 @@ class FormContainer extends Component
     public function reply_added($commentable_id) {
         $this->replies[$commentable_id]['current_amount']
         = $this->replies[$commentable_id]['count'] + 1;
-        // if($this->replies[$commentable_id]['current_amount'] >= $this->replies[$commentable_id]['count']) return;
         $this->emit('scrollToComment', $commentable_id);
     }
     

@@ -16,7 +16,7 @@
 
         @forelse ($comments as $comment)
         <div x-data="{show: false}" class="w-full clearfix" style="max-width: 24rem">
-            <x-comment :item='$comment' bg-color="bg-indigo-400" />
+            @livewire('comment', ['item' => $comment, 'bgColor' => 'bg-indigo-400'], key('comment-'.$comment->id))
             <div x-show="show" class="pr-4 form-padding-left">
                 @livewire('form', ['commentable_id' => $comment->id, 'commentable_type' => 'App\Models\Comment'],
                 key($comment->id))
@@ -28,7 +28,7 @@
             @forelse ($comment->comments()->take($replies[$comment->id]['current_amount'])->get() as $item)
 
             <div x-data="{show: false}">
-                <x-comment :item='$item' reply="true" bg-color="bg-blue-300" />
+                @livewire('comment', ['item' => $item, 'reply' => true, 'bgColor' => 'bg-blue-300'],key('comment-'.$item->id))
                 <div x-show="show" class="pr-4 form-padding-left">
                     @livewire('form', ['commentable_id' => $comment->id, 'commentable_type' => 'App\Models\Comment',
                     'parent_id' => $item->id],
