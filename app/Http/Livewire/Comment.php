@@ -10,9 +10,9 @@ class Comment extends Component
     public $item;
     public $bgColor;
     public $reply;
-    public $the_id;
 
     public function mount($reply = false) {
+       
         $this->reply = $reply;
     }
 
@@ -22,6 +22,7 @@ class Comment extends Component
         return $this->item->author->id !== auth()->user()->id;
     }
     
+
     public function destroy() {
         ModelsComment::destroy($this->item->id);
         $this->emit('commentDeleted');

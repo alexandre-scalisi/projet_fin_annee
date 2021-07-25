@@ -18,6 +18,9 @@ class Comment extends Model
         'parent_id'
     ];
 
+    public function isDeleted() {
+        return Comment::onlyTrashed()->find($this->id);
+    }
 
     public function commentable()
     {
@@ -30,10 +33,10 @@ class Comment extends Model
     }
 
     public function author() {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
     public function parent() {
-        return $this->belongsTo(Comment::class, 'parent_id');
+        return $this->belongsTo(Comment::class, 'parent_id')->withTrashed();
     }
 }

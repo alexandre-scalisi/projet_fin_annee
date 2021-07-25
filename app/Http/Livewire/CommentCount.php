@@ -17,9 +17,9 @@ class CommentCount extends Component
     }
 
     private function calculateCommentCount() {
-        $count = $this->model->comments->count();
+        $count = $this->model->comments()->withTrashed()->count();
         $this->model->comments()->each(function($c) use(&$count) {
-            $count += $c->comments->count();
+            $count += $c->comments()->withTrashed()->count();
         });
         $this->comment_count = $count;
     }

@@ -25,7 +25,7 @@
 
         <div class="ml-auto w-full pl-6" style="max-width: 24rem" id="{{ $comment->id }}">
 
-            @forelse ($comment->comments()->take($replies[$comment->id]['current_amount'])->get() as $item)
+            @forelse ($comment->comments()->withTrashed()->take($replies[$comment->id]['current_amount'])->get() as $item)
 
             <div x-data="{show: false}">
                 @livewire('comment', ['item' => $item, 'reply' => true, 'bgColor' => 'bg-blue-300'],key('comment-'.$item->id))

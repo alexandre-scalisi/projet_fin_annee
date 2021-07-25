@@ -31,14 +31,5 @@ class CommentController extends BaseAdminController
         return parent::index();
     }
 
-    public function show($id) {}
-
-
-
-
-    public function forceDelete(){}
-
-
-    public function restore(){}
-
+    
 }
