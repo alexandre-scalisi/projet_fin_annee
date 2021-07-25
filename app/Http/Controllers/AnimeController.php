@@ -71,7 +71,9 @@ class AnimeController extends Controller
         $episodes = $anime->episodes()->paginate(25);
 
         $truncated_synopsis = h_truncate($anime->synopsis, 500);
-        return view('anime.show', compact('anime', 'truncated_synopsis', 'episodes'));
+
+        $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1] ?? -1;
+        return view('anime.show', compact('anime', 'truncated_synopsis', 'episodes', 'last_episode_id'));
     }
 
     /**

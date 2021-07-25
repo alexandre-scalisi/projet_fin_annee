@@ -41,7 +41,7 @@ class Episode extends Model
 
     public function links() {
         // Court mais long lol
-        // return collect($this->get(['wakanim', 'adn', 'crunchyroll'])[1])->reject(function($k) {return $k === null;});
+            // return collect($this->get(['im', 'adn', 'crunchyroll'])[1])->reject(function($k) {return $k === null;});
         $links = [];
         if($this->adn != null) $links['adn'] = $this->adn;
         if($this->crunchyroll != null) $links['crunchyroll'] = $this->crunchyroll;

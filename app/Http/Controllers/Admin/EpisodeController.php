@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Anime;
 use App\Models\Episode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class EpisodeController extends BaseAdminController
 {
@@ -54,7 +57,13 @@ class EpisodeController extends BaseAdminController
         $title=$anime->title;
         $episode_name = 'Episode ' . request('episode_number') . ' vostfr';
         $season = request('season_number') ? ' saison ' . request('season_number') : '';
-        $fullname = $title . ' - ' . $episode_name . $season;
+        $data = ['fullname' => $title . ' - ' . $episode_name . $season];
+        $request->merge($data);
+        $validatedTitle= $request->validate([
+            'episode_number' => 'required|numeric',
+            'fullname' => 'required|unique:episodes,title'
+        ]);
+
         
         $validatedAdn = [];
         $validatedCrunchyroll = [];
@@ -75,9 +84,8 @@ class EpisodeController extends BaseAdminController
                 'wakanim' => 'string|starts_with:https://www.wakanim.tv/fr/v2/catalogue/embeddedplayer|unique:episodes,wakanim'
             ]);
         }
-        
-        Episode::create(array_merge($validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['title' => $fullname, 'anime_id' => $anime->id]));
 
+        Episode::create(array_merge($validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['title' => $validatedTitle['fullname'], 'anime_id' => $anime->id]));
         
 
         return redirect()->back()->with('success', 'Anime ajouté avec succès');
@@ -91,9 +99,8 @@ class EpisodeController extends BaseAdminController
      */
     public function show(Anime $anime, Episode $episode)
     {
-        $episodes = Episode::all()->sortBy('title', SORT_NATURAL, false);
-        
-        return view('admin.episodes.show', compact('episodes'));
+       
+        return view('admin.episodes.show', compact('episode'));
     }
 
     /**
@@ -102,9 +109,16 @@ class EpisodeController extends BaseAdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($anime, $episode)
     {
-        return view('admin.episodes.edit');
+
+        $episode = Episode::find($episode);
+        
+        $episode_title = $episode->title;
+        $episode_number = Arr::last(explode(' ', explode(' vostfr', $episode_title)[0]));
+        $episode_season = Str::contains($episode_title, 'saison') ? Arr::last(explode(' ', $episode_title)) : null;
+
+        return view('admin.episodes.edit', compact('episode', 'episode_number', 'episode_season'));
     }
 
     /**
@@ -114,49 +128,48 @@ class EpisodeController extends BaseAdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $anime_id, $episode_id)
+    {   
+        $anime = Anime::find($anime_id);
+        $episode = Episode::find($episode_id);
+        $title=$anime->title;
+        $episode_name = 'Episode ' . request('episode_number') . ' vostfr';
+        $season = request('season_number') ? ' saison ' . request('season_number') : '';
+        $data = ['fullname' => $title . ' - ' . $episode_name . $season];
+        $request->merge($data);
+        $validatedTitle= $request->validate([
+            'episode_number' => 'required|numeric',
+            'fullname' => 'required|unique:episodes,title,'.$episode_id
+        ]);
+
+        
+        $validatedAdn = [];
+        $validatedCrunchyroll = [];
+        $validatedWakanim = [];
+        
+        if(request('adn')) {
+            $validatedAdn = $request->validate([
+                'adn' => 'string|starts_with:https://animedigitalnetwork.fr/video|unique:episodes,adn,'.$episode->id
+            ]);
+        }
+        if(request('crunchyroll')) {
+            $validatedCrunchyroll = $request->validate([
+                'crunchyroll' => 'string|starts_with:https://www.crunchyroll.com/affiliate_iframeplayer|unique:episodes,crunchyroll,'.$episode->id
+            ]);
+        }
+        if(request('wakanim')) {
+            $validatedWakanim = $request->validate([
+                'wakanim' => 'string|starts_with:https://www.wakanim.tv/fr/v2/catalogue/embeddedplayer|unique:episodes,wakanim,'.$episode->id
+            ]);
+        }
+
+        $episode->update(array_merge($validatedAdn, $validatedCrunchyroll, $validatedWakanim, ['title' => $validatedTitle['fullname'], 'anime_id' => $anime->id]));
+        
+
+        return redirect()->back()->with('success', 'Anime mis à jour avec succès');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy()
-    {
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
 
-        Episode::withoutTrashed()->whereIn('id', $deletes)->delete();
-        return redirect()->back()->with('success', 'Episode(s) envoyé(s) à la poubelle avec succès');
-    }
-
-    
-
-
-
-    public function restore()
-    {
-        $restores = request('restore');
-
-        if(!$restores)
-            return redirect()->back();
-        Episode::onlyTrashed()->whereIn('id', $restores)->restore();
-        return redirect()->back()->with('success', 'Episode(s) restauré(s) avec succès');
-    }
-    public function forceDelete()
-    {
-        $deletes = request('delete');
-        if(!$deletes)
-            return redirect()->back();
-
-            Episode::onlyTrashed()->whereIn('id', $deletes)->forceDelete();
-        return redirect()->back()->with('success', 'Episodes définitivement supprimés avec succès');
-    }
 
 
 }

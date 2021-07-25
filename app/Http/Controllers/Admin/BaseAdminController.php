@@ -69,8 +69,8 @@ abstract class BaseAdminController extends Controller
         $this->model::whereIn('id', $deletes)->each(function ($m) {
             $m->delete();
         });
-
         $previous_url_exploded = explode('/', url()->previous());
+        
         if($previous_url_exploded[count($previous_url_exploded) - 1] !== "trashed")
             return redirect(route('admin.'.$this->lc_plural_model.'.index'));
         

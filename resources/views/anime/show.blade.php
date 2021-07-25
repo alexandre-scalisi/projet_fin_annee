@@ -1,9 +1,5 @@
 <x-app-layout>
     <div class="-mx-4 sm:mx-0">
-        @php
-        $last_episode_id = $anime->episodes->pluck('id')->toArray()[count($anime->episodes) - 1];
-
-        @endphp
 
         <div class="anime-header">
             <div class="anime__image" style="background-image: url({{ h_find_image($anime->image) }})">
@@ -26,15 +22,17 @@
                     <li class="anime__info"><span class="anime__info_big">Genres :</span>
                         {{ implode(', ', $anime->genres->pluck('name')->toArray()) }}</li>
                     <li class="anime__info inline-block mr-12"><span class="anime__info_big">Episodes :</span>
-                        {{ count($anime->episodes) }}</li>
+                        {{ count($anime->episodes)}}</li>
                     @livewire('stars', compact('anime'))
                 </ul>
 
                 <div class="mt-6 flex items-center flex-wrap gap-y-4 gap-x-2">
+                    @if($anime->episodes->count() > 0)
                     <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $anime->episodes->first()->id] ) }}"
                         class="anime__btn anime__btn_first">Premier EP</a>
                     <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $last_episode_id] ) }}"
                         class="anime__btn mr-auto">Dernier EP</a>
+                    @endif
                     <div class="flex flex-wrap gap-x-2 gap-y-4">
                         @auth
                             @livewire('follow-button', compact('anime'))
@@ -62,12 +60,14 @@
             </h2>
             <div class="anime-episodes__list">
                 <ul>
-                    @foreach ($episodes as $episode)
+                    @forelse ($episodes as $episode)
                     <li>
                         <a href="{{ route('animes.episodes.show', ['anime' => $anime->id, 'episode' => $episode->id] ) }}"
                             class="anime-episodes__item">{{ $episode->title }}</a>
                     </li>
-                    @endforeach
+                    @empty
+                        Pas d'épisodes
+                    @endforelse
                 </ul>
                 {{ $episodes->links() }}
             </div>

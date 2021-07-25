@@ -9,7 +9,7 @@
         <div class="flex gap-x-4 flex-wrap gap-y-2" x-data="{ modal:false }"">
             <x-buttons.button link="{{ route('admin.animes.edit', $anime->id) }}" icon="fa fa-edit" icon-color="text-yellow-400" bg-color="bg-yellow-600">Editer</x-buttons.button>
             <x-buttons.delete-button >Supprimer</x-buttons.delete-button>
-            <x-delete-modal destroy="admin.animes.destroy" type="anime" :value="$anime->id" :ids="$anime->id"/>
+            <x-delete-modal destroy="admin.animes.destroy" type="animes" :value="$anime->id" :ids="$anime->id"/>
             <x-buttons.button link="{{ route('admin.animes.episodes.create', $anime->id) }}" icon="fa fa-plus" icon-color="text-green-400" bg-color="bg-green-600">Ajouter épisode</x-buttons.button>
             <x-buttons.button link="{{ route('admin.animes.index') }}" icon="fa fa-arrow-left" icon-color="text-blue-400" bg-color="bg-blue-600">Retour</x-buttons.button>
         </div>

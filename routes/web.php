@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::get('episodes/trashed', 'EpisodeController@trashed')->name('episodes.trashed');
         Route::delete('episodes/trashed', 'EpisodeController@forceDelete')->name('episodes.forceDelete');
         Route::post('episodes/trashed', 'EpisodeController@restore')->name('episodes.restore');
-        Route::resource('episodes', 'EpisodeController');
+        Route::resource('episodes', 'EpisodeController')->only('index');
         Route::resource('animes.episodes', 'EpisodeController');
         Route::get('comments/trashed', 'CommentController@trashed')->name('comments.trashed');
         Route::delete('comments/trashed', 'CommentController@forceDelete')->name('comments.forceDelete');

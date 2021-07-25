@@ -1,13 +1,13 @@
 <x-layouts.admin>
-    <h1>Ajouter Episode</h1>
+    <x-title borderColor="border-gray-800">Ajouter épisode</x-title>
     
-    <form method="POST" action={{ route('admin.animes.episodes.store', $anime_id) }} enctype="multipart/form-data">
+    <form method="POST" action={{ route('admin.animes.episodes.store', $anime_id) }}>
         @csrf
         <div class="flex flex-wrap gap-x-8">
             <x-form.number name="episode_number" text="Numéro de l'épisode" max="10000"/>
             <x-form.number name="season_number" text="Numéro de la saison (vide si pas de saison)" max="100"/>
         </div>
-        
+        <x-form.error error="fullname" />
         <x-form.basic-input name="adn" text="ADN" value="https://animedigitalnetwork.fr/video|"/>
 
         <x-form.basic-input name="crunchyroll" text="Crunchyroll" value="https://www.crunchyroll.com/affiliate_iframeplayer|"/>
