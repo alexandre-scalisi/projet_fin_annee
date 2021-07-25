@@ -36,7 +36,7 @@
         </div>
     </div>
     {{-- Reponsive --}}
-    <div class="md:hidden mr-6 flex">
+    <div class="md:hidden mr-4 flex">
         <div class="table ml-6">
             <a href="{{ h_isAdminRoute() ? route('home') : route('admin.home') }}"
                 class="table-cell align-middle hover:text-blue-400">{{ h_isAdminRoute() ? 'Front office' : 'Back office'}}</a>

@@ -38,7 +38,7 @@
 </div>
 
 <div class="w-full bg-blue-500 flex flex-wrap py-4 md:hidden fixed top-10" x-data="{modal: false}" style="z-index: 9998">
-    <button class="fa fa-bars ml-auto mr-6 text-2xl" :class="{'fa-times text-indigo-800' : modal}"@click.prevent="modal=!modal"></button>
+    <button class="fa fa-bars ml-auto mr-5 text-xl" :class="{'fa-times text-indigo-800' : modal}"@click.prevent="modal=!modal"></button>
     <div class="w-full" x-show="modal">
         <ul class="text-center py-2">
             <li class="hover:bg-gray-100 hover:text-blue-600 border-l-8 border-transparent hover:border-gray-700">
