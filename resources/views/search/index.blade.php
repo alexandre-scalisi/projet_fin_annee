@@ -65,7 +65,7 @@
         @else
             <a href="{{ route('animes.show', $anime['id'] ) }}">
                 <div class="list-none block sm:flex bg-indigo-100 mb-2 rounded-sm items-center gap-x-4">
-                    <img src="{{ $anime->image }}" class="block w-full sm:w-52 h-20 object-cover" />
+                    <img src="{{h_find_image($anime->image )}}" class="block w-full sm:w-52 h-20 object-cover" />
                     <div class="px-2">
                         <p class="text-xl font-weight-bolder">{{ $anime['title'] }}</p>
                         <p class="mb-1 text-sm">
