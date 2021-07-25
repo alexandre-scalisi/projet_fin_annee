@@ -14,7 +14,7 @@
                 <x-table.td.td th="Nom">{{ $object->name }}</x-table.td.td> 
                 <x-table.td.td th="Role">{{ $object->role }}</x-table.td.td> 
                 <x-table.td.date :date="$object->created_at" th="Date de création"/>
-                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="anime" />
+                <x-table.actions.index-actions :ids="$object->id" :value="$object->id" :routes="$routes" type="utilisateur" />
             </tr>
             @empty
             <tr>

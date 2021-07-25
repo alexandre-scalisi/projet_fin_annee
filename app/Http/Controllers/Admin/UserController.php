@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Actions\Fortify\CreateNewUserWithRole;
+use App\Actions\Fortify\UpdateUserPasswordWithRole;
 use App\Actions\Jetstream\DeleteTeam;
 use App\Actions\Jetstream\DeleteUser;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 
@@ -81,7 +83,8 @@ class UserController extends BaseAdminController
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -93,7 +96,18 @@ class UserController extends BaseAdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        // Validator::make($request->only('name', 'email', 'current_password'), [
+        // 'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        //     'current_password' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024']
+        
+        // dd($user->password);
+        if(request('password')) {
+            $user_update = new UpdateUserPasswordWithRole();
+            $user_update->update($user, $request->only('password', 'password_confirmation', 'role', 'current_password'));
+        }
+        return redirect()->back()->with('success', 'Utilisateur créé avec succès');
     }
 
     /**
@@ -117,17 +131,4 @@ class UserController extends BaseAdminController
         return redirect()->back()->with('success', 'Utilisateur Supprimé avec succès');
     }
 
-    // private function search() {
-    //     $order_by = lcfirst(request()->input('order_by', 'email'));
-    //     $dir = lcfirst(request()->input('dir', 'asc'));
-    //     $accepted_order_bys = ['name', 'email', 'role', 'created_at'];
-    //     $accepted_dirs =['asc', 'desc'];
-    //     if(!in_array($order_by, $accepted_order_bys))
-    //         $order_by = 'email';
-    //     if(!in_array($dir, $accepted_dirs))
-    //         $dir = 'asc';
-      
-    //     return User::orderBy($order_by, $dir)->paginate(20);
-        
-    // }
 }
