@@ -30,7 +30,7 @@
             <div class="flex mt-10 flex-wrap md:flex-nowrap md:ml-44">
             
                 <!-- Page Content -->
-                <main class="max-w-7xl w-full mx-auto py-4 md:py-6 px-4 sm:px-6 lg:px-8">
+                <main class="max-w-7xl w-full mx-auto py-4 md:py-6 px-2 sm:px-6 lg:px-8">
                     
                     @if (Session::has('success'))
                         <div class="rounded-md bg-green-500 w-full px-2 mb-4 flex items-center space-x-4" style="min-height: 3rem" x-show="show" x-data="{ show:true }" >
