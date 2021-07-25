@@ -3,7 +3,7 @@
     <img src="{{ $item->author->profile_photo_url }}" class="hidden sm:block w-12 h-12 rounded-full border-2 {{ $item->author->is_logged_in_user() ? 'border-red-400' : 'border-blue-500'}}"">
     <div class="ml-4 text-gray-50 w-full">
         <div class="mb-2">
-            {{-- {{ dd(App\Models\User::onlyTrashed($item->author->id)) }} --}}
+    
             <h1 class="comment__author {{ App\Models\User::onlyTrashed()->find($item->author->id) ? 'text-purple-300' : ($item->author->is_logged_in_user() ? 'text-red-400' : 'text-blue-500') }}"> {{App\Models\User::onlyTrashed()->find($item->author->id) ? 'Utilisateur supprimé': ($this->isDifferent() ? $item->author->name : 'Moi') }} </h1>
             <span class="comment__date"> {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }} </span>
             @unless($this->isDifferent() || $this->item->isDeleted())<button wire:click="destroy" class="float-right text-red-500 text-3xl">&times;</button>@endunless
@@ -24,8 +24,8 @@
         @endif
 
         <p> @auth
-
-            @if($this->isDifferent())
+            
+            @if(App\Models\Comment::find($item->id) && $this->isDifferent())
             <button @click="show = !show" class="text-gray-200">Répondre</button>
             @endif
 

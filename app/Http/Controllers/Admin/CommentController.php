@@ -31,5 +31,10 @@ class CommentController extends BaseAdminController
         return parent::index();
     }
 
+    public function show($id) {
+        $comment = Comment::find($id);
+
+        return view('admin.comments.show', compact('comment'));
+    }
     
 }
