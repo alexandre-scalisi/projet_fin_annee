@@ -35,7 +35,6 @@ class SearchController extends Controller
     public function searchByTitle() {
         $q = $this->request->query()['q'] ?? '';
         $this->query = Anime::where('title', 'LIKE', "$q%");
-        dump($this->query);
         return $this;
     }
     
