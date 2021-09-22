@@ -18,17 +18,15 @@ class SearchController extends Controller
     private $order_by;
     
     public function index(Request $request) {
-        echo '<script>alert('.$request.')</script>';
         $this->request = $request;
         
         $this
-          ->searchByTitle()
-          ->searchByRating()
-          ->searchByGenre()
-          ->searchBySelect()
-          ->searchOrderBy()
-          ->searchAll();
-        
+        ->searchByTitle()
+        ->searchByRating()
+        ->searchByGenre()
+        ->searchBySelect()
+        ->searchOrderBy()
+        ->searchAll();
         
         return view('search.index', ['query' => $this->query, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
