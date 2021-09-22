@@ -5,7 +5,6 @@
 
 .custom-tooltip-triangle {
     @apply absolute bottom-0 h-0 w-0;
-    bottom: 0;
     left: 50px;
     transform: translateY(115%);
     border-left: 12px solid transparent;

@@ -1,16 +1,40 @@
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!******************************!*\
+  !*** ./resources/js/form.js ***!
+  \******************************/
 window.app = function () {
-    return {
-        form: document.getElementById("form"),
-        test: function (t) {
-            form.scrollTop > 0 ? t.classList.remove("hidden") : t.classList.add("hidden")
-        },
-        test2: function (t) {
-            t.scrollTop !== t.scrollHeight - t.clientHeight ? t.classList.remove("hidden") : t.classList.add("hidden")
-        },
-        scrollFunc: function (t) {
-            t.target.scrollTop > 0 ? document.getElementById("bg-top").classList.remove("hidden") : document.getElementById("bg-top").classList.add("hidden"), t.target.scrollTop !== t.target.scrollTopMax ? document.getElementById("bg-bottom").classList.remove("hidden") : document.getElementById("bg-bottom").classList.add("hidden");
-            var e = t.target.scrollHeight - t.target.clientHeight;
-            t.target.scrollTop >= e && (document.getElementById("bg-bottom").classList.add("hidden"), window.livewire.emit("load_more_comments"))
-        }
+  return {
+    form: document.getElementById('form'),
+    test: function test(el) {
+      form.scrollTop > 0 ? el.classList.remove('hidden') : el.classList.add('hidden');
+    },
+    test2: function test2(el) {
+      el.scrollTop !== el.scrollHeight - el.clientHeight ? el.classList.remove('hidden') : el.classList.add('hidden');
+    },
+    scrollFunc: function scrollFunc(ev) {
+      if (ev.target.scrollTop > 0) {
+        document.getElementById('bg-top').classList.remove('hidden');
+      } else {
+        document.getElementById('bg-top').classList.add('hidden');
+      }
+
+      if (ev.target.scrollTop !== ev.target.scrollTopMax) {
+        document.getElementById('bg-bottom').classList.remove('hidden');
+      } else {
+        document.getElementById('bg-bottom').classList.add('hidden');
+      }
+
+      var maxScroll = ev.target.scrollHeight - ev.target.clientHeight;
+
+      if (ev.target.scrollTop >= maxScroll) {
+        document.getElementById('bg-bottom').classList.add('hidden');
+        window.livewire.emit('load_more_comments');
+      }
+
+      ;
     }
+  };
 };
+/******/ })()
+;
