@@ -93,7 +93,7 @@ class SearchController extends Controller
             
             default:
                 $this->selectTitle();    
-
+ 
             break;
         }  
             
