@@ -14,12 +14,10 @@ class CreateAnimeGenreTable extends Migration
     public function up()
     {
         Schema::create('anime_genre', function (Blueprint $table) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             $table->id();
-            $table->foreignId('anime_id')->constrained()->onDelete('cascade');
-            $table->foreignId('genre_id')->constrained()->onDelete('cascade');
+            $table->foreignId('anime_id')->onDelete('cascade');
+            $table->foreignId('genre_id')->onDelete('cascade');
             $table->timestamps();
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         });
     }
 
@@ -30,8 +28,6 @@ class CreateAnimeGenreTable extends Migration
      */
     public function down()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('anime_genre');
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
