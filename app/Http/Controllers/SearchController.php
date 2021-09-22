@@ -27,7 +27,11 @@ class SearchController extends Controller
         ->searchBySelect()
         ->searchOrderBy()
         ->searchAll();
-        
+        dump($this->query);
+        dump($this->request);
+        dump($this->query);
+        dump($this->query);
+        dump($this->query);
         return view('search.index', ['query' => $this->query, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
     
