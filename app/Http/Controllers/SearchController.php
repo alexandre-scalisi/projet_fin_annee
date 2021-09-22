@@ -18,9 +18,9 @@ class SearchController extends Controller
     private $order_by;
     
     public function index(Request $request) {
-        
+        echo '<script>alert('.$request.')</script>';
         $this->request = $request;
-
+        
         $this
           ->searchByTitle()
           ->searchByRating()
