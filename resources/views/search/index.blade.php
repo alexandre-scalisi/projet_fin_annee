@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold border-b-4 border-indigo-700 mb-8 mx-2 sm:mx-0">Recherche avancée</h1>
 
     <div class="w-full sm:rounded-lg bg-gray-300 p-4 mb-4">
-        <form method="GET" id="form">
+        <form method="GET" action="{{ route('search.index') }}" id="form">
             <x-form.container> 
                 <label for="q" class="block">Titre</label>
                 <input type="text" name="q" id="q">
