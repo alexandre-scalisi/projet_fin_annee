@@ -14,10 +14,12 @@ class CreateAnimeUserTable extends Migration
     public function up()
     {
         Schema::create('anime_user', function (Blueprint $table) {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             $table->id();
             $table->foreignId('anime_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         });
     }
 
@@ -28,6 +30,8 @@ class CreateAnimeUserTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::dropIfExists('anime_user');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
