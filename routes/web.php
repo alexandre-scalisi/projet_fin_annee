@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 });
 
 
-
+*
 
 Route::get('animes/action', [AnimeController::class, 'action'])->name('animes.action');
 Route::resource('animes', AnimeController::class);
