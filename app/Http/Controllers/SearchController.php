@@ -27,11 +27,6 @@ class SearchController extends Controller
         ->searchBySelect()
         ->searchOrderBy()
         ->searchAll();
-        dump($this->query);
-        dump($this->request);
-        dump($this->query);
-        dump($this->query);
-        dump($this->query);
         return view('search.index', ['query' => $this->query, 'tab' => $this->tab, 'tabButtons' => $this->tabButtons]);
     }
     
@@ -40,6 +35,7 @@ class SearchController extends Controller
     public function searchByTitle() {
         $q = $this->request->query()['q'] ?? '';
         $this->query = Anime::where('title', 'LIKE', "$q%");
+        dump($this->query);
         return $this;
     }
     
