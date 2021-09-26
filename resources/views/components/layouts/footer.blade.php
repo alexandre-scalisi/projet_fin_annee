@@ -4,5 +4,5 @@
         <li><a href="http://www.linkedin.com/in/alexandre-scalisi" class="fab fa-2x fa-linkedin-in"><span class="sr-only">lien linkedin</span></a></li>
         <li><a href="mailto:scalisialexandre@gmail.com" class="fas fa-at fa-2x"><span class="sr-only">lien email</span></a></li>
     </ul>
-    <p class="mt-3">© Alexandre Scalisi 2021</p>
+    <p class="mt-3">© Alexandre Scalisi 2021</p> 
 </footer>
