@@ -32,12 +32,17 @@ Renommez le fichier .env.example en .env puis suivez les instructions en comment
 mv .env.example .env
 ```
 
-Remplir la base de données avec le seeder
+Installez tous les paquets spécifiés dans le fichier composer.json et générez l’autoload
+```bash
+composer install
+```
+
+Remplissez la base de données avec le seeder
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-Puis démarrer le serveur avec
+Puis démarrez le serveur avec
 ```bash
 php artisan serve
 ```
