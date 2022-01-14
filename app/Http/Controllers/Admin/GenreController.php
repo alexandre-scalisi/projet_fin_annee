@@ -51,7 +51,7 @@ class GenreController extends BaseAdminController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|min:2|max:80|unique:genres,name'
+            'name' => 'required|string|min:2|max:80|unique:genre,name'
         ]);
 
         $genre = Genre::create($validated);

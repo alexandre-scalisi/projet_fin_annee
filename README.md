@@ -5,8 +5,10 @@ Application en production sur [heroku](http://anime-project-alexlemia13.herokuap
 Scrapper que j'ai créé pour remplir la base de donnée: [Mon github](https://github.com/alexandre-scalisi/anime-scraper)
 
 ## Présentation
-Voici mon projet de fin d'année pour ma formation à l'afpa (TP Développeur Web / Web Mobile). 
+Voici mon projet de fin d'année pour ma formation à l'AFPA (TP Développeur Web / Web Mobile obtenu le 26/07/21). 
+
 C'est un site de streaming d'anime qui utilise des vidéos hébergées sur des sites de streaming légaux.
+
 Les anime sont rangés par catégories et on peut les noter, les commenter ou s'abonner pour recevoir une notification lorsqu'un nouvel épisode sort si on est connecté.
 
 ## Comptes
