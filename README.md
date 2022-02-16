@@ -1,7 +1,7 @@
 # Anime project
 
 ## Liens
-Application en production sur [heroku](http://anime-project-alexlemia13.herokuapp.com/)
+Application en production sur [heroku](https://anime-project-alexlemia13.herokuapp.com/)
 Scrapper que j'ai créé pour remplir la base de donnée: [Mon github](https://github.com/alexandre-scalisi/anime-scraper)
 
 ## Présentation
